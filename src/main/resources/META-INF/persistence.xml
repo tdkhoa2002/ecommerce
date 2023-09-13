@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.tdkhoa_ecommerce_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.tdkhoa.ecommerce.Pojo.Category</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Banner</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Score</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Livestream</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Question</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Comment</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Article</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Faculty</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Major</class>
+    <class>com.tdkhoa.ecommerce.Pojo.User</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Review</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Orderdetail</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Product</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Shop</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Voucher</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Address</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Order</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/support_system?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="Dangkhoa@1101"/>
+    </properties>
+  </persistence-unit>
+</persistence>
