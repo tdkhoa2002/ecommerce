@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
+import java.util.Set;
 import jakarta.persistence.*;
 
 /**
@@ -12,12 +13,12 @@ import jakarta.persistence.*;
  * @author Khoa Tran
  */
 @Entity
-@Table(name = "banner")
+@Table(name = "payment_method")
 @NamedQueries({
-    @NamedQuery(name = "Banner.findAll", query = "SELECT b FROM Banner b"),
-    @NamedQuery(name = "Banner.findById", query = "SELECT b FROM Banner b WHERE b.id = :id"),
-    @NamedQuery(name = "Banner.findByImageUrl", query = "SELECT b FROM Banner b WHERE b.imageUrl = :imageUrl")})
-public class Banner implements Serializable {
+    @NamedQuery(name = "PaymentMethod.findAll", query = "SELECT p FROM PaymentMethod p"),
+    @NamedQuery(name = "PaymentMethod.findById", query = "SELECT p FROM PaymentMethod p WHERE p.id = :id"),
+    @NamedQuery(name = "PaymentMethod.findByName", query = "SELECT p FROM PaymentMethod p WHERE p.name = :name")})
+public class PaymentMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -25,13 +26,15 @@ public class Banner implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "name")
+    private String name;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "paymentMethodId")
+    private Set<Order1> order1Set;
 
-    public Banner() {
+    public PaymentMethod() {
     }
 
-    public Banner(Integer id) {
+    public PaymentMethod(Integer id) {
         this.id = id;
     }
 
@@ -43,12 +46,20 @@ public class Banner implements Serializable {
         this.id = id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getName() {
+        return name;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Order1> getOrder1Set() {
+        return order1Set;
+    }
+
+    public void setOrder1Set(Set<Order1> order1Set) {
+        this.order1Set = order1Set;
     }
 
     @Override
@@ -61,10 +72,10 @@ public class Banner implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Banner)) {
+        if (!(object instanceof PaymentMethod)) {
             return false;
         }
-        Banner other = (Banner) object;
+        PaymentMethod other = (PaymentMethod) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -73,7 +84,7 @@ public class Banner implements Serializable {
 
     @Override
     public String toString() {
-        return "com.tdkhoa.ecommerce.Pojo.Banner[ id=" + id + " ]";
+        return "com.tdkhoa.ecommerce.Pojo.PaymentMethod[ id=" + id + " ]";
     }
     
 }

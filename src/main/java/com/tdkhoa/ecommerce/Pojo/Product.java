@@ -6,8 +6,8 @@ package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
 import java.util.Set;
-
 import jakarta.persistence.*;
+
 /**
  *
  * @author Khoa Tran
@@ -19,7 +19,6 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
     @NamedQuery(name = "Product.findByThumbnail", query = "SELECT p FROM Product p WHERE p.thumbnail = :thumbnail"),
-    @NamedQuery(name = "Product.findByCategoryId", query = "SELECT p FROM Product p WHERE p.categoryId = :categoryId"),
     @NamedQuery(name = "Product.findByPicture1", query = "SELECT p FROM Product p WHERE p.picture1 = :picture1"),
     @NamedQuery(name = "Product.findByPicture2", query = "SELECT p FROM Product p WHERE p.picture2 = :picture2"),
     @NamedQuery(name = "Product.findByPicture3", query = "SELECT p FROM Product p WHERE p.picture3 = :picture3"),
@@ -40,8 +39,6 @@ public class Product implements Serializable {
     private String description;
     @Column(name = "thumbnail")
     private String thumbnail;
-    @Column(name = "category_id")
-    private Integer categoryId;
     @Column(name = "picture1")
     private String picture1;
     @Column(name = "picture2")
@@ -52,9 +49,9 @@ public class Product implements Serializable {
     private String picture4;
     @Column(name = "picture5")
     private String picture5;
-    @JoinColumn(name = "category_id1", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Category categoryId1;
+    private Category categoryId;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shop shopId;
@@ -102,14 +99,6 @@ public class Product implements Serializable {
         this.thumbnail = thumbnail;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getPicture1() {
         return picture1;
     }
@@ -150,12 +139,12 @@ public class Product implements Serializable {
         this.picture5 = picture5;
     }
 
-    public Category getCategoryId1() {
-        return categoryId1;
+    public Category getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoryId1(Category categoryId1) {
-        this.categoryId1 = categoryId1;
+    public void setCategoryId(Category categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Shop getShopId() {

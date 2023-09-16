@@ -6,7 +6,6 @@ package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
 import java.util.Set;
-
 import jakarta.persistence.*;
 
 /**
@@ -16,11 +15,11 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "order")
 @NamedQueries({
-    @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o"),
-    @NamedQuery(name = "Order.findById", query = "SELECT o FROM Order o WHERE o.id = :id"),
-    @NamedQuery(name = "Order.findByStatus", query = "SELECT o FROM Order o WHERE o.status = :status"),
-    @NamedQuery(name = "Order.findByPaymentMethods", query = "SELECT o FROM Order o WHERE o.paymentMethods = :paymentMethods")})
-public class Order implements Serializable {
+    @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o"),
+    @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.id = :id"),
+    @NamedQuery(name = "Order1.findByStatus", query = "SELECT o FROM Order1 o WHERE o.status = :status"),
+    @NamedQuery(name = "Order1.findByPaymentMethods", query = "SELECT o FROM Order1 o WHERE o.paymentMethods = :paymentMethods")})
+public class Order1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,6 +31,9 @@ public class Order implements Serializable {
     private Integer status;
     @Column(name = "payment_methods")
     private String paymentMethods;
+    @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private PaymentMethod paymentMethodId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
@@ -41,10 +43,10 @@ public class Order implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order1")
     private Set<Orderdetail> orderdetailSet;
 
-    public Order() {
+    public Order1() {
     }
 
-    public Order(Integer id) {
+    public Order1(Integer id) {
         this.id = id;
     }
 
@@ -70,6 +72,14 @@ public class Order implements Serializable {
 
     public void setPaymentMethods(String paymentMethods) {
         this.paymentMethods = paymentMethods;
+    }
+
+    public PaymentMethod getPaymentMethodId() {
+        return paymentMethodId;
+    }
+
+    public void setPaymentMethodId(PaymentMethod paymentMethodId) {
+        this.paymentMethodId = paymentMethodId;
     }
 
     public User getUserId() {
@@ -106,10 +116,10 @@ public class Order implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Order)) {
+        if (!(object instanceof Order1)) {
             return false;
         }
-        Order other = (Order) object;
+        Order1 other = (Order1) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

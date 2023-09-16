@@ -51,7 +51,6 @@ public class ApiUserController {
     
     @PostMapping(path = "/signin/")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginDTO loginDTO) throws Exception {
-        System.out.println("hello");
         authenticate(loginDTO.getUsername(), loginDTO.getPassword());
         final UserDetails userDetails = uServ.loadUserByUsername(loginDTO.getUsername());
         User user = uServ.findByUsername(userDetails.getUsername());
@@ -81,8 +80,8 @@ public class ApiUserController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     
     @CrossOrigin
-    public ResponseEntity<?> register(@RequestParam Map<String, String> params) {
-        boolean user = this.uServ.addUser(params);
+    public ResponseEntity<?> register(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
+        boolean user = this.uServ.addUser(params, avatar);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }

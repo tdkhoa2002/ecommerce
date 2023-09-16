@@ -1,5 +1,7 @@
 package com.tdkhoa.ecommerce;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -21,7 +23,13 @@ public class EcommerceApplication extends SpringBootServletInitializer {
     }
     
     @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary
+                = new Cloudinary(ObjectUtils.asMap(
+                        "cloud_name", "de3yhowd4",
+                        "api_key", "945421312381893",
+                        "api_secret", "JbKRQ8KcHDDW9fSYDyYwiq4nmEo",
+                        "secure", true));
+        return cloudinary;
     }
 }

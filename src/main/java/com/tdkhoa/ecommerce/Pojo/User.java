@@ -6,7 +6,6 @@ package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
 import java.util.Set;
-
 import jakarta.persistence.*;
 
 /**
@@ -27,7 +26,6 @@ import jakarta.persistence.*;
     @NamedQuery(name = "User.findByRedFlag", query = "SELECT u FROM User u WHERE u.redFlag = :redFlag"),
     @NamedQuery(name = "User.findByRoleName", query = "SELECT u FROM User u WHERE u.roleName = :roleName")})
 public class User implements Serializable {
-    
     public static String USER = "ROLE_USER";
     public static String ADMIN = "ROLE_ADMIN";
 
@@ -45,13 +43,13 @@ public class User implements Serializable {
     private String email;
     @Column(name = "phone")
     private String phone;
-    @Column(name = "fullName")
+    @Column(name = "full_name")
     private String fullName;
     @Column(name = "avatar")
     private String avatar;
     @Column(name = "red_flag")
     private Integer redFlag;
-    @Column(name = "roleName")
+    @Column(name = "role_name")
     private String roleName;
     @ManyToMany(mappedBy = "userSet")
     private Set<Address> addressSet;
@@ -60,7 +58,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Review> reviewSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Order> order1Set;
+    private Set<Order1> order1Set;
 
     public User() {
     }
@@ -165,11 +163,11 @@ public class User implements Serializable {
         this.reviewSet = reviewSet;
     }
 
-    public Set<Order> getOrder1Set() {
+    public Set<Order1> getOrder1Set() {
         return order1Set;
     }
 
-    public void setOrder1Set(Set<Order> order1Set) {
+    public void setOrder1Set(Set<Order1> order1Set) {
         this.order1Set = order1Set;
     }
 

@@ -6,7 +6,6 @@ package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
 import java.util.Set;
-
 import jakarta.persistence.*;
 
 /**
@@ -38,7 +37,7 @@ public class Voucher implements Serializable {
     @Column(name = "value")
     private Integer value;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "voucherId")
-    private Set<Order> order1Set;
+    private Set<Order1> order1Set;
 
     public Voucher() {
     }
@@ -87,11 +86,11 @@ public class Voucher implements Serializable {
         this.value = value;
     }
 
-    public Set<Order> getOrder1Set() {
+    public Set<Order1> getOrder1Set() {
         return order1Set;
     }
 
-    public void setOrder1Set(Set<Order> order1Set) {
+    public void setOrder1Set(Set<Order1> order1Set) {
         this.order1Set = order1Set;
     }
 

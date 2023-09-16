@@ -28,8 +28,13 @@ public class Category implements Serializable {
     private Integer id;
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private Set<Product> productSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
+    private Set<Category> categorySet;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Category categoryId;
 
     public Category() {
     }
@@ -60,6 +65,22 @@ public class Category implements Serializable {
 
     public void setProductSet(Set<Product> productSet) {
         this.productSet = productSet;
+    }
+
+    public Set<Category> getCategorySet() {
+        return categorySet;
+    }
+
+    public void setCategorySet(Set<Category> categorySet) {
+        this.categorySet = categorySet;
+    }
+
+    public Category getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Category categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

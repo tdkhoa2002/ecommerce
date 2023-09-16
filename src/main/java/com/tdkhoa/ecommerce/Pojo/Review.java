@@ -5,7 +5,6 @@
 package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
-
 import jakarta.persistence.*;
 
 /**
@@ -18,7 +17,8 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Review.findAll", query = "SELECT r FROM Review r"),
     @NamedQuery(name = "Review.findByProductId", query = "SELECT r FROM Review r WHERE r.reviewPK.productId = :productId"),
     @NamedQuery(name = "Review.findByUserId", query = "SELECT r FROM Review r WHERE r.reviewPK.userId = :userId"),
-    @NamedQuery(name = "Review.findByContent", query = "SELECT r FROM Review r WHERE r.content = :content")})
+    @NamedQuery(name = "Review.findByContent", query = "SELECT r FROM Review r WHERE r.content = :content"),
+    @NamedQuery(name = "Review.findByImageUrl", query = "SELECT r FROM Review r WHERE r.imageUrl = :imageUrl")})
 public class Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +26,8 @@ public class Review implements Serializable {
     protected ReviewPK reviewPK;
     @Column(name = "content")
     private String content;
+    @Column(name = "image_url")
+    private String imageUrl;
     @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Product product;
@@ -58,6 +60,14 @@ public class Review implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Product getProduct() {
