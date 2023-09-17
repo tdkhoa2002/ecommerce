@@ -15,6 +15,9 @@ import jakarta.persistence.*;
 public class ReviewPK implements Serializable {
 
     @Basic(optional = false)
+    @Column(name = "id")
+    private int id;
+    @Basic(optional = false)
     @Column(name = "product_id")
     private int productId;
     @Basic(optional = false)
@@ -24,9 +27,18 @@ public class ReviewPK implements Serializable {
     public ReviewPK() {
     }
 
-    public ReviewPK(int productId, int userId) {
+    public ReviewPK(int id, int productId, int userId) {
+        this.id = id;
         this.productId = productId;
         this.userId = userId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getProductId() {
@@ -48,6 +60,7 @@ public class ReviewPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
+        hash += (int) id;
         hash += (int) productId;
         hash += (int) userId;
         return hash;
@@ -60,6 +73,9 @@ public class ReviewPK implements Serializable {
             return false;
         }
         ReviewPK other = (ReviewPK) object;
+        if (this.id != other.id) {
+            return false;
+        }
         if (this.productId != other.productId) {
             return false;
         }
@@ -71,7 +87,7 @@ public class ReviewPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.tdkhoa.ecommerce.Pojo.ReviewPK[ productId=" + productId + ", userId=" + userId + " ]";
+        return "com.tdkhoa.ecommerce.Pojo.ReviewPK[ id=" + id + ", productId=" + productId + ", userId=" + userId + " ]";
     }
     
 }

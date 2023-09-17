@@ -44,7 +44,7 @@ public class ShopServiceImpl implements ShopService {
         s.setName(params.get("name"));
         s.setDescription(params.get("description"));
         s.setAddress(params.get("address"));
-        s.setStatus(0);
+        s.setStatus(1);
         s.setUserId(u);
         if (!imageUrl.isEmpty()) {
             try {
@@ -64,6 +64,7 @@ public class ShopServiceImpl implements ShopService {
         s.setName(params.get("name"));
         s.setDescription(params.get("description"));
         s.setAddress(params.get("address"));
+        s.setStatus(1);
         if (!imageUrl.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -78,7 +79,9 @@ public class ShopServiceImpl implements ShopService {
     
     @Override
     public boolean delete(int id) {
-        this.sRepo.delete(this.sRepo.findById(id).get());
+        Shop s = this.sRepo.findById(id).get();
+        s.setStatus(0);
+        this.sRepo.save(s);
         return true;
     }
 

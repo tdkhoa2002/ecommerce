@@ -73,7 +73,9 @@ public class ProductServiceImpl implements ProductService{
     
     @Override
     public boolean delete(int id) {
-        this.pRepo.delete(this.pRepo.findById(id).get());
+        Product p = this.pRepo.findById(id).get();
+        p.setIsDeleted(1);
+        this.pRepo.save(p);
         return true;
     }
 }

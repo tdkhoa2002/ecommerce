@@ -23,7 +23,8 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Product.findByPicture2", query = "SELECT p FROM Product p WHERE p.picture2 = :picture2"),
     @NamedQuery(name = "Product.findByPicture3", query = "SELECT p FROM Product p WHERE p.picture3 = :picture3"),
     @NamedQuery(name = "Product.findByPicture4", query = "SELECT p FROM Product p WHERE p.picture4 = :picture4"),
-    @NamedQuery(name = "Product.findByPicture5", query = "SELECT p FROM Product p WHERE p.picture5 = :picture5")})
+    @NamedQuery(name = "Product.findByPicture5", query = "SELECT p FROM Product p WHERE p.picture5 = :picture5"),
+    @NamedQuery(name = "Product.findByIsDeleted", query = "SELECT p FROM Product p WHERE p.isDeleted = :isDeleted")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,6 +50,8 @@ public class Product implements Serializable {
     private String picture4;
     @Column(name = "picture5")
     private String picture5;
+    @Column(name = "is_deleted")
+    private Integer isDeleted;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
@@ -137,6 +140,14 @@ public class Product implements Serializable {
 
     public void setPicture5(String picture5) {
         this.picture5 = picture5;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Category getCategoryId() {

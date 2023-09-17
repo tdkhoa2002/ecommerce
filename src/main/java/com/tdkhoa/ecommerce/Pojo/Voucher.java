@@ -20,11 +20,13 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Voucher.findByQuantity", query = "SELECT v FROM Voucher v WHERE v.quantity = :quantity"),
     @NamedQuery(name = "Voucher.findByName", query = "SELECT v FROM Voucher v WHERE v.name = :name"),
     @NamedQuery(name = "Voucher.findByCode", query = "SELECT v FROM Voucher v WHERE v.code = :code"),
-    @NamedQuery(name = "Voucher.findByValue", query = "SELECT v FROM Voucher v WHERE v.value = :value")})
+    @NamedQuery(name = "Voucher.findByValue", query = "SELECT v FROM Voucher v WHERE v.value = :value"),
+    @NamedQuery(name = "Voucher.findByIsDeleted", query = "SELECT v FROM Voucher v WHERE v.isDeleted = :isDeleted")})
 public class Voucher implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
@@ -36,6 +38,8 @@ public class Voucher implements Serializable {
     private String code;
     @Column(name = "value")
     private Integer value;
+    @Column(name = "is_deleted")
+    private Integer isDeleted;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "voucherId")
     private Set<Order1> order1Set;
 
@@ -84,6 +88,14 @@ public class Voucher implements Serializable {
 
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public Set<Order1> getOrder1Set() {

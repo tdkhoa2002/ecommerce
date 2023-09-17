@@ -28,7 +28,7 @@ import jakarta.persistence.*;
 public class User implements Serializable {
     public static String USER = "ROLE_USER";
     public static String ADMIN = "ROLE_ADMIN";
-
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,12 +51,12 @@ public class User implements Serializable {
     private Integer redFlag;
     @Column(name = "role_name")
     private String roleName;
-    @ManyToMany(mappedBy = "userSet")
-    private Set<Address> addressSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Shop> shopSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Review> reviewSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<AddressUser> addressUserSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Order1> order1Set;
 
@@ -139,14 +139,6 @@ public class User implements Serializable {
         this.roleName = roleName;
     }
 
-    public Set<Address> getAddressSet() {
-        return addressSet;
-    }
-
-    public void setAddressSet(Set<Address> addressSet) {
-        this.addressSet = addressSet;
-    }
-
     public Set<Shop> getShopSet() {
         return shopSet;
     }
@@ -161,6 +153,14 @@ public class User implements Serializable {
 
     public void setReviewSet(Set<Review> reviewSet) {
         this.reviewSet = reviewSet;
+    }
+
+    public Set<AddressUser> getAddressUserSet() {
+        return addressUserSet;
+    }
+
+    public void setAddressUserSet(Set<AddressUser> addressUserSet) {
+        this.addressUserSet = addressUserSet;
     }
 
     public Set<Order1> getOrder1Set() {

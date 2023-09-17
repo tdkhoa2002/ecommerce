@@ -12,25 +12,25 @@ import jakarta.persistence.*;
  * @author Khoa Tran
  */
 @Embeddable
-public class OrderdetailPK implements Serializable {
+public class AddressUserPK implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
     @Basic(optional = false)
-    @Column(name = "order_id")
-    private int orderId;
+    @Column(name = "address_id")
+    private int addressId;
     @Basic(optional = false)
-    @Column(name = "product_id")
-    private int productId;
+    @Column(name = "user_id")
+    private int userId;
 
-    public OrderdetailPK() {
+    public AddressUserPK() {
     }
 
-    public OrderdetailPK(int id, int orderId, int productId) {
+    public AddressUserPK(int id, int addressId, int userId) {
         this.id = id;
-        this.orderId = orderId;
-        this.productId = productId;
+        this.addressId = addressId;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -41,45 +41,45 @@ public class OrderdetailPK implements Serializable {
         this.id = id;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public int getAddressId() {
+        return addressId;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (int) id;
-        hash += (int) orderId;
-        hash += (int) productId;
+        hash += (int) addressId;
+        hash += (int) userId;
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderdetailPK)) {
+        if (!(object instanceof AddressUserPK)) {
             return false;
         }
-        OrderdetailPK other = (OrderdetailPK) object;
+        AddressUserPK other = (AddressUserPK) object;
         if (this.id != other.id) {
             return false;
         }
-        if (this.orderId != other.orderId) {
+        if (this.addressId != other.addressId) {
             return false;
         }
-        if (this.productId != other.productId) {
+        if (this.userId != other.userId) {
             return false;
         }
         return true;
@@ -87,7 +87,7 @@ public class OrderdetailPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.tdkhoa.ecommerce.Pojo.OrderdetailPK[ id=" + id + ", orderId=" + orderId + ", productId=" + productId + " ]";
+        return "com.tdkhoa.ecommerce.Pojo.AddressUserPK[ id=" + id + ", addressId=" + addressId + ", userId=" + userId + " ]";
     }
     
 }

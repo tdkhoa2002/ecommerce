@@ -18,7 +18,7 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o"),
     @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.id = :id"),
     @NamedQuery(name = "Order1.findByStatus", query = "SELECT o FROM Order1 o WHERE o.status = :status"),
-    @NamedQuery(name = "Order1.findByPaymentMethods", query = "SELECT o FROM Order1 o WHERE o.paymentMethods = :paymentMethods")})
+    @NamedQuery(name = "Order1.findByTotalAmount", query = "SELECT o FROM Order1 o WHERE o.totalAmount = :totalAmount")})
 public class Order1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,8 +29,9 @@ public class Order1 implements Serializable {
     private Integer id;
     @Column(name = "status")
     private Integer status;
-    @Column(name = "payment_methods")
-    private String paymentMethods;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "total_amount")
+    private Double totalAmount;
     @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PaymentMethod paymentMethodId;
@@ -66,12 +67,12 @@ public class Order1 implements Serializable {
         this.status = status;
     }
 
-    public String getPaymentMethods() {
-        return paymentMethods;
+    public Double getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setPaymentMethods(String paymentMethods) {
-        this.paymentMethods = paymentMethods;
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public PaymentMethod getPaymentMethodId() {

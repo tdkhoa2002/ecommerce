@@ -15,6 +15,7 @@ import jakarta.persistence.*;
 @Table(name = "review")
 @NamedQueries({
     @NamedQuery(name = "Review.findAll", query = "SELECT r FROM Review r"),
+    @NamedQuery(name = "Review.findById", query = "SELECT r FROM Review r WHERE r.reviewPK.id = :id"),
     @NamedQuery(name = "Review.findByProductId", query = "SELECT r FROM Review r WHERE r.reviewPK.productId = :productId"),
     @NamedQuery(name = "Review.findByUserId", query = "SELECT r FROM Review r WHERE r.reviewPK.userId = :userId"),
     @NamedQuery(name = "Review.findByContent", query = "SELECT r FROM Review r WHERE r.content = :content"),
@@ -42,8 +43,8 @@ public class Review implements Serializable {
         this.reviewPK = reviewPK;
     }
 
-    public Review(int productId, int userId) {
-        this.reviewPK = new ReviewPK(productId, userId);
+    public Review(int id, int productId, int userId) {
+        this.reviewPK = new ReviewPK(id, productId, userId);
     }
 
     public ReviewPK getReviewPK() {

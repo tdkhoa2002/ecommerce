@@ -34,11 +34,8 @@ public class Address implements Serializable {
     private String ward;
     @Column(name = "city")
     private String city;
-    @JoinTable(name = "address_user", joinColumns = {
-        @JoinColumn(name = "address_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")})
-    @ManyToMany
-    private Set<User> userSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
+    private Set<AddressUser> addressUserSet;
 
     public Address() {
     }
@@ -79,12 +76,12 @@ public class Address implements Serializable {
         this.city = city;
     }
 
-    public Set<User> getUserSet() {
-        return userSet;
+    public Set<AddressUser> getAddressUserSet() {
+        return addressUserSet;
     }
 
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setAddressUserSet(Set<AddressUser> addressUserSet) {
+        this.addressUserSet = addressUserSet;
     }
 
     @Override

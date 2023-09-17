@@ -15,6 +15,7 @@ import jakarta.persistence.*;
 @Table(name = "orderdetail")
 @NamedQueries({
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o"),
+    @NamedQuery(name = "Orderdetail.findById", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.id = :id"),
     @NamedQuery(name = "Orderdetail.findByOrderId", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.orderId = :orderId"),
     @NamedQuery(name = "Orderdetail.findByProductId", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.productId = :productId"),
     @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity")})
@@ -39,8 +40,8 @@ public class Orderdetail implements Serializable {
         this.orderdetailPK = orderdetailPK;
     }
 
-    public Orderdetail(int orderId, int productId) {
-        this.orderdetailPK = new OrderdetailPK(orderId, productId);
+    public Orderdetail(int id, int orderId, int productId) {
+        this.orderdetailPK = new OrderdetailPK(id, orderId, productId);
     }
 
     public OrderdetailPK getOrderdetailPK() {
