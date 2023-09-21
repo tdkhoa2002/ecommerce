@@ -9,6 +9,7 @@ import com.tdkhoa.ecommerce.Pojo.Category;
 import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface AddressService {
     List<Address> getListAddress();
     boolean add(Map<String, String> params, User u);
-    boolean update(Map<String, String> params, @PathVariable(value = "id") int id);
-    boolean delete(int id);
+    boolean update(Map<String, String> params, @PathVariable(value = "id") int id, User u);
+    boolean delete(int id, User u);
+    Set<Address> getAddressOfUser(User u);
+    
 }

@@ -23,7 +23,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public List<Voucher> getListVouchers() {
-        return this.vRepo.findAll();
+        return this.vRepo.getListVoucher(0);
     }
 
     @Override
@@ -31,11 +31,12 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher v = new Voucher();
         int value = Integer.parseInt(params.get("value"));
         int quantity = Integer.parseInt(params.get("quantity"));
-        if(value > 0 && value < 100 && quantity > 0 && quantity < 100) {
+        if(value > 0 && value <= 100 && quantity > 0 && quantity <= 100) {
             v.setName(params.get("name"));
             v.setCode(params.get("code"));
             v.setQuantity(quantity);
             v.setValue(value);
+            v.setIsDeleted(0);
             this.vRepo.save(v);
             return true;
         }
@@ -52,6 +53,7 @@ public class VoucherServiceImpl implements VoucherService {
             v.setCode(params.get("code"));
             v.setQuantity(quantity);
             v.setValue(value);
+            v.setIsDeleted(Integer.parseInt(params.get("isDeleted")));
             this.vRepo.save(v);
             return true;
         }
@@ -63,6 +65,7 @@ public class VoucherServiceImpl implements VoucherService {
     public boolean delete(int id) {
         Voucher v = this.vRepo.findById(id).get();
         //Set v.is_deleted = 1;
+        v.setIsDeleted(1);
         this.vRepo.save(v);
         return true;
     }

@@ -4,8 +4,10 @@
  */
 package com.tdkhoa.ecommerce.services;
 
+import com.tdkhoa.ecommerce.Pojo.Address;
 import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.Map;
+import java.util.Set;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,4 +20,5 @@ public interface UserService extends UserDetailsService {
     boolean addUser(Map<String, String> params, MultipartFile avatar);
     UserDetails loadUserByUsername(String username);
     User findByUsername(String user);
+    User getUserLogining();
 }

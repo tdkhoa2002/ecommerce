@@ -5,7 +5,9 @@
 package com.tdkhoa.ecommerce.repositories;
 
 import com.tdkhoa.ecommerce.Pojo.Voucher;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,5 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface VoucherRepository extends JpaRepository<Voucher, Integer>{
-    
+    @Query("SELECT v FROM Voucher v WHERE v.isDeleted = ?1")
+    List<Voucher> getListVoucher(int number);
 }

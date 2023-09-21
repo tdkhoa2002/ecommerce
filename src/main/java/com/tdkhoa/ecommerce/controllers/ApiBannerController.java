@@ -34,7 +34,7 @@ public class ApiBannerController {
     @Autowired
     private BannerService bServ;
     
-    @GetMapping("/banners/")
+    @GetMapping("/admin/banners/")
     @CrossOrigin
     public ResponseEntity<List<Banner>> list() {
         return new ResponseEntity<>(this.bServ.getListBanners(), HttpStatus.OK);

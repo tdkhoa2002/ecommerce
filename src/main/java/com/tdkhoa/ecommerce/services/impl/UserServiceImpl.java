@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.Pojo.Address;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.UserRepository;
 import com.tdkhoa.ecommerce.services.UserService;
@@ -16,8 +17,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,13 +34,14 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository uRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private Cloudinary cloudinary;
-    
+
 //    public List<User> getListUsers() {
 //        return;
 //    }
@@ -58,19 +63,18 @@ public class UserServiceImpl implements UserService {
             } catch (IOException ex) {
                 Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else {
+        } else {
             user.setAvatar(null);
         }
         this.uRepo.save(user);
         return true;
     }
-    
+
     @Override
     public User findByUsername(String username) {
         return uRepo.findByUsername(username);
     }
-    
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User users = uRepo.findByUsername(username);
@@ -83,8 +87,19 @@ public class UserServiceImpl implements UserService {
 //        Optional<Role> role = roleService.getRoleById(users.getRoleId().getId());
 //        String roleName=role.get().getRoleName();
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        
+
         return new org.springframework.security.core.userdetails.User(
                 users.getUsername(), users.getPassword(), authorities);
+    }
+
+    @Override
+    public User getUserLogining() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = this.findByUsername(userDetails.getUsername());
+            return user;
+        }
+        return null;
     }
 }
