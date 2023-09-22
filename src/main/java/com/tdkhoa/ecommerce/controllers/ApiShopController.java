@@ -42,7 +42,7 @@ public class ApiShopController {
     @Autowired
     private UserService uServ;
     
-    @GetMapping("/shops/")
+    @GetMapping("/admin/shops/")
     @CrossOrigin
     public ResponseEntity<List<Shop>> list() {
         return new ResponseEntity<>(this.sServ.getListShops(), HttpStatus.OK);
@@ -78,10 +78,13 @@ public class ApiShopController {
         return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/delete_shop/{id}/")
+    @DeleteMapping("/admin/delete_shop/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "id") int id) {
-        this.sServ.delete(id);
+        User user = this.uServ.getUserLogining();
+        if(user.getRoleName().equals("ROLE_ADMIN")) {
+            this.sServ.delete(id);
+        }
     }
 }

@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.Pojo.Review;
 import com.tdkhoa.ecommerce.services.ReviewService;
+import com.tdkhoa.ecommerce.services.UserService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,29 +33,31 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApiReviewController {
     @Autowired
     private ReviewService rServ;
+    @Autowired
+    private UserService uServ;
     
     @GetMapping("/reviews/")
     @CrossOrigin
-    public ResponseEntity<List<Review>> list() {
-        return new ResponseEntity<>(this.rServ.getListsReview(), HttpStatus.OK);
+    public ResponseEntity<List<Review>> list(@PathVariable(value = "id") int id) {
+        return new ResponseEntity<>(this.rServ.getListsReviewByProductId(id), HttpStatus.OK);
     }
     
     @PostMapping("/create_review/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
-        return new ResponseEntity<>(this.rServ.add(params, imageUrl), HttpStatus.CREATED);
+    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+        return new ResponseEntity<>(this.rServ.add(params, imageUrl, this.uServ.getUserLogining(), id), HttpStatus.CREATED);
     }
     
     @PostMapping("/update_review/{id}/")
     @CrossOrigin
     public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.rServ.update(params, imageUrl, id), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.rServ.update(params, imageUrl, id, this.uServ.getUserLogining()), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete_review/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "id") int id) {
-        this.rServ.delete(id);
+        this.rServ.delete(id, this.uServ.getUserLogining());
     }
 }

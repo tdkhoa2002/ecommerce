@@ -40,7 +40,7 @@ public class Shop implements Serializable {
     private String imageUrl;
     @Column(name = "status")
     private Integer status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
+    @OneToMany(mappedBy = "shopId")
     private Set<Product> productSet;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

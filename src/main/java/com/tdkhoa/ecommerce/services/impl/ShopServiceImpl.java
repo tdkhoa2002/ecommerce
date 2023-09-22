@@ -27,37 +27,42 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Service
 public class ShopServiceImpl implements ShopService {
+
     @Autowired
     private ShopRepository sRepo;
     @Autowired
     private Cloudinary cloudinary;
-    
+
     @Override
     public List<Shop> getListShops() {
         List<Shop> shops = this.sRepo.findAll();
         return shops;
     }
-    
+
     @Override
     public boolean add(Map<String, String> params, MultipartFile imageUrl, User u) {
-        Shop s = new Shop();
-        s.setName(params.get("name"));
-        s.setDescription(params.get("description"));
-        s.setAddress(params.get("address"));
-        s.setStatus(1);
-        s.setUserId(u);
-        if (!imageUrl.isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-                s.setImageUrl(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(BannerService.class.getName()).log(Level.SEVERE, null, ex);
+        Shop shop = this.sRepo.findShopByUserId(u);
+        if (shop == null) {
+            Shop s = new Shop();
+            s.setName(params.get("name"));
+            s.setDescription(params.get("description"));
+            s.setAddress(params.get("address"));
+            s.setStatus(1);
+            s.setUserId(u);
+            if (!imageUrl.isEmpty()) {
+                try {
+                    Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+                    s.setImageUrl(res.get("secure_url").toString());
+                } catch (IOException ex) {
+                    Logger.getLogger(BannerService.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            this.sRepo.save(s);
+            return true;
         }
-        this.sRepo.save(s);
-        return true;
+        return false; //Message error "1 User chi duoc dang ky 1 cua hang"
     }
-    
+
     @Override
     public boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id) {
         Shop s = this.sRepo.findById(id).get();
@@ -76,7 +81,7 @@ public class ShopServiceImpl implements ShopService {
         this.sRepo.save(s);
         return true;
     }
-    
+
     @Override
     public boolean delete(int id) {
         Shop s = this.sRepo.findById(id).get();
@@ -94,6 +99,5 @@ public class ShopServiceImpl implements ShopService {
     public Shop getShopById(int id) {
         return this.sRepo.findById(id).get();
     }
-    
-    
+
 }

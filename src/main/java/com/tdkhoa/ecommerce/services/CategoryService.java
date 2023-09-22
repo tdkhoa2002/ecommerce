@@ -8,6 +8,7 @@ import com.tdkhoa.ecommerce.Pojo.Category;
 import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 public interface CategoryService {
     List<Category> getListCategories();
-    boolean add(Map<String, String> params);
-    boolean update(Map<String, String> params, @PathVariable(value = "id") int id);
+    boolean add(Map<String, String> params, MultipartFile imageUrl);
+    boolean update(Map<String, String> params, @PathVariable(value = "id") int id, MultipartFile imageUrl);
     boolean delete(int id);
 }

@@ -87,4 +87,9 @@ public class ApiUserController {
     }
 
     //Profile
+    @GetMapping("/user/profile/")
+    @CrossOrigin
+    public ResponseEntity<User> getProfileUser() {
+        return new ResponseEntity<>(this.uServ.getUserLogining(), HttpStatus.OK);
+    }
 }

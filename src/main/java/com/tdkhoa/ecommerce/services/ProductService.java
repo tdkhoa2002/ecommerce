@@ -6,18 +6,10 @@ package com.tdkhoa.ecommerce.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.tdkhoa.ecommerce.Pojo.Banner;
-import com.tdkhoa.ecommerce.Pojo.Category;
 import com.tdkhoa.ecommerce.Pojo.Product;
-import com.tdkhoa.ecommerce.Pojo.Shop;
-import com.tdkhoa.ecommerce.repositories.ProductRepository;
-import java.io.IOException;
+import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Khoa Tran
  */
 public interface ProductService {
-    List<Product> getListProducts();
-    boolean add(Map<String, String> params, MultipartFile thumbnail, List<MultipartFile> imageUrl, Shop shop, Category cate);
-    boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id);
-    boolean delete(int id);
+    List<Product> getListProducts(User user);
+    boolean add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file);
+    boolean update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user);
+    boolean delete(int id, User user);
 }

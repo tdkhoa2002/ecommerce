@@ -43,7 +43,7 @@ public class Product implements Serializable {
     @ManyToOne(optional = false)
     private Category categoryId;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Shop shopId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private Set<Review> reviewSet;

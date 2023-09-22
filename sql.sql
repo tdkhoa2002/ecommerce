@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`user` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 18
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`banner` (
   `image_url` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 6
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -95,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`category` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL DEFAULT NULL,
   `category_id` INT NULL DEFAULT NULL,
+  `image_url` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
   INDEX `fk_category_category1_idx` (`category_id` ASC) VISIBLE,
@@ -102,7 +103,75 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`category` (
     FOREIGN KEY (`category_id`)
     REFERENCES `ecommerce`.`category` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 10
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `ecommerce`.`shop`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecommerce`.`shop` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL DEFAULT NULL,
+  `description` TEXT NULL DEFAULT NULL,
+  `address` VARCHAR(255) NULL DEFAULT NULL,
+  `image_url` VARCHAR(255) NULL DEFAULT NULL,
+  `status` INT NULL DEFAULT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
+  INDEX `fk_shop_user_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_shop_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `ecommerce`.`user` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `ecommerce`.`product`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecommerce`.`product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL DEFAULT NULL,
+  `description` TEXT NULL DEFAULT NULL,
+  `thumbnail` VARCHAR(255) NULL DEFAULT NULL,
+  `is_deleted` INT NULL DEFAULT NULL,
+  `shop_id` INT NULL DEFAULT NULL,
+  `category_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
+  INDEX `fk_product_shop1_idx` (`shop_id` ASC) VISIBLE,
+  INDEX `fk_product_category1_idx` (`category_id` ASC) VISIBLE,
+  CONSTRAINT `fk_product_category1`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `ecommerce`.`category` (`id`),
+  CONSTRAINT `fk_product_shop1`
+    FOREIGN KEY (`shop_id`)
+    REFERENCES `ecommerce`.`shop` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 6
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `ecommerce`.`image`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ecommerce`.`image` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `image_url` VARCHAR(255) NULL DEFAULT NULL,
+  `product_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_images_product_product1_idx` (`product_id` ASC) VISIBLE,
+  CONSTRAINT `fk_images_product_product1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `ecommerce`.`product` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -165,55 +234,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `ecommerce`.`shop`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ecommerce`.`shop` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NULL DEFAULT NULL,
-  `description` TEXT NULL DEFAULT NULL,
-  `address` VARCHAR(255) NULL DEFAULT NULL,
-  `image_url` VARCHAR(255) NULL DEFAULT NULL,
-  `status` INT NULL DEFAULT NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
-  INDEX `fk_shop_user_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_shop_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `ecommerce`.`user` (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `ecommerce`.`product`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ecommerce`.`product` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NULL DEFAULT NULL,
-  `description` TEXT NULL DEFAULT NULL,
-  `thumbnail` VARCHAR(255) NULL DEFAULT NULL,
-  `is_deleted` INT NULL DEFAULT NULL,
-  `shop_id` INT NOT NULL,
-  `category_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
-  INDEX `fk_product_shop1_idx` (`shop_id` ASC) VISIBLE,
-  INDEX `fk_product_category1_idx` (`category_id` ASC) VISIBLE,
-  CONSTRAINT `fk_product_category1`
-    FOREIGN KEY (`category_id`)
-    REFERENCES `ecommerce`.`category` (`id`),
-  CONSTRAINT `fk_product_shop1`
-    FOREIGN KEY (`shop_id`)
-    REFERENCES `ecommerce`.`shop` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
 -- Table `ecommerce`.`orderdetail`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ecommerce`.`orderdetail` (
@@ -256,23 +276,6 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`review` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `ecommerce`.`image`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ecommerce`.`image` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `image_url` VARCHAR(255) NULL,
-  `product_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_images_product_product1_idx` (`product_id` ASC) VISIBLE,
-  CONSTRAINT `fk_images_product_product1`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `ecommerce`.`product` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

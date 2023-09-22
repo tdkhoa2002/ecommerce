@@ -22,5 +22,4 @@ public interface AddressService {
     boolean update(Map<String, String> params, @PathVariable(value = "id") int id, User u);
     boolean delete(int id, User u);
     Set<Address> getAddressOfUser(User u);
-    
 }

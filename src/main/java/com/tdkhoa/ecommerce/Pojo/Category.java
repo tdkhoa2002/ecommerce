@@ -17,7 +17,8 @@ import jakarta.persistence.*;
 @NamedQueries({
     @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
     @NamedQuery(name = "Category.findById", query = "SELECT c FROM Category c WHERE c.id = :id"),
-    @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name")})
+    @NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name"),
+    @NamedQuery(name = "Category.findByImageUrl", query = "SELECT c FROM Category c WHERE c.imageUrl = :imageUrl")})
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +29,8 @@ public class Category implements Serializable {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @Column(name = "image_url")
+    private String imageUrl;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
     private Set<Product> productSet;
     @OneToMany(mappedBy = "categoryId")
@@ -57,6 +60,14 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Set<Product> getProductSet() {

@@ -5,7 +5,9 @@
 package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.Pojo.Banner;
+import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.services.BannerService;
+import com.tdkhoa.ecommerce.services.UserService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,31 +33,50 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 public class ApiBannerController {
+
     @Autowired
     private BannerService bServ;
-    
+    @Autowired
+    private UserService uServ;
+
     @GetMapping("/admin/banners/")
     @CrossOrigin
     public ResponseEntity<List<Banner>> list() {
-        return new ResponseEntity<>(this.bServ.getListBanners(), HttpStatus.OK);
-    }
-    
-    @PostMapping("/create_banner/")
-    @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
-        return new ResponseEntity<>(this.bServ.add(params, imageUrl), HttpStatus.CREATED);
-    }
-    
-    @PostMapping("/update_banner/{id}/")
-    @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.bServ.update(imageUrl, id), HttpStatus.CREATED);
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.bServ.getListBanners(), HttpStatus.OK);
+        }
+        return null;
     }
 
-    @DeleteMapping("/delete_banner/{id}/")
+    @PostMapping("/admin/create_banner/")
+    @CrossOrigin
+    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.bServ.add(params, imageUrl), HttpStatus.CREATED);
+        }
+        return null;
+    }
+
+    @PostMapping("/admin/update_banner/{id}/")
+    @CrossOrigin
+    public ResponseEntity<Boolean> update(@RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.bServ.update(imageUrl, id), HttpStatus.CREATED);
+        }
+        return null;
+    }
+
+    @DeleteMapping("/admin/delete_banner/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Boolean> delete(@PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.bServ.delete(id), HttpStatus.OK);
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.bServ.delete(id), HttpStatus.OK);
+        }
+        return null;
     }
 }

@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.services;
 
 import com.tdkhoa.ecommerce.Pojo.Review;
+import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.ReviewRepository;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Khoa Tran
  */
 public interface ReviewService {
-    List<Review> getListsReview();
-    boolean add(Map<String, String> params, MultipartFile imageUrl);
-    boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id);
-    boolean delete(int id);
+    List<Review> getListsReviewByProductId(int idProduct);
+    boolean add(Map<String, String> params, MultipartFile imageUrl, User u, int idProduct);
+    boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id, User u);
+    boolean delete(int id, User u);
 }

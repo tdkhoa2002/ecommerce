@@ -47,39 +47,39 @@ public class ApiProductController {
     @Autowired
     private ShopService sServ;
     
-    @GetMapping("/products/")
+    @GetMapping("/shop/products/")
     @CrossOrigin
     public ResponseEntity<List<Product>> list() {
-        return new ResponseEntity<>(this.pServ.getListProducts(), HttpStatus.OK);
+        User user = this.uServ.getUserLogining();
+        return new ResponseEntity<>(this.pServ.getListProducts(user), HttpStatus.OK);
     }
     
-    @PostMapping("/create_product/")
+    @PostMapping("/shop/create_product/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile thumbnail, @RequestPart List<MultipartFile> imageUrl) {
-        Category cate = new Category();
-        
+    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile thumbnail, @RequestPart List<MultipartFile> file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User user = uServ.findByUsername(userDetails.getUsername());
 
-            Shop shop = sServ.findShopByUserId(user);
-             return new ResponseEntity<>(this.pServ.add(params, thumbnail, imageUrl, shop, cate), HttpStatus.CREATED);
+             return new ResponseEntity<>(this.pServ.add(params, thumbnail, user, file), HttpStatus.CREATED);
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
     
-    @PostMapping("/update_product/{id}/")
+    @PostMapping("/shop/update_product/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.pServ.update(params, imageUrl, id), HttpStatus.CREATED);
+    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile thumbnail, @PathVariable(value = "id") int id, @RequestPart List<MultipartFile> file) {
+        User user = this.uServ.getUserLogining();
+        return new ResponseEntity<>(this.pServ.update(params, thumbnail, id, file, user), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete_product/{id}/")
+    @DeleteMapping("/shop/delete_product/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "id") int id) {
-        this.pServ.delete(id);
+        User user = this.uServ.getUserLogining();
+        this.pServ.delete(id, user);
     }
 }

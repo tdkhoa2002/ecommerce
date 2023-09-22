@@ -6,7 +6,9 @@ package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.Pojo.Banner;
 import com.tdkhoa.ecommerce.Pojo.Category;
+import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.services.CategoryService;
+import com.tdkhoa.ecommerce.services.UserService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ApiCategoryController {
     @Autowired
     private CategoryService cateServ;
+    @Autowired
+    private UserService uServ;
     
     @GetMapping("/categories/")
     @CrossOrigin
@@ -40,22 +44,34 @@ public class ApiCategoryController {
         return new ResponseEntity<>(this.cateServ.getListCategories(), HttpStatus.OK);
     }
     
-    @PostMapping("/create_category/")
+    @PostMapping("/admin/create_category/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params) {
-        return new ResponseEntity<>(this.cateServ.add(params), HttpStatus.CREATED);
+    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.cateServ.add(params, imageUrl), HttpStatus.CREATED);
+        }
+        return null;
     }
     
-    @PostMapping("/update_category/{id}/")
+    @PostMapping("/admin/update_category/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.cateServ.update(params, id), HttpStatus.CREATED);
+    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id, @RequestPart MultipartFile imageUrl) {
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.cateServ.update(params, id, imageUrl), HttpStatus.CREATED);
+        }
+        return null;
     }
 
-    @DeleteMapping("/delete_category/{id}/")
+    @DeleteMapping("/admin/delete_category/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Boolean> delete(@PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.cateServ.delete(id), HttpStatus.OK);
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.cateServ.delete(id), HttpStatus.OK);
+        }
+        return null;
     }
 }

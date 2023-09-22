@@ -23,6 +23,8 @@
     <class>com.tdkhoa.ecommerce.Pojo.PaymentMethod</class>
     <class>com.tdkhoa.ecommerce.Pojo.AddressUser</class>
     <class>com.tdkhoa.ecommerce.Pojo.Image</class>
+    <class>com.tdkhoa.ecommerce.Pojo.Shop_1</class>
+    <class>com.tdkhoa.ecommerce.Pojo.User_1</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/support_system?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

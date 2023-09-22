@@ -5,7 +5,9 @@
 package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.Pojo.Category;
+import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.Pojo.Voucher;
+import com.tdkhoa.ecommerce.services.UserService;
 import com.tdkhoa.ecommerce.services.VoucherService;
 import java.util.List;
 import java.util.Map;
@@ -29,31 +31,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ApiVoucherController {
+
     @Autowired
     private VoucherService vServ;
-    
-    @GetMapping("/vouchers/")
+    @Autowired
+    private UserService uServ;
+
+    @GetMapping("/admin/vouchers/")
     @CrossOrigin
     public ResponseEntity<List<Voucher>> list() {
-        return new ResponseEntity<>(this.vServ.getListVouchers(), HttpStatus.OK);
-    }
-    
-    @PostMapping("/create_voucher/")
-    @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params) {
-        return new ResponseEntity<>(this.vServ.add(params), HttpStatus.CREATED);
-    }
-    
-    @PostMapping("/update_voucher/{id}/")
-    @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.vServ.update(params, id), HttpStatus.CREATED);
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.vServ.getListVouchers(), HttpStatus.OK);
+        }
+        return null;
     }
 
-    @DeleteMapping("/delete_voucher/{id}/")
+    @PostMapping("/admin/create_voucher/")
+    @CrossOrigin
+    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params) {
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.vServ.add(params), HttpStatus.CREATED);
+        }
+        return null;
+    }
+
+    @PostMapping("/admin/update_voucher/{id}/")
+    @CrossOrigin
+    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.vServ.update(params, id), HttpStatus.CREATED);
+        }
+        return null;
+    }
+
+    @DeleteMapping("/admin/delete_voucher/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Boolean> delete(@PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.vServ.delete(id), HttpStatus.OK);
+        User user = this.uServ.getUserLogining();
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.vServ.delete(id), HttpStatus.OK);
+        }
+        return null;
     }
 }
