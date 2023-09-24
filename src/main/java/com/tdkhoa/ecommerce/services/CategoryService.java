@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface CategoryService {
     List<Category> getListCategories();
-    boolean add(Map<String, String> params, MultipartFile imageUrl);
-    boolean update(Map<String, String> params, @PathVariable(value = "id") int id, MultipartFile imageUrl);
-    boolean delete(int id);
+    Category add(Map<String, String> params, MultipartFile imageUrl);
+    Category update(Map<String, String> params, @PathVariable(value = "id") int id, MultipartFile imageUrl);
+    Category delete(int id);
 }

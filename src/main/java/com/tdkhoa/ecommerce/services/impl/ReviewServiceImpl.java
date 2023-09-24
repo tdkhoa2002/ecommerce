@@ -43,7 +43,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean add(Map<String, String> params, MultipartFile imageUrl, User user, int idProduct) {
+    public Review add(Map<String, String> params, MultipartFile imageUrl, User user, int idProduct) {
         Review r = new Review();
         r.setContent(params.get("content"));
         r.setUser(user);
@@ -58,11 +58,11 @@ public class ReviewServiceImpl implements ReviewService {
             }
         }
         this.rRepo.save(r);
-        return true;
+        return r;
     }
 
     @Override
-    public boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id, User user) {
+    public Review update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id, User user) {
         Review r = this.rRepo.findById(id).get();
         if (r.getUser().equals(user)) {
             r.setContent(params.get("content"));
@@ -75,18 +75,18 @@ public class ReviewServiceImpl implements ReviewService {
                 }
             }
             this.rRepo.save(r);
-            return true;
+            return r;
         }
-        return false;
+        return null;
     }
 
     @Override
-    public boolean delete(int id, User user) {
+    public Review delete(int id, User user) {
         Review r = this.rRepo.findById(id).get();
         if (r.getUser().equals(user)) {
             this.rRepo.delete(this.rRepo.findById(id).get());
-            return true;
+            return r;
         }
-        return false;
+        return null;
     }
 }

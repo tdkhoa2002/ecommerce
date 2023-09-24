@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 //        return;
 //    }
     @Override
-    public boolean addUser(Map<String, String> params, MultipartFile avatar) {
+    public User addUser(Map<String, String> params, MultipartFile avatar) {
         User user = new User();
         user.setUsername(params.get("username"));
         user.setPassword(this.passwordEncoder.encode(params.get("password")));
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
             user.setAvatar(null);
         }
         this.uRepo.save(user);
-        return true;
+        return user;
     }
 
     @Override

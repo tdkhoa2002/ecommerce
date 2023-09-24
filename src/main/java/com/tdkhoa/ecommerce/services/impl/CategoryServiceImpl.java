@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public boolean add(Map<String, String> params, MultipartFile imageUrl) {
+    public Category add(Map<String, String> params, MultipartFile imageUrl) {
         Category cate = new Category();
         cate.setName(params.get("name"));
         if (!imageUrl.isEmpty()) {
@@ -51,11 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         this.cRepo.save(cate);
-        return true;
+        return cate;
     }
 
     @Override
-    public boolean update(Map<String, String> params, @PathVariable(value = "id") int id, MultipartFile imageUrl) {
+    public Category update(Map<String, String> params, @PathVariable(value = "id") int id, MultipartFile imageUrl) {
         Category c = this.cRepo.findById(id).get();
         c.setName(params.get("name"));
         if (!imageUrl.isEmpty()) {
@@ -67,12 +67,12 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
         this.cRepo.save(c);
-        return true;
+        return c;
     }
 
     @Override
-    public boolean delete(int id) {
+    public Category delete(int id) {
         this.cRepo.delete(this.cRepo.findById(id).get());
-        return true;
+        return this.cRepo.findById(id).get();
     }
 }

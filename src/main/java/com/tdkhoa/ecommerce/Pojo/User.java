@@ -26,7 +26,6 @@ import jakarta.persistence.*;
     @NamedQuery(name = "User.findByRedFlag", query = "SELECT u FROM User u WHERE u.redFlag = :redFlag"),
     @NamedQuery(name = "User.findByRoleName", query = "SELECT u FROM User u WHERE u.roleName = :roleName")})
 public class User implements Serializable {
-
     public static String USER = "ROLE_USER";
     public static String ADMIN = "ROLE_ADMIN";
 
@@ -196,5 +195,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.tdkhoa.ecommerce.Pojo.User[ id=" + id + " ]";
     }
-
+    
 }

@@ -42,16 +42,12 @@ public class ApiBannerController {
     @GetMapping("/admin/banners/")
     @CrossOrigin
     public ResponseEntity<List<Banner>> list() {
-        User user = this.uServ.getUserLogining();
-        if (user.getRoleName().equals("ROLE_ADMIN")) {
-            return new ResponseEntity<>(this.bServ.getListBanners(), HttpStatus.OK);
-        }
-        return null;
+        return new ResponseEntity<>(this.bServ.getListBanners(), HttpStatus.OK);
     }
 
     @PostMapping("/admin/create_banner/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
+    public ResponseEntity<Banner> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.bServ.add(params, imageUrl), HttpStatus.CREATED);
@@ -61,7 +57,7 @@ public class ApiBannerController {
 
     @PostMapping("/admin/update_banner/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Banner> update(@RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.bServ.update(imageUrl, id), HttpStatus.CREATED);
@@ -72,7 +68,7 @@ public class ApiBannerController {
     @DeleteMapping("/admin/delete_banner/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Boolean> delete(@PathVariable(value = "id") int id) {
+    public ResponseEntity<Banner> delete(@PathVariable(value = "id") int id) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.bServ.delete(id), HttpStatus.OK);

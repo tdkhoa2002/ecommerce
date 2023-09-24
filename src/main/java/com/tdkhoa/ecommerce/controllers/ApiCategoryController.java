@@ -46,7 +46,7 @@ public class ApiCategoryController {
     
     @PostMapping("/admin/create_category/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
+    public ResponseEntity<Category> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.cateServ.add(params, imageUrl), HttpStatus.CREATED);
@@ -56,7 +56,7 @@ public class ApiCategoryController {
     
     @PostMapping("/admin/update_category/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id, @RequestPart MultipartFile imageUrl) {
+    public ResponseEntity<Category> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id, @RequestPart MultipartFile imageUrl) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.cateServ.update(params, id, imageUrl), HttpStatus.CREATED);
@@ -67,7 +67,7 @@ public class ApiCategoryController {
     @DeleteMapping("/admin/delete_category/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Boolean> delete(@PathVariable(value = "id") int id) {
+    public ResponseEntity<Category> delete(@PathVariable(value = "id") int id) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.cateServ.delete(id), HttpStatus.OK);

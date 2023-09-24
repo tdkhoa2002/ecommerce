@@ -50,7 +50,7 @@ public class ApiShopController {
     
     @PostMapping("/create_shop/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
+    public ResponseEntity<Shop> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -63,7 +63,7 @@ public class ApiShopController {
     
     @PostMapping("/update_shop/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Shop> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -86,5 +86,20 @@ public class ApiShopController {
         if(user.getRoleName().equals("ROLE_ADMIN")) {
             this.sServ.delete(id);
         }
+    }
+    
+    @PostMapping("/admin/active_shop/{id}/")
+    @CrossOrigin
+    public ResponseEntity<Shop> active(@PathVariable(value = "id") int id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = uServ.findByUsername(userDetails.getUsername());
+            if (user.getRoleName().equals("ROLE_ADMIN")) {
+                return new ResponseEntity<>(this.sServ.activeShop(id, user), HttpStatus.CREATED);
+            }
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

@@ -49,7 +49,7 @@ public class ApiVoucherController {
 
     @PostMapping("/admin/create_voucher/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params) {
+    public ResponseEntity<Voucher> add(@RequestParam Map<String, String> params) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.vServ.add(params), HttpStatus.CREATED);
@@ -59,7 +59,7 @@ public class ApiVoucherController {
 
     @PostMapping("/admin/update_voucher/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Voucher> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.vServ.update(params, id), HttpStatus.CREATED);
@@ -70,7 +70,7 @@ public class ApiVoucherController {
     @DeleteMapping("/admin/delete_voucher/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Boolean> delete(@PathVariable(value = "id") int id) {
+    public ResponseEntity<Voucher> delete(@PathVariable(value = "id") int id) {
         User user = this.uServ.getUserLogining();
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             return new ResponseEntity<>(this.vServ.delete(id), HttpStatus.OK);

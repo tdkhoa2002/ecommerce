@@ -27,27 +27,27 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public boolean add(Map<String, String> params) {
+    public PaymentMethod add(Map<String, String> params) {
         PaymentMethod p = new PaymentMethod();
         p.setName(params.get("name"));
         this.payRepo.save(p);
-        return true;
+        return p;
     }
 
     @Override
-    public boolean update(Map<String, String> params, int id) {
+    public PaymentMethod update(Map<String, String> params, int id) {
         PaymentMethod p = this.payRepo.findById(id).get();
         
         p.setName(params.get("name"));
         
         this.payRepo.save(p);
-        return true;
+        return p;
     }
 
     @Override
-    public boolean delete(int id) {
+    public PaymentMethod delete(int id) {
         PaymentMethod p = this.payRepo.findById(id).get();
         this.payRepo.delete(p);
-        return true;
+        return p;
     }
 }

@@ -27,7 +27,7 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public boolean add(Map<String, String> params) {
+    public Voucher add(Map<String, String> params) {
         Voucher v = new Voucher();
         int value = Integer.parseInt(params.get("value"));
         int quantity = Integer.parseInt(params.get("quantity"));
@@ -38,13 +38,13 @@ public class VoucherServiceImpl implements VoucherService {
             v.setValue(value);
             v.setIsDeleted(0);
             this.vRepo.save(v);
-            return true;
+            return v;
         }
-        return false;
+        return null;
     }
 
     @Override
-    public boolean update(Map<String, String> params, int id) {
+    public Voucher update(Map<String, String> params, int id) {
         int value = Integer.parseInt(params.get("value"));
         int quantity = Integer.parseInt(params.get("quantity"));
         if (value > 0 && value < 100 && quantity > 0 && quantity < 100) {
@@ -55,18 +55,18 @@ public class VoucherServiceImpl implements VoucherService {
             v.setValue(value);
             v.setIsDeleted(Integer.parseInt(params.get("isDeleted")));
             this.vRepo.save(v);
-            return true;
+            return v;
         }
-        return false;
+        return null;
         
     }
 
     @Override
-    public boolean delete(int id) {
+    public Voucher delete(int id) {
         Voucher v = this.vRepo.findById(id).get();
         //Set v.is_deleted = 1;
         v.setIsDeleted(1);
         this.vRepo.save(v);
-        return true;
+        return v;
     }
 }

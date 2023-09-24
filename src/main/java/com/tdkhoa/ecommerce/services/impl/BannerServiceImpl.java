@@ -37,7 +37,7 @@ public class BannerServiceImpl implements BannerService {
     }
     
     @Override
-    public boolean add(Map<String, String> params, MultipartFile imageUrl) {
+    public Banner add(Map<String, String> params, MultipartFile imageUrl) {
         Banner banner = new Banner();
         if (!imageUrl.isEmpty()) {
             try {
@@ -48,11 +48,11 @@ public class BannerServiceImpl implements BannerService {
             }
         }
         this.bRepo.save(banner);
-        return true;
+        return banner;
     }
     
     @Override
-    public boolean update(MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public Banner update(MultipartFile imageUrl, @PathVariable(value = "id") int id) {
         Banner b = this.bRepo.findById(id).get();
         if (!imageUrl.isEmpty()) {
             try {
@@ -63,12 +63,12 @@ public class BannerServiceImpl implements BannerService {
             }
         }
         this.bRepo.save(b);
-        return true;
+        return b;
     }
     
     @Override
-    public boolean delete(int id) {
+    public Banner delete(int id) {
         this.bRepo.delete(this.bRepo.findById(id).get());
-        return true;
+        return this.bRepo.findById(id).get();
     }
 }

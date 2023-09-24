@@ -40,14 +40,14 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public boolean add(Map<String, String> params, MultipartFile imageUrl, User u) {
+    public Shop add(Map<String, String> params, MultipartFile imageUrl, User u) {
         Shop shop = this.sRepo.findShopByUserId(u);
         if (shop == null) {
             Shop s = new Shop();
             s.setName(params.get("name"));
             s.setDescription(params.get("description"));
             s.setAddress(params.get("address"));
-            s.setStatus(1);
+            s.setStatus(0);
             s.setUserId(u);
             if (!imageUrl.isEmpty()) {
                 try {
@@ -58,13 +58,13 @@ public class ShopServiceImpl implements ShopService {
                 }
             }
             this.sRepo.save(s);
-            return true;
+            return shop;
         }
-        return false; //Message error "1 User chi duoc dang ky 1 cua hang"
+        return null; //Message error "1 User chi duoc dang ky 1 cua hang"
     }
 
     @Override
-    public boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public Shop update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id) {
         Shop s = this.sRepo.findById(id).get();
         s.setName(params.get("name"));
         s.setDescription(params.get("description"));
@@ -79,15 +79,15 @@ public class ShopServiceImpl implements ShopService {
             }
         }
         this.sRepo.save(s);
-        return true;
+        return s;
     }
 
     @Override
-    public boolean delete(int id) {
+    public Shop delete(int id) {
         Shop s = this.sRepo.findById(id).get();
         s.setStatus(0);
         this.sRepo.save(s);
-        return true;
+        return s;
     }
 
     @Override
@@ -98,6 +98,17 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Shop getShopById(int id) {
         return this.sRepo.findById(id).get();
+    }
+
+    @Override
+    public Shop activeShop(int id, User user) {
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
+            Shop shop = this.sRepo.findById(id).get();
+            shop.setStatus(1);
+            this.sRepo.save(shop);
+            return shop;
+        }
+        return null;
     }
 
 }

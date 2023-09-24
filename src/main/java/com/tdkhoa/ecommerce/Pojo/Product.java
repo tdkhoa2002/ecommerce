@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -18,6 +19,8 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
     @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
+    @NamedQuery(name = "Product.findByQty", query = "SELECT p FROM Product p WHERE p.qty = :qty"),
     @NamedQuery(name = "Product.findByThumbnail", query = "SELECT p FROM Product p WHERE p.thumbnail = :thumbnail"),
     @NamedQuery(name = "Product.findByIsDeleted", query = "SELECT p FROM Product p WHERE p.isDeleted = :isDeleted")})
 public class Product implements Serializable {
@@ -33,20 +36,29 @@ public class Product implements Serializable {
     @Lob
     @Column(name = "description")
     private String description;
+    @Column(name = "price")
+    private Integer price;
+    @Column(name = "qty")
+    private Integer qty;
     @Column(name = "thumbnail")
     private String thumbnail;
     @Column(name = "is_deleted")
     private Integer isDeleted;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Image> imageSet;
+    @JsonIgnore
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
+    @JsonIgnore
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne
     private Shop shopId;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private Set<Review> reviewSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private Set<Orderdetail> orderdetailSet;
 
@@ -79,6 +91,22 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
     }
 
     public String getThumbnail() {

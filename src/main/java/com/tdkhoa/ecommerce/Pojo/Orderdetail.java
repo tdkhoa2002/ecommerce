@@ -25,7 +25,7 @@ public class Orderdetail implements Serializable {
     @EmbeddedId
     protected OrderdetailPK orderdetailPK;
     @Column(name = "quantity")
-    private String quantity;
+    private Integer quantity;
     @JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Order1 order1;
@@ -52,11 +52,11 @@ public class Orderdetail implements Serializable {
         this.orderdetailPK = orderdetailPK;
     }
 
-    public String getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 

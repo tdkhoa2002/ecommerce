@@ -51,13 +51,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public boolean add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file) {
+    public Product add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file) {
         Shop shop = this.sServ.findShopByUserId(user);
-        if (shop != null) {
+        if (shop != null && shop.getStatus() == 1) {
             Product p = new Product();
             p.setName(params.get("name"));
             p.setDescription(params.get("description"));
             p.setIsDeleted(0);
+            p.setPrice(Integer.parseInt(params.get("price")));
+            p.setQty(Integer.parseInt(params.get("qty")));
             int category_id = Integer.parseInt(params.get("category_id"));
             p.setCategoryId(this.cRepo.findById(category_id).get());
             p.setShopId(shop);
@@ -86,13 +88,13 @@ public class ProductServiceImpl implements ProductService {
                 this.iRepo.save(img);
             }
 
-            return true;
+            return p;
         }
-        return false;
+        return null;
     }
 
     @Override
-    public boolean update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user) {
+    public Product update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user) {
         Product p = this.pRepo.findById(id).get();
 
         p.setName(params.get("name"));
@@ -126,20 +128,25 @@ public class ProductServiceImpl implements ProductService {
             }
             this.iRepo.save(image);
         }
-        return true;
+        return p;
     }
 
     @Override
-    public boolean delete(int id, User user) {
+    public Product delete(int id, User user) {
         Product p = this.pRepo.findById(id).get();
         Shop shop = sServ.findShopByUserId(user);
         if (shop != null) {
             if (p.getShopId().getId() == shop.getId()) {
                 p.setIsDeleted(1);
                 this.pRepo.save(p);
-                return true;
+                return p;
             }
         }
-        return false;
+        return null;
+    }
+
+    @Override
+    public Product getProductById(int id) {
+        return this.pRepo.findById(id).get();
     }
 }

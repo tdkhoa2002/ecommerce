@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 public interface VoucherService {
     List<Voucher> getListVouchers();
-    boolean add(Map<String, String> params);
-    boolean update(Map<String, String> params, @PathVariable(value = "id") int id);
-    boolean delete(int id);
+    Voucher add(Map<String, String> params);
+    Voucher update(Map<String, String> params, @PathVariable(value = "id") int id);
+    Voucher delete(int id);
 }

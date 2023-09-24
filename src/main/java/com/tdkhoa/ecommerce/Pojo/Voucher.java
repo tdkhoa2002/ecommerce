@@ -40,7 +40,7 @@ public class Voucher implements Serializable {
     private Integer value;
     @Column(name = "is_deleted")
     private Integer isDeleted;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "voucherId")
+    @OneToMany(mappedBy = "voucherId")
     private Set<Order1> order1Set;
 
     public Voucher() {

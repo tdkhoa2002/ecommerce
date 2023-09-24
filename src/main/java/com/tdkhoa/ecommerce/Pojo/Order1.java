@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import jakarta.persistence.*;
 
@@ -18,7 +19,8 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o"),
     @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.id = :id"),
     @NamedQuery(name = "Order1.findByStatus", query = "SELECT o FROM Order1 o WHERE o.status = :status"),
-    @NamedQuery(name = "Order1.findByTotalAmount", query = "SELECT o FROM Order1 o WHERE o.totalAmount = :totalAmount")})
+    @NamedQuery(name = "Order1.findByTotalAmount", query = "SELECT o FROM Order1 o WHERE o.totalAmount = :totalAmount"),
+    @NamedQuery(name = "Order1.findByTimestamp", query = "SELECT o FROM Order1 o WHERE o.timestamp = :timestamp")})
 public class Order1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,14 +34,17 @@ public class Order1 implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total_amount")
     private Double totalAmount;
+    @Column(name = "timestamp")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date timestamp;
     @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private PaymentMethod paymentMethodId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
     @JoinColumn(name = "voucher_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Voucher voucherId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order1")
     private Set<Orderdetail> orderdetailSet;
@@ -73,6 +78,14 @@ public class Order1 implements Serializable {
 
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public PaymentMethod getPaymentMethodId() {

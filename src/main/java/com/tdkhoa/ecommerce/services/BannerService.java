@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface BannerService {
     List<Banner> getListBanners();
-    boolean add(Map<String, String> params, MultipartFile imageUrl);
-    boolean update(MultipartFile imageUrl, @PathVariable(value = "id") int id);
-    boolean delete(int id);
+    Banner add(Map<String, String> params, MultipartFile imageUrl);
+    Banner update(MultipartFile imageUrl, @PathVariable(value = "id") int id);
+    Banner delete(int id);
 }

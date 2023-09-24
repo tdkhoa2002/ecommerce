@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface ReviewService {
     List<Review> getListsReviewByProductId(int idProduct);
-    boolean add(Map<String, String> params, MultipartFile imageUrl, User u, int idProduct);
-    boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id, User u);
-    boolean delete(int id, User u);
+    Review add(Map<String, String> params, MultipartFile imageUrl, User u, int idProduct);
+    Review update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id, User u);
+    Review delete(int id, User u);
 }

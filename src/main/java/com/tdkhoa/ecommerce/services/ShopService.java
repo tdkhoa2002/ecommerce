@@ -27,8 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ShopService {
     List<Shop> getListShops();
     Shop getShopById(int id);
-    boolean add(Map<String, String> params, MultipartFile imageUrl, User u);
-    boolean update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id);
-    boolean delete(int id);
+    Shop add(Map<String, String> params, MultipartFile imageUrl, User u);
+    Shop update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id);
+    Shop delete(int id);
     Shop findShopByUserId(User user);
+    Shop activeShop(@PathVariable(value = "id") int id, User user);
 }

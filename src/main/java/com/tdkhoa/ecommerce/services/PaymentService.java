@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface PaymentService {
     List<PaymentMethod> getListPayments();
-    boolean add(Map<String, String> params);
-    boolean update(Map<String, String> params, @PathVariable(value = "id") int id);
-    boolean delete(int id);
+    PaymentMethod add(Map<String, String> params);
+    PaymentMethod update(Map<String, String> params, @PathVariable(value = "id") int id);
+    PaymentMethod delete(int id);
 }

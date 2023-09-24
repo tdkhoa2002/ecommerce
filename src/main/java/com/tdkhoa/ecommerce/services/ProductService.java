@@ -19,7 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface ProductService {
     List<Product> getListProducts(User user);
-    boolean add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file);
-    boolean update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user);
-    boolean delete(int id, User user);
+    Product add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file);
+    Product update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user);
+    Product delete(int id, User user);
+    Product getProductById(@PathVariable(value = "id") int id);
 }

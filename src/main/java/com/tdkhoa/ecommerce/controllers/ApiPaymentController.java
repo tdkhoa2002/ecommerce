@@ -40,20 +40,20 @@ public class ApiPaymentController {
     
     @PostMapping("/create_payment/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params) {
+    public ResponseEntity<PaymentMethod> add(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.pServ.add(params), HttpStatus.CREATED);
     }
     
     @PostMapping("/update_payment/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
+    public ResponseEntity<PaymentMethod> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
         return new ResponseEntity<>(this.pServ.update(params, id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete_payment/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Boolean> delete(@PathVariable(value = "id") int id) {
+    public ResponseEntity<PaymentMethod> delete(@PathVariable(value = "id") int id) {
         return new ResponseEntity<>(this.pServ.delete(id), HttpStatus.OK);
     }
 }

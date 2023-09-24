@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import jakarta.persistence.*;
 
@@ -25,6 +26,7 @@ public class Image implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @JsonIgnore
     @Column(name = "image_url")
     private String imageUrl;
     @JoinColumn(name = "product_id", referencedColumnName = "id")

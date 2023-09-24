@@ -44,13 +44,13 @@ public class ApiReviewController {
     
     @PostMapping("/create_review/")
     @CrossOrigin
-    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Review> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
         return new ResponseEntity<>(this.rServ.add(params, imageUrl, this.uServ.getUserLogining(), id), HttpStatus.CREATED);
     }
     
     @PostMapping("/update_review/{id}/")
     @CrossOrigin
-    public ResponseEntity<Boolean> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Review> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
         return new ResponseEntity<>(this.rServ.update(params, imageUrl, id, this.uServ.getUserLogining()), HttpStatus.CREATED);
     }
 
