@@ -45,6 +45,8 @@ public class Shop implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
+    private Set<Orderdetail> orderdetailSet;
 
     public Shop() {
     }
@@ -115,6 +117,14 @@ public class Shop implements Serializable {
 
     public void setUserId(User userId) {
         this.userId = userId;
+    }
+
+    public Set<Orderdetail> getOrderdetailSet() {
+        return orderdetailSet;
+    }
+
+    public void setOrderdetailSet(Set<Orderdetail> orderdetailSet) {
+        this.orderdetailSet = orderdetailSet;
     }
 
     @Override

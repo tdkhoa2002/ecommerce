@@ -42,9 +42,9 @@ public class ApiReviewController {
         return new ResponseEntity<>(this.rServ.getListsReviewByProductId(id), HttpStatus.OK);
     }
     
-    @PostMapping("/create_review/")
+    @PostMapping("/create_review/{productId}/")
     @CrossOrigin
-    public ResponseEntity<Review> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Review> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "productId") int id) {
         return new ResponseEntity<>(this.rServ.add(params, imageUrl, this.uServ.getUserLogining(), id), HttpStatus.CREATED);
     }
     

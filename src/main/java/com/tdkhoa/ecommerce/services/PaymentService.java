@@ -4,7 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services;
 
-import com.tdkhoa.ecommerce.Pojo.PaymentMethod;
+import com.tdkhoa.ecommerce.Pojo.Payment;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.List;
@@ -17,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Khoa Tran
  */
 public interface PaymentService {
-    List<PaymentMethod> getListPayments();
-    PaymentMethod add(Map<String, String> params);
-    PaymentMethod update(Map<String, String> params, @PathVariable(value = "id") int id);
-    PaymentMethod delete(int id);
+    List<Payment> getListPayments();
+    Payment add(Map<String, String> params);
+    Payment update(Map<String, String> params, @PathVariable(value = "id") int id);
+    Payment delete(int id);
 }

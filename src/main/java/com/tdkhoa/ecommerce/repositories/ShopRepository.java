@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.repositories;
 
+import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -13,12 +13,12 @@ import jakarta.persistence.*;
  * @author Khoa Tran
  */
 @Entity
-@Table(name = "payment_method")
+@Table(name = "payment")
 @NamedQueries({
-    @NamedQuery(name = "PaymentMethod.findAll", query = "SELECT p FROM PaymentMethod p"),
-    @NamedQuery(name = "PaymentMethod.findById", query = "SELECT p FROM PaymentMethod p WHERE p.id = :id"),
-    @NamedQuery(name = "PaymentMethod.findByName", query = "SELECT p FROM PaymentMethod p WHERE p.name = :name")})
-public class PaymentMethod implements Serializable {
+    @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
+    @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
+    @NamedQuery(name = "Payment.findByName", query = "SELECT p FROM Payment p WHERE p.name = :name")})
+public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -28,13 +28,13 @@ public class PaymentMethod implements Serializable {
     private Integer id;
     @Column(name = "name")
     private String name;
-    @OneToMany(mappedBy = "paymentMethodId")
+    @OneToMany(mappedBy = "paymentId")
     private Set<Order1> order1Set;
 
-    public PaymentMethod() {
+    public Payment() {
     }
 
-    public PaymentMethod(Integer id) {
+    public Payment(Integer id) {
         this.id = id;
     }
 
@@ -72,10 +72,10 @@ public class PaymentMethod implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PaymentMethod)) {
+        if (!(object instanceof Payment)) {
             return false;
         }
-        PaymentMethod other = (PaymentMethod) object;
+        Payment other = (Payment) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -84,7 +84,7 @@ public class PaymentMethod implements Serializable {
 
     @Override
     public String toString() {
-        return "com.tdkhoa.ecommerce.Pojo.PaymentMethod[ id=" + id + " ]";
+        return "com.tdkhoa.ecommerce.Pojo.Payment[ id=" + id + " ]";
     }
     
 }

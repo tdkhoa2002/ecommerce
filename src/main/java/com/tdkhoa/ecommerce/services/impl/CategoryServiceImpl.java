@@ -73,6 +73,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category delete(int id) {
         this.cRepo.delete(this.cRepo.findById(id).get());
-        return this.cRepo.findById(id).get();
+        return null;
     }
 }

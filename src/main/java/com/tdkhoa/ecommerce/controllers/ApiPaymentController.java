@@ -5,7 +5,7 @@
 package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.Pojo.Category;
-import com.tdkhoa.ecommerce.Pojo.PaymentMethod;
+import com.tdkhoa.ecommerce.Pojo.Payment;
 import com.tdkhoa.ecommerce.services.PaymentService;
 import java.util.List;
 import java.util.Map;
@@ -34,26 +34,26 @@ public class ApiPaymentController {
     
     @GetMapping("/payments/")
     @CrossOrigin
-    public ResponseEntity<List<PaymentMethod>> list() {
+    public ResponseEntity<List<Payment>> list() {
         return new ResponseEntity<>(this.pServ.getListPayments(), HttpStatus.OK);
     }
     
-    @PostMapping("/create_payment/")
+    @PostMapping("/admin/create_payment/")
     @CrossOrigin
-    public ResponseEntity<PaymentMethod> add(@RequestParam Map<String, String> params) {
+    public ResponseEntity<Payment> add(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.pServ.add(params), HttpStatus.CREATED);
     }
     
-    @PostMapping("/update_payment/{id}/")
+    @PostMapping("/admin/update_payment/{id}/")
     @CrossOrigin
-    public ResponseEntity<PaymentMethod> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Payment> update(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
         return new ResponseEntity<>(this.pServ.update(params, id), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete_payment/{id}/")
+    @DeleteMapping("/admin/delete_payment/{id}/")
     @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<PaymentMethod> delete(@PathVariable(value = "id") int id) {
+    public ResponseEntity<Payment> delete(@PathVariable(value = "id") int id) {
         return new ResponseEntity<>(this.pServ.delete(id), HttpStatus.OK);
     }
 }

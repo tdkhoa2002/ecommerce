@@ -14,13 +14,13 @@ import jakarta.persistence.*;
  * @author Khoa Tran
  */
 @Entity
-@Table(name = "order")
+@Table(name = "order1")
 @NamedQueries({
     @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o"),
     @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.id = :id"),
     @NamedQuery(name = "Order1.findByStatus", query = "SELECT o FROM Order1 o WHERE o.status = :status"),
     @NamedQuery(name = "Order1.findByTotalAmount", query = "SELECT o FROM Order1 o WHERE o.totalAmount = :totalAmount"),
-    @NamedQuery(name = "Order1.findByTimestamp", query = "SELECT o FROM Order1 o WHERE o.timestamp = :timestamp")})
+    @NamedQuery(name = "Order1.findByCreatedTime", query = "SELECT o FROM Order1 o WHERE o.createdTime = :createdTime")})
 public class Order1 implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,19 +34,19 @@ public class Order1 implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total_amount")
     private Double totalAmount;
-    @Column(name = "timestamp")
+    @Column(name = "created_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date timestamp;
-    @JoinColumn(name = "payment_method_id", referencedColumnName = "id")
+    private Date createdTime;
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
     @ManyToOne
-    private PaymentMethod paymentMethodId;
+    private Payment paymentId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
     @JoinColumn(name = "voucher_id", referencedColumnName = "id")
     @ManyToOne
     private Voucher voucherId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order1")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Set<Orderdetail> orderdetailSet;
 
     public Order1() {
@@ -80,20 +80,20 @@ public class Order1 implements Serializable {
         this.totalAmount = totalAmount;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getCreatedTime() {
+        return createdTime;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 
-    public PaymentMethod getPaymentMethodId() {
-        return paymentMethodId;
+    public Payment getPaymentId() {
+        return paymentId;
     }
 
-    public void setPaymentMethodId(PaymentMethod paymentMethodId) {
-        this.paymentMethodId = paymentMethodId;
+    public void setPaymentId(Payment paymentId) {
+        this.paymentId = paymentId;
     }
 
     public User getUserId() {

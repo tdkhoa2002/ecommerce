@@ -6,11 +6,8 @@ package com.tdkhoa.ecommerce.services;
 
 import com.tdkhoa.ecommerce.Pojo.Review;
 import com.tdkhoa.ecommerce.Pojo.User;
-import com.tdkhoa.ecommerce.repositories.ReviewRepository;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 

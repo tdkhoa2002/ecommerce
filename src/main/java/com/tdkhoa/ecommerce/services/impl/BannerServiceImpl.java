@@ -69,6 +69,6 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public Banner delete(int id) {
         this.bRepo.delete(this.bRepo.findById(id).get());
-        return this.bRepo.findById(id).get();
+        return null;
     }
 }

@@ -15,44 +15,41 @@ import jakarta.persistence.*;
 @Table(name = "review")
 @NamedQueries({
     @NamedQuery(name = "Review.findAll", query = "SELECT r FROM Review r"),
-    @NamedQuery(name = "Review.findById", query = "SELECT r FROM Review r WHERE r.reviewPK.id = :id"),
-    @NamedQuery(name = "Review.findByProductId", query = "SELECT r FROM Review r WHERE r.reviewPK.productId = :productId"),
-    @NamedQuery(name = "Review.findByUserId", query = "SELECT r FROM Review r WHERE r.reviewPK.userId = :userId"),
-    @NamedQuery(name = "Review.findByContent", query = "SELECT r FROM Review r WHERE r.content = :content"),
+    @NamedQuery(name = "Review.findById", query = "SELECT r FROM Review r WHERE r.id = :id"),
     @NamedQuery(name = "Review.findByImageUrl", query = "SELECT r FROM Review r WHERE r.imageUrl = :imageUrl")})
 public class Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ReviewPK reviewPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Lob
     @Column(name = "content")
     private String content;
     @Column(name = "image_url")
     private String imageUrl;
-    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Product product;
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Product productId;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user;
+    private User userId;
 
     public Review() {
     }
 
-    public Review(ReviewPK reviewPK) {
-        this.reviewPK = reviewPK;
+    public Review(Integer id) {
+        this.id = id;
     }
 
-    public Review(int id, int productId, int userId) {
-        this.reviewPK = new ReviewPK(id, productId, userId);
+    public Integer getId() {
+        return id;
     }
 
-    public ReviewPK getReviewPK() {
-        return reviewPK;
-    }
-
-    public void setReviewPK(ReviewPK reviewPK) {
-        this.reviewPK = reviewPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getContent() {
@@ -71,26 +68,26 @@ public class Review implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Product getProduct() {
-        return product;
+    public Product getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Product productId) {
+        this.productId = productId;
     }
 
-    public User getUser() {
-        return user;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (reviewPK != null ? reviewPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -101,7 +98,7 @@ public class Review implements Serializable {
             return false;
         }
         Review other = (Review) object;
-        if ((this.reviewPK == null && other.reviewPK != null) || (this.reviewPK != null && !this.reviewPK.equals(other.reviewPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -109,7 +106,7 @@ public class Review implements Serializable {
 
     @Override
     public String toString() {
-        return "com.tdkhoa.ecommerce.Pojo.Review[ reviewPK=" + reviewPK + " ]";
+        return "com.tdkhoa.ecommerce.Pojo.Review[ id=" + id + " ]";
     }
     
 }

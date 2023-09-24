@@ -4,7 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services.impl;
 
-import com.tdkhoa.ecommerce.Pojo.PaymentMethod;
+import com.tdkhoa.ecommerce.Pojo.Payment;
 import com.tdkhoa.ecommerce.repositories.PaymentRepository;
 import com.tdkhoa.ecommerce.services.PaymentService;
 import java.util.List;
@@ -22,21 +22,21 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository payRepo;
 
     @Override
-    public List<PaymentMethod> getListPayments() {
+    public List<Payment> getListPayments() {
         return this.payRepo.findAll();
     }
 
     @Override
-    public PaymentMethod add(Map<String, String> params) {
-        PaymentMethod p = new PaymentMethod();
+    public Payment add(Map<String, String> params) {
+        Payment p = new Payment();
         p.setName(params.get("name"));
         this.payRepo.save(p);
         return p;
     }
 
     @Override
-    public PaymentMethod update(Map<String, String> params, int id) {
-        PaymentMethod p = this.payRepo.findById(id).get();
+    public Payment update(Map<String, String> params, int id) {
+        Payment p = this.payRepo.findById(id).get();
         
         p.setName(params.get("name"));
         
@@ -45,9 +45,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentMethod delete(int id) {
-        PaymentMethod p = this.payRepo.findById(id).get();
+    public Payment delete(int id) {
+        Payment p = this.payRepo.findById(id).get();
         this.payRepo.delete(p);
-        return p;
+        return null;
     }
 }

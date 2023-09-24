@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.ShopRepository;
@@ -58,7 +59,7 @@ public class ShopServiceImpl implements ShopService {
                 }
             }
             this.sRepo.save(s);
-            return shop;
+            return s;
         }
         return null; //Message error "1 User chi duoc dang ky 1 cua hang"
     }
@@ -110,5 +111,4 @@ public class ShopServiceImpl implements ShopService {
         }
         return null;
     }
-
 }

@@ -15,41 +15,41 @@ import jakarta.persistence.*;
 @Table(name = "orderdetail")
 @NamedQueries({
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o"),
-    @NamedQuery(name = "Orderdetail.findById", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.id = :id"),
-    @NamedQuery(name = "Orderdetail.findByOrderId", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.orderId = :orderId"),
-    @NamedQuery(name = "Orderdetail.findByProductId", query = "SELECT o FROM Orderdetail o WHERE o.orderdetailPK.productId = :productId"),
+    @NamedQuery(name = "Orderdetail.findById", query = "SELECT o FROM Orderdetail o WHERE o.id = :id"),
     @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity")})
 public class Orderdetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected OrderdetailPK orderdetailPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "quantity")
     private Integer quantity;
-    @JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Order1 order1;
-    @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Order1 orderId;
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Product product;
+    private Product productId;
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Shop shopId;
 
     public Orderdetail() {
     }
 
-    public Orderdetail(OrderdetailPK orderdetailPK) {
-        this.orderdetailPK = orderdetailPK;
+    public Orderdetail(Integer id) {
+        this.id = id;
     }
 
-    public Orderdetail(int id, int orderId, int productId) {
-        this.orderdetailPK = new OrderdetailPK(id, orderId, productId);
+    public Integer getId() {
+        return id;
     }
 
-    public OrderdetailPK getOrderdetailPK() {
-        return orderdetailPK;
-    }
-
-    public void setOrderdetailPK(OrderdetailPK orderdetailPK) {
-        this.orderdetailPK = orderdetailPK;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getQuantity() {
@@ -60,26 +60,34 @@ public class Orderdetail implements Serializable {
         this.quantity = quantity;
     }
 
-    public Order1 getOrder1() {
-        return order1;
+    public Order1 getOrderId() {
+        return orderId;
     }
 
-    public void setOrder1(Order1 order1) {
-        this.order1 = order1;
+    public void setOrderId(Order1 orderId) {
+        this.orderId = orderId;
     }
 
-    public Product getProduct() {
-        return product;
+    public Product getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Product productId) {
+        this.productId = productId;
+    }
+
+    public Shop getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Shop shopId) {
+        this.shopId = shopId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (orderdetailPK != null ? orderdetailPK.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -90,7 +98,7 @@ public class Orderdetail implements Serializable {
             return false;
         }
         Orderdetail other = (Orderdetail) object;
-        if ((this.orderdetailPK == null && other.orderdetailPK != null) || (this.orderdetailPK != null && !this.orderdetailPK.equals(other.orderdetailPK))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -98,7 +106,7 @@ public class Orderdetail implements Serializable {
 
     @Override
     public String toString() {
-        return "com.tdkhoa.ecommerce.Pojo.Orderdetail[ orderdetailPK=" + orderdetailPK + " ]";
+        return "com.tdkhoa.ecommerce.Pojo.Orderdetail[ id=" + id + " ]";
     }
     
 }

@@ -4,7 +4,6 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -44,22 +43,17 @@ public class Product implements Serializable {
     private String thumbnail;
     @Column(name = "is_deleted")
     private Integer isDeleted;
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Image> imageSet;
-    @JsonIgnore
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
-    @JsonIgnore
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne
     private Shop shopId;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Review> reviewSet;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Orderdetail> orderdetailSet;
 
     public Product() {

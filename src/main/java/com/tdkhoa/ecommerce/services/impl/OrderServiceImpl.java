@@ -8,11 +8,13 @@ import com.tdkhoa.ecommerce.DTO.CartDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Product;
+import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.OrderDetailsRepository;
 import com.tdkhoa.ecommerce.repositories.OrderRepository;
 import com.tdkhoa.ecommerce.services.OrderService;
 import com.tdkhoa.ecommerce.services.ProductService;
+import com.tdkhoa.ecommerce.services.ShopService;
 import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -46,23 +48,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order1 addOrder(Map<String, CartDTO> carts, User user) {
         try {
-
             Order1 order = new Order1();
-            order.setTimestamp(new Date());
+            order.setCreatedTime(new Date());
             order.setStatus(0);
+            order.setUserId(user);
+            this.oRepo.save(order);
             double amount = 0;
-
             for (CartDTO c : carts.values()) {
                 Orderdetail d = new Orderdetail();
                 d.setQuantity(c.getCount());
                 Product p = this.pServ.getProductById(c.getId());
-                d.setProduct(p);
-                d.setOrder1(order);
+                d.setProductId(p);
+                d.setOrderId(order);
+                Shop shop = p.getShopId();
+                d.setShopId(shop);
                 amount += p.getPrice() * c.getCount();
                 this.odRepo.save(d);
             }
             order.setTotalAmount(amount);
-            order.setUserId(user);
             this.oRepo.save(order);
             s.setAttribute("cart", null);
             return order;

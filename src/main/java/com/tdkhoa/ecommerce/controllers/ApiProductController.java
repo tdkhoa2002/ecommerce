@@ -47,8 +47,6 @@ public class ApiProductController {
     private ProductService pServ;
     @Autowired
     private UserService uServ;
-    @Autowired
-    private ShopService sServ;
     
     @GetMapping("/shop/products/")
     @CrossOrigin
@@ -103,7 +101,6 @@ public class ApiProductController {
             c.setId(p.getId());
             c.setPrice(p.getPrice());
             c.setCount(1);
-//            c.setVoucher(ps.getVoucherId());
             cart.put(productId, c);
         }
 

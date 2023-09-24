@@ -46,9 +46,9 @@ public class ReviewServiceImpl implements ReviewService {
     public Review add(Map<String, String> params, MultipartFile imageUrl, User user, int idProduct) {
         Review r = new Review();
         r.setContent(params.get("content"));
-        r.setUser(user);
+        r.setUserId(user);
         Product p = this.pRepo.findById(idProduct).get();
-        r.setProduct(p);
+        r.setProductId(p);
         if (!imageUrl.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -64,7 +64,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id, User user) {
         Review r = this.rRepo.findById(id).get();
-        if (r.getUser().equals(user)) {
+        if (r.getUserId().equals(user)) {
             r.setContent(params.get("content"));
             if (!imageUrl.isEmpty()) {
                 try {
@@ -83,7 +83,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review delete(int id, User user) {
         Review r = this.rRepo.findById(id).get();
-        if (r.getUser().equals(user)) {
+        if (r.getUserId().equals(user)) {
             this.rRepo.delete(this.rRepo.findById(id).get());
             return r;
         }
