@@ -50,4 +50,9 @@ public class PaymentServiceImpl implements PaymentService {
         this.payRepo.delete(p);
         return null;
     }
+
+    @Override
+    public Payment getPaymentById(int id) {
+        return this.payRepo.findById(id).get();
+    }
 }

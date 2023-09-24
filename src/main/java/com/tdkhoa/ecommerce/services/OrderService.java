@@ -16,6 +16,6 @@ import java.util.Map;
  */
 public interface OrderService {
     List<Order1> getListOrders();
-    Order1 addOrder(Map<String, CartDTO> carts, User user);
+    Order1 addOrder(CartDTO cart, User user);
     Order1 deleteOrder(int id);
 }

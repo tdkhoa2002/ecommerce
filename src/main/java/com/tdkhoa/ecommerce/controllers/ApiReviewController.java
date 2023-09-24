@@ -36,9 +36,9 @@ public class ApiReviewController {
     @Autowired
     private UserService uServ;
     
-    @GetMapping("/reviews/")
+    @GetMapping("/reviews/{productId}/")
     @CrossOrigin
-    public ResponseEntity<List<Review>> list(@PathVariable(value = "id") int id) {
+    public ResponseEntity<List<Review>> list(@PathVariable(value = "productId") int id) {
         return new ResponseEntity<>(this.rServ.getListsReviewByProductId(id), HttpStatus.OK);
     }
     
@@ -48,9 +48,9 @@ public class ApiReviewController {
         return new ResponseEntity<>(this.rServ.add(params, imageUrl, this.uServ.getUserLogining(), id), HttpStatus.CREATED);
     }
     
-    @PostMapping("/update_review/{id}/")
+    @PostMapping("/update_review/{reviewId}/")
     @CrossOrigin
-    public ResponseEntity<Review> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
+    public ResponseEntity<Review> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "reviewId") int id) {
         return new ResponseEntity<>(this.rServ.update(params, imageUrl, id, this.uServ.getUserLogining()), HttpStatus.CREATED);
     }
 

@@ -5,13 +5,19 @@
 package com.tdkhoa.ecommerce.services.impl;
 
 import com.tdkhoa.ecommerce.DTO.CartDTO;
+import com.tdkhoa.ecommerce.DTO.ProductDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
+import com.tdkhoa.ecommerce.Pojo.Payment;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
+import com.tdkhoa.ecommerce.Pojo.Voucher;
 import com.tdkhoa.ecommerce.repositories.OrderDetailsRepository;
 import com.tdkhoa.ecommerce.repositories.OrderRepository;
+import com.tdkhoa.ecommerce.repositories.PaymentRepository;
+import com.tdkhoa.ecommerce.repositories.ProductRepository;
+import com.tdkhoa.ecommerce.repositories.VoucherRepository;
 import com.tdkhoa.ecommerce.services.OrderService;
 import com.tdkhoa.ecommerce.services.ProductService;
 import com.tdkhoa.ecommerce.services.ShopService;
@@ -36,6 +42,12 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderDetailsRepository odRepo;
     @Autowired
+    private VoucherRepository voucherRepo;
+    @Autowired
+    private PaymentRepository paymentRepo;
+    @Autowired
+    private ProductRepository productRepo;
+    @Autowired
     private ProductService pServ;
     @Autowired
     private HttpSession s;
@@ -46,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order1 addOrder(Map<String, CartDTO> carts, User user) {
+    public Order1 addOrder(CartDTO cart, User user) {
         try {
             Order1 order = new Order1();
             order.setCreatedTime(new Date());
@@ -54,18 +66,27 @@ public class OrderServiceImpl implements OrderService {
             order.setUserId(user);
             this.oRepo.save(order);
             double amount = 0;
-            for (CartDTO c : carts.values()) {
+            Map<Integer, ProductDTO> products = cart.getInfoProduct();
+            System.out.println(products);
+            for (ProductDTO pDTO : products.values()) {
                 Orderdetail d = new Orderdetail();
-                d.setQuantity(c.getCount());
-                Product p = this.pServ.getProductById(c.getId());
-                d.setProductId(p);
+                d.setQuantity(pDTO.getQty());
+                Product product = this.pServ.getProductById(pDTO.getProductId());
+                d.setProductId(product);
                 d.setOrderId(order);
-                Shop shop = p.getShopId();
+                Shop shop = product.getShopId();
                 d.setShopId(shop);
-                amount += p.getPrice() * c.getCount();
+                amount += product.getPrice() * pDTO.getQty();
+                product.setQty(product.getQty() - pDTO.getQty());
                 this.odRepo.save(d);
+                this.productRepo.save(product);
             }
-            order.setTotalAmount(amount);
+            Voucher voucher = this.voucherRepo.findById(cart.getVoucher().getId()).get();
+            order.setVoucherId(voucher);
+            order.setPaymentId(cart.getPayment());
+            voucher.setQuantity(voucher.getQuantity() - 1);
+            this.voucherRepo.save(voucher);
+            order.setTotalAmount(amount - amount * voucher.getValue() / 100);
             this.oRepo.save(order);
             s.setAttribute("cart", null);
             return order;

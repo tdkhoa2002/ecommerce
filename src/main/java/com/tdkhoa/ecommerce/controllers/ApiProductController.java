@@ -4,17 +4,10 @@
  */
 package com.tdkhoa.ecommerce.controllers;
 
-import com.tdkhoa.ecommerce.DTO.CartDTO;
-import com.tdkhoa.ecommerce.Pojo.Banner;
-import com.tdkhoa.ecommerce.Pojo.Category;
 import com.tdkhoa.ecommerce.Pojo.Product;
-import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.services.ProductService;
-import com.tdkhoa.ecommerce.services.ShopService;
 import com.tdkhoa.ecommerce.services.UserService;
-import jakarta.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -82,29 +76,5 @@ public class ApiProductController {
     public void delete(@PathVariable(value = "id") int id) {
         User user = this.uServ.getUserLogining();
         this.pServ.delete(id, user);
-    }
-    
-    @GetMapping("/cart/{productId}/")
-    @CrossOrigin
-    public ResponseEntity<?> cart(@PathVariable(value = "productId") Integer productId, HttpSession session) {
-        Map<Integer, CartDTO> cart = (Map<Integer, CartDTO>) session.getAttribute("cart");
-        if (cart == null) {
-            cart = new HashMap<>();
-        }
-        if (cart.containsKey(productId) == true) {
-            CartDTO c = cart.get(productId);
-            c.setCount(c.getCount() + 1);
-        } else {
-            Product p = this.pServ.getProductById(productId);
-            System.out.println(p);
-            CartDTO c = new CartDTO();
-            c.setId(p.getId());
-            c.setPrice(p.getPrice());
-            c.setCount(1);
-            cart.put(productId, c);
-        }
-
-        session.setAttribute("cart", cart);
-        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 }

@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`user` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 33
+AUTO_INCREMENT = 36
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`category` (
     FOREIGN KEY (`category_id`)
     REFERENCES `ecommerce`.`category` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 15
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`shop` (
     FOREIGN KEY (`user_id`)
     REFERENCES `ecommerce`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`product` (
     FOREIGN KEY (`shop_id`)
     REFERENCES `ecommerce`.`shop` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 21
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`image` (
     REFERENCES `ecommerce`.`product` (`id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 54
+AUTO_INCREMENT = 62
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`payment` (
   `name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`voucher` (
   `is_deleted` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 4
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`order1` (
     FOREIGN KEY (`voucher_id`)
     REFERENCES `ecommerce`.`voucher` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 20
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -260,11 +260,9 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`orderdetail` (
     REFERENCES `ecommerce`.`product` (`id`),
   CONSTRAINT `fk_orderdetail_shop1`
     FOREIGN KEY (`shop_id`)
-    REFERENCES `ecommerce`.`shop` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `ecommerce`.`shop` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
+AUTO_INCREMENT = 14
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -278,6 +276,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`review` (
   `user_id` INT NOT NULL,
   `content` LONGTEXT NULL DEFAULT NULL,
   `image_url` VARCHAR(255) NULL DEFAULT NULL,
+  `star` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_product_has_user_user1_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_product_has_user_product1_idx` (`product_id` ASC) VISIBLE,
@@ -288,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`review` (
     FOREIGN KEY (`user_id`)
     REFERENCES `ecommerce`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

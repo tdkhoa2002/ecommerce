@@ -21,4 +21,5 @@ public interface PaymentService {
     Payment add(Map<String, String> params);
     Payment update(Map<String, String> params, @PathVariable(value = "id") int id);
     Payment delete(int id);
+    Payment getPaymentById(int id);
 }

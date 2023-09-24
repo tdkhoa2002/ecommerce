@@ -18,4 +18,5 @@ public interface VoucherService {
     Voucher add(Map<String, String> params);
     Voucher update(Map<String, String> params, @PathVariable(value = "id") int id);
     Voucher delete(int id);
+    Voucher getVoucherById(int id);
 }

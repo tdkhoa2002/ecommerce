@@ -4,13 +4,6 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
-import com.tdkhoa.ecommerce.Pojo.Payment;
-import com.tdkhoa.ecommerce.Pojo.Product;
-import com.tdkhoa.ecommerce.Pojo.Voucher;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,10 +17,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartDTO {
-    private int id;
-    private Map<Integer, ProductDTO> infoProduct;
-    private Voucher voucher;
-    private Payment payment;
-    
+public class ProductDTO {
+    private int qty;
+    private int productId;
+    private int price;
 }

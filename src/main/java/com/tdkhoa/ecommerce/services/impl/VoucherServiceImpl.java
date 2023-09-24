@@ -69,4 +69,9 @@ public class VoucherServiceImpl implements VoucherService {
         this.vRepo.save(v);
         return v;
     }
+
+    @Override
+    public Voucher getVoucherById(int id) {
+        return this.vRepo.findById(id).get();
+    }
 }
