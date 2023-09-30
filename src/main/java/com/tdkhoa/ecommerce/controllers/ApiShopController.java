@@ -4,10 +4,13 @@
  */
 package com.tdkhoa.ecommerce.controllers;
 
+import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.Pojo.Category;
 import com.tdkhoa.ecommerce.Pojo.Order1;
+import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
+import com.tdkhoa.ecommerce.services.OrderDetailService;
 import com.tdkhoa.ecommerce.services.OrderService;
 import com.tdkhoa.ecommerce.services.ShopService;
 import com.tdkhoa.ecommerce.services.UserService;
@@ -45,6 +48,8 @@ public class ApiShopController {
     private UserService uServ;
     @Autowired
     private OrderService oServ;
+    @Autowired
+    private OrderDetailService odServ;
     
     @GetMapping("/admin/shops/")
     @CrossOrigin
@@ -109,8 +114,12 @@ public class ApiShopController {
     
     @GetMapping("/shop/orders/{shopId}/")
     @CrossOrigin
-    public ResponseEntity<List<Order1>> listOrders(@PathVariable(value = "shopId") int shopId) {
-        
-        return new ResponseEntity<>(this.oServ.getListOrders(), HttpStatus.OK);
+    public ResponseEntity<List<OrderdetailDTO>> listOrders(@PathVariable(value = "shopId") int shopId) {
+        Shop shop = this.sServ.getShopById(shopId);
+        User user = this.uServ.getUserLogining();
+        if(shop.getUserId() == user) {
+            return new ResponseEntity<>(this.odServ.getListOrderDetailsShop(shopId), HttpStatus.OK);
+        }
+        return null;
     }
 }

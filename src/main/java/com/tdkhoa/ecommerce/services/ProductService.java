@@ -19,7 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Khoa Tran
  */
 public interface ProductService {
-    List<Product> getListProducts(User user);
+    List<Product> getListProductsShop(User user);
+    List<Product> getListProducts();
     Product add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file);
     Product update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user);
     Product delete(int id, User user);

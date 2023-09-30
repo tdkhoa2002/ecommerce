@@ -4,7 +4,6 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import jakarta.persistence.*;
 
@@ -17,7 +16,8 @@ import jakarta.persistence.*;
 @NamedQueries({
     @NamedQuery(name = "Review.findAll", query = "SELECT r FROM Review r"),
     @NamedQuery(name = "Review.findById", query = "SELECT r FROM Review r WHERE r.id = :id"),
-    @NamedQuery(name = "Review.findByImageUrl", query = "SELECT r FROM Review r WHERE r.imageUrl = :imageUrl")})
+    @NamedQuery(name = "Review.findByImageUrl", query = "SELECT r FROM Review r WHERE r.imageUrl = :imageUrl"),
+    @NamedQuery(name = "Review.findByStar", query = "SELECT r FROM Review r WHERE r.star = :star")})
 public class Review implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,11 +31,11 @@ public class Review implements Serializable {
     private String content;
     @Column(name = "image_url")
     private String imageUrl;
-    @JsonIgnore
+    @Column(name = "star")
+    private Integer star;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Product productId;
-    @JsonIgnore
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
@@ -69,6 +69,14 @@ public class Review implements Serializable {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Integer getStar() {
+        return star;
+    }
+
+    public void setStar(Integer star) {
+        this.star = star;
     }
 
     public Product getProductId() {

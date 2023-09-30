@@ -15,7 +15,6 @@ import java.util.Map;
  * @author Khoa Tran
  */
 public interface OrderService {
-    List<Order1> getListOrders();
     Order1 addOrder(CartDTO cart, User user);
     Order1 deleteOrder(int id);
 }

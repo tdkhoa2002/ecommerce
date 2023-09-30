@@ -18,7 +18,6 @@ import jakarta.persistence.*;
 @NamedQueries({
     @NamedQuery(name = "Order1.findAll", query = "SELECT o FROM Order1 o"),
     @NamedQuery(name = "Order1.findById", query = "SELECT o FROM Order1 o WHERE o.id = :id"),
-    @NamedQuery(name = "Order1.findByStatus", query = "SELECT o FROM Order1 o WHERE o.status = :status"),
     @NamedQuery(name = "Order1.findByTotalAmount", query = "SELECT o FROM Order1 o WHERE o.totalAmount = :totalAmount"),
     @NamedQuery(name = "Order1.findByCreatedTime", query = "SELECT o FROM Order1 o WHERE o.createdTime = :createdTime")})
 public class Order1 implements Serializable {
@@ -29,8 +28,6 @@ public class Order1 implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "status")
-    private Integer status;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total_amount")
     private Double totalAmount;
@@ -62,14 +59,6 @@ public class Order1 implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public Double getTotalAmount() {

@@ -4,6 +4,10 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
+import com.tdkhoa.ecommerce.Pojo.Order1;
+import com.tdkhoa.ecommerce.Pojo.Product;
+import com.tdkhoa.ecommerce.Pojo.Shop;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +18,14 @@ import lombok.NoArgsConstructor;
  * @author Khoa Tran
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
-    private int productId;
-    private String name;
-    private String description;
+@Builder
+public class OrderdetailDTO {
+    private Product product;
+    private Shop shop;
+    private Order1 order;
     private int qty;
-    private int price;
+    private Date createTime;
+    private int status;
 }

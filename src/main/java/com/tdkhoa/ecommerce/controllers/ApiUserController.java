@@ -5,11 +5,14 @@
 package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.DTO.LoginDTO;
+import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.security.JwtUtils;
+import com.tdkhoa.ecommerce.services.OrderDetailService;
 import com.tdkhoa.ecommerce.services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +44,8 @@ public class ApiUserController {
 
     @Autowired
     private UserService uServ;
+    @Autowired
+    private OrderDetailService odServ;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -92,5 +97,13 @@ public class ApiUserController {
     @CrossOrigin
     public ResponseEntity<User> getProfileUser() {
         return new ResponseEntity<>(this.uServ.getUserLogining(), HttpStatus.OK);
+    }
+    
+    @GetMapping("/user/purchase/")
+    @CrossOrigin
+    public ResponseEntity<List<OrderdetailDTO>> getOrderListUser() {
+        User u = this.uServ.getUserLogining();
+        this.odServ.getListOrderDetailsUser(u);
+        return new ResponseEntity<>(this.odServ.getListOrderDetailsUser(u), HttpStatus.OK);
     }
 }

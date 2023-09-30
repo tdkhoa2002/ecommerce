@@ -22,4 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT p FROM Product p WHERE p.shopId = ?1")
      List<Product> findProductByShopId(Shop shop);
+     
+     List<Product> findByOrderBySoldDesc();
 }

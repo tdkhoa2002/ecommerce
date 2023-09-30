@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.Pojo;
 
 import java.io.Serializable;
+import java.util.Date;
 import jakarta.persistence.*;
 
 /**
@@ -16,7 +17,9 @@ import jakarta.persistence.*;
 @NamedQueries({
     @NamedQuery(name = "Orderdetail.findAll", query = "SELECT o FROM Orderdetail o"),
     @NamedQuery(name = "Orderdetail.findById", query = "SELECT o FROM Orderdetail o WHERE o.id = :id"),
-    @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity")})
+    @NamedQuery(name = "Orderdetail.findByQuantity", query = "SELECT o FROM Orderdetail o WHERE o.quantity = :quantity"),
+    @NamedQuery(name = "Orderdetail.findByStatus", query = "SELECT o FROM Orderdetail o WHERE o.status = :status"),
+    @NamedQuery(name = "Orderdetail.findByCreateTime", query = "SELECT o FROM Orderdetail o WHERE o.createTime = :createTime")})
 public class Orderdetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,6 +30,11 @@ public class Orderdetail implements Serializable {
     private Integer id;
     @Column(name = "quantity")
     private Integer quantity;
+    @Column(name = "status")
+    private Integer status;
+    @Column(name = "create_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createTime;
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Order1 orderId;
@@ -58,6 +66,22 @@ public class Orderdetail implements Serializable {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Order1 getOrderId() {

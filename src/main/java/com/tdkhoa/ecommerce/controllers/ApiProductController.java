@@ -46,8 +46,20 @@ public class ApiProductController {
     @CrossOrigin
     public ResponseEntity<List<Product>> list() {
         User user = this.uServ.getUserLogining();
-        return new ResponseEntity<>(this.pServ.getListProducts(user), HttpStatus.OK);
+        return new ResponseEntity<>(this.pServ.getListProductsShop(user), HttpStatus.OK);
     }
+    
+    @GetMapping("/products/")
+    @CrossOrigin
+    public ResponseEntity<List<Product>> getListAllProductsPopular() {
+        return new ResponseEntity<>(this.pServ.getListProducts(), HttpStatus.OK);
+    }
+    
+    @GetMapping("/view-detail/{id}/")
+    @CrossOrigin
+    public ResponseEntity<Product> viewDetailProduct(@PathVariable(value = "id") int id) {
+        return new ResponseEntity<>(this.pServ.getProductById(id), HttpStatus.OK);
+    } 
     
     @PostMapping("/shop/create_product/")
     @CrossOrigin

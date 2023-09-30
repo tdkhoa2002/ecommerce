@@ -53,16 +53,10 @@ public class OrderServiceImpl implements OrderService {
     private HttpSession s;
 
     @Override
-    public List<Order1> getListOrders() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Order1 addOrder(CartDTO cart, User user) {
         try {
             Order1 order = new Order1();
             order.setCreatedTime(new Date());
-            order.setStatus(0);
             order.setUserId(user);
             this.oRepo.save(order);
             double amount = 0;
@@ -74,6 +68,8 @@ public class OrderServiceImpl implements OrderService {
                 Product product = this.pServ.getProductById(pDTO.getProductId());
                 d.setProductId(product);
                 d.setOrderId(order);
+                d.setStatus(0);
+                d.setCreateTime(new Date());
                 Shop shop = product.getShopId();
                 d.setShopId(shop);
                 amount += product.getPrice() * pDTO.getQty();

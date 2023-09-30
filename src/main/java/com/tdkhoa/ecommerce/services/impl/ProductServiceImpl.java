@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private Cloudinary cloudinary;
 
-    public List<Product> getListProducts(User user) {
+    public List<Product> getListProductsShop(User user) {
         Shop shop = sServ.findShopByUserId(user);
         List<Product> products = this.pRepo.findProductByShopId(shop);
         return products;
@@ -147,5 +148,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(int id) {
         return this.pRepo.findById(id).get();
+    }
+
+    @Override
+    public List<Product> getListProducts() {
+        return this.pRepo.findAll(Sort.by(Sort.Direction.DESC, "sold"));
     }
 }

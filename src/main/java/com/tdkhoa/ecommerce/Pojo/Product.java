@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -21,6 +22,7 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
     @NamedQuery(name = "Product.findByQty", query = "SELECT p FROM Product p WHERE p.qty = :qty"),
     @NamedQuery(name = "Product.findByThumbnail", query = "SELECT p FROM Product p WHERE p.thumbnail = :thumbnail"),
+    @NamedQuery(name = "Product.findBySold", query = "SELECT p FROM Product p WHERE p.sold = :sold"),
     @NamedQuery(name = "Product.findByIsDeleted", query = "SELECT p FROM Product p WHERE p.isDeleted = :isDeleted")})
 public class Product implements Serializable {
 
@@ -41,18 +43,25 @@ public class Product implements Serializable {
     private Integer qty;
     @Column(name = "thumbnail")
     private String thumbnail;
+    @Column(name = "sold")
+    private Integer sold;
     @Column(name = "is_deleted")
     private Integer isDeleted;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Image> imageSet;
+    @JsonIgnore
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
+    @JsonIgnore
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne
     private Shop shopId;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Review> reviewSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Orderdetail> orderdetailSet;
 
@@ -109,6 +118,14 @@ public class Product implements Serializable {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public Integer getSold() {
+        return sold;
+    }
+
+    public void setSold(Integer sold) {
+        this.sold = sold;
     }
 
     public Integer getIsDeleted() {

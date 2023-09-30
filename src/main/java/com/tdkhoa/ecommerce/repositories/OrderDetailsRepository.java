@@ -4,8 +4,12 @@
  */
 package com.tdkhoa.ecommerce.repositories;
 
+import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
+import com.tdkhoa.ecommerce.Pojo.Shop;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public interface OrderDetailsRepository extends JpaRepository<Orderdetail, Integer>{
+public interface OrderDetailsRepository extends JpaRepository<Orderdetail, Integer> {
+    @Query("SELECT od FROM Orderdetail od WHERE od.shopId = ?1 ORDER BY createTime DESC")
+    List<Orderdetail> getListOrderdetailByShopId(Shop shop);
     
+    @Query("SELECT od FROM Orderdetail od WHERE od.orderId = ?1 ORDER BY createTime DESC")
+    Orderdetail getOrderdetailByOrderId(Order1 o);
 }
