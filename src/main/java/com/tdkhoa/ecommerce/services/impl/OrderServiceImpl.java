@@ -69,6 +69,7 @@ public class OrderServiceImpl implements OrderService {
                 d.setProductId(product);
                 d.setOrderId(order);
                 d.setStatus(0);
+                product.setSold(product.getSold() + pDTO.getQty());
                 d.setCreateTime(new Date());
                 Shop shop = product.getShopId();
                 d.setShopId(shop);
