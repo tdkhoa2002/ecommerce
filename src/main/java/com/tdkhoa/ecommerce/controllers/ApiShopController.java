@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
+import com.tdkhoa.ecommerce.DTO.ShopDTO;
 import com.tdkhoa.ecommerce.Pojo.Category;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
@@ -53,7 +54,7 @@ public class ApiShopController {
     
     @GetMapping("/admin/shops/")
     @CrossOrigin
-    public ResponseEntity<List<Shop>> list() {
+    public ResponseEntity<List<ShopDTO>> list() {
         return new ResponseEntity<>(this.sServ.getListShops(), HttpStatus.OK);
     }
     

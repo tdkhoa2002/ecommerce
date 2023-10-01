@@ -4,7 +4,11 @@
  */
 package com.tdkhoa.ecommerce.services.impl;
 
+import com.tdkhoa.ecommerce.DTO.OrderDTO;
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
+import com.tdkhoa.ecommerce.DTO.ProductDTO;
+import com.tdkhoa.ecommerce.DTO.ShopDTO;
+import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Shop;
@@ -47,13 +51,36 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
             return null;
         }
         else {
+            UserDTO userDTO = UserDTO.builder()
+                    .id(od.getOrderId().getUserId().getId())
+                    .username(od.getOrderId().getUserId().getUsername())
+                    .password(od.getOrderId().getUserId().getPassword())
+                    .email(od.getOrderId().getUserId().getEmail())
+                    .phone(od.getOrderId().getUserId().getPhone())
+                    .build();
+            
+            ProductDTO productDTO = ProductDTO.builder()
+                    .id(od.getProductId().getId())
+                    .name(od.getProductId().getName())
+                    .build();
+            
+            OrderDTO orderDTO = OrderDTO.builder()
+                    .id(od.getOrderId().getId())
+                    .build();
+            
+            ShopDTO shopDTO = ShopDTO.builder()
+                    .id(od.getShopId().getId())
+                    .name(od.getShopId().getName())
+                    .build();
+            
             OrderdetailDTO orderDetailDTO = OrderdetailDTO.builder()
-                    .product(od.getProductId())
-                    .order(od.getOrderId())
-                    .shop(od.getShopId())
+                    .product(productDTO)
+                    .order(orderDTO)
+                    .shop(shopDTO)
                     .qty(od.getQuantity())
                     .createTime(od.getCreateTime())
                     .status(od.getStatus())
+                    .user(userDTO)
                     .build();
             return orderDetailDTO;
         }

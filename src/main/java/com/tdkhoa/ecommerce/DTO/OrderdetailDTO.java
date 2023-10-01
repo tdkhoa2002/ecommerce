@@ -22,10 +22,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OrderdetailDTO {
-    private Product product;
-    private Shop shop;
-    private Order1 order;
-    private int qty;
+    private Integer id;
+    private Integer qty;
     private Date createTime;
-    private int status;
+    private Integer status;
+    private UserDTO user;
+    private ProductDTO product;
+    private ShopDTO shop;
+    private OrderDTO order;
 }

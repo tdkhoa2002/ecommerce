@@ -6,6 +6,8 @@ package com.tdkhoa.ecommerce.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.DTO.ShopDTO;
+import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Review;
 import com.tdkhoa.ecommerce.Pojo.Shop;
@@ -26,11 +28,12 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Khoa Tran
  */
 public interface ShopService {
-    List<Shop> getListShops();
+    List<ShopDTO> getListShops();
     Shop getShopById(int id);
     Shop add(Map<String, String> params, MultipartFile imageUrl, User u);
     Shop update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id);
     Shop delete(int id);
     Shop findShopByUserId(User user);
     Shop activeShop(@PathVariable(value = "id") int id, User user);
+    ShopDTO toShopDTO(Shop shop);
 }
