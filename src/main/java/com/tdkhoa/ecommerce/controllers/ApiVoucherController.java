@@ -77,4 +77,10 @@ public class ApiVoucherController {
         }
         return null;
     }
+    
+    @GetMapping("/vouchers/")
+    @CrossOrigin
+    public ResponseEntity<List<Voucher>> getListVoucher() {
+         return new ResponseEntity<>(this.vServ.getListVouchers(), HttpStatus.OK);
+    }
 }

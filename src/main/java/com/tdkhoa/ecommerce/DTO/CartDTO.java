@@ -26,8 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CartDTO {
     private int id;
-    private Map<Integer, ProductDTO> infoProduct;
+    private List<ProductDTO> infoProduct;
     private Voucher voucher;
     private Payment payment;
-    
 }

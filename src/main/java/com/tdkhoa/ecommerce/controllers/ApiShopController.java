@@ -123,4 +123,19 @@ public class ApiShopController {
         }
         return null;
     }
+    
+    @PostMapping("/shop/change_status/{id}/")
+    @CrossOrigin
+    public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User user = uServ.findByUsername(userDetails.getUsername());
+            Shop s = this.sServ.findShopByUserId(user);
+            if (s.getUserId() == user) {
+                return new ResponseEntity<>(this.odServ.changeStatusOrderDetail(id, params), HttpStatus.CREATED);
+            }
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }

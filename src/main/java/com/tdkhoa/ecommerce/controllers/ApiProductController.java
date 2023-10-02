@@ -8,6 +8,7 @@ import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.services.ProductService;
 import com.tdkhoa.ecommerce.services.UserService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +64,7 @@ public class ApiProductController {
     
     @PostMapping("/shop/create_product/")
     @CrossOrigin
-    public ResponseEntity<Product> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile thumbnail, @RequestPart List<MultipartFile> file) {
+    public ResponseEntity<Product> add(@Valid @RequestParam Map<String, String> params, @RequestPart MultipartFile thumbnail, @RequestPart List<MultipartFile> file) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();

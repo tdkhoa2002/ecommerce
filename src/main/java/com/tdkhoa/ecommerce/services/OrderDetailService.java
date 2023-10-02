@@ -8,6 +8,7 @@ import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface OrderDetailService {
     List<OrderdetailDTO> getListOrderDetailsShop(int shopId);
-//    boolean changeStatusOrderDetail(int id, );
+    boolean changeStatusOrderDetail(int id, Map<String, String> params);
     List<OrderdetailDTO> getListOrderDetailsUser(User u);
     OrderdetailDTO toOrderdetailDTO(Orderdetail od);
 }

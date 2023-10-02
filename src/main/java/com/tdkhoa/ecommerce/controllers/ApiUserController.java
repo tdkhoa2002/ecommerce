@@ -12,6 +12,7 @@ import com.tdkhoa.ecommerce.services.OrderDetailService;
 import com.tdkhoa.ecommerce.services.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,7 @@ public class ApiUserController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
 
     @CrossOrigin
-    public ResponseEntity<?> register(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
+    public ResponseEntity<?> register(@Valid @RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
         User user = this.uServ.addUser(params, avatar);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

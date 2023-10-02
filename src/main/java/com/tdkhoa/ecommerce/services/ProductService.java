@@ -4,10 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.tdkhoa.ecommerce.Pojo.Product;
-import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.List;
 import java.util.Map;

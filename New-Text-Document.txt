@@ -1,0 +1,42 @@
+{
+    "infoProduct": [
+        {
+            "id": 24,
+            "name": "product 2",
+            "description": "description 2",
+            "price": 10,
+            "qty": 100,
+            "thumbnail": "https://res.cloudinary.com/de3yhowd4/image/upload/v1695905093/h7xspxhhvnnn4efpkgqu.png",
+            "sold": 8,
+            "isDeleted": 0,
+            "quantity": 8,
+            "total": 80
+        },
+        {
+            "id": 23,
+            "name": "product 1",
+            "description": "description 1",
+            "price": 10,
+            "qty": 100,
+            "thumbnail": "https://res.cloudinary.com/de3yhowd4/image/upload/v1695905057/zj6l3aivuunox51kul9a.png",
+            "sold": 4,
+            "isDeleted": 0,
+            "quantity": 8,
+            "total": 80
+        }
+    ],
+    "payment": {
+        "id": 8,
+        "name": "Thanh toán bằng tiền mặt",
+        "order1Set": []
+    },
+    "voucher": {
+        "id": 6,
+        "quantity": 99,
+        "name": "Giảm 10% với đơn 100k",
+        "code": "RADSWDR",
+        "value": 10,
+        "isDeleted": 0,
+        "order1Set": []
+    }
+}

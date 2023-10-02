@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -33,19 +36,28 @@ public class Product implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Column(name = "name")
+    @NotNull
     private String name;
     @Lob
     @Column(name = "description")
+    @NotNull
     private String description;
+    @NotNull
     @Column(name = "price")
     private Integer price;
     @Column(name = "qty")
+    @NotNull
+//    @Min(value = 10000, message = "So luong toi thieu 10000")
+//    @Max(value = 500000, message = "So luong toi da 50000")
     private Integer qty;
     @Column(name = "thumbnail")
+    @NotNull
     private String thumbnail;
     @Column(name = "sold")
+    @NotNull
     private Integer sold;
     @Column(name = "is_deleted")
+    @NotNull
     private Integer isDeleted;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")

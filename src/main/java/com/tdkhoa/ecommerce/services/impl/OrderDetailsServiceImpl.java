@@ -19,6 +19,7 @@ import com.tdkhoa.ecommerce.services.ShopService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,6 +96,14 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
             listDTO.add(toOrderdetailDTO(od));
         }
         return listDTO;
+    }
+
+    @Override
+    public boolean changeStatusOrderDetail(int id, Map<String, String> params ) {
+        Orderdetail od = this.odRepo.findById(id).get();
+        od.setStatus(Integer.parseInt(params.get("status")));
+        this.odRepo.save(od);
+        return true;
     }
     
 }

@@ -7,6 +7,11 @@ package com.tdkhoa.ecommerce.Pojo;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 /**
  *
@@ -36,14 +41,26 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @NotNull(message = "Khong duoc de trong")
+    @NotBlank(message = "Khong duoc de trong")
     @Column(name = "username")
     private String username;
+    @NotNull(message = "Khong duoc de trong")
+    @NotBlank(message = "Khong duoc de trong")
+//    @Size(min = 8, message = "Password phai lon hon 8 va be hon 16 ky tu")
+//    @Size(max = 16, message = "Password phai lon hon 8 va be hon 16 ky tu")
     @Column(name = "password")
     private String password;
+    @NotNull(message = "Khong duoc de trong")
+    @NotBlank(message = "Khong duoc de trong")
     @Column(name = "email")
     private String email;
+    @NotNull(message = "Khong duoc de trong")
+    @NotBlank(message = "Khong duoc de trong")
     @Column(name = "phone")
     private String phone;
+    @NotNull(message = "Khong duoc de trong")
+    @NotBlank(message = "Khong duoc de trong")
     @Column(name = "full_name")
     private String fullName;
     @Column(name = "avatar")

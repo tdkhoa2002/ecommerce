@@ -53,28 +53,28 @@ public class OrderServiceImpl implements OrderService {
     private HttpSession s;
 
     @Override
-    public Order1 addOrder(CartDTO cart, User user) {
+    public Boolean addOrder(CartDTO cart, User user) {
         try {
             Order1 order = new Order1();
             order.setCreatedTime(new Date());
             order.setUserId(user);
             this.oRepo.save(order);
             double amount = 0;
-            Map<Integer, ProductDTO> products = cart.getInfoProduct();
+            List<ProductDTO> products = cart.getInfoProduct();
             System.out.println(products);
-            for (ProductDTO pDTO : products.values()) {
+            for (ProductDTO pDTO : products) {
                 Orderdetail d = new Orderdetail();
-                d.setQuantity(pDTO.getQty());
-                Product product = this.pServ.getProductById(pDTO.getProductId());
+                d.setQuantity(pDTO.getQuantity());
+                Product product = this.pServ.getProductById(pDTO.getId());
                 d.setProductId(product);
                 d.setOrderId(order);
                 d.setStatus(0);
-                product.setSold(product.getSold() + pDTO.getQty());
+                product.setSold(product.getSold() + pDTO.getQuantity());
                 d.setCreateTime(new Date());
                 Shop shop = product.getShopId();
                 d.setShopId(shop);
                 amount += product.getPrice() * pDTO.getQty();
-                product.setQty(product.getQty() - pDTO.getQty());
+                product.setQty(product.getQty() - pDTO.getQuantity());
                 this.odRepo.save(d);
                 this.productRepo.save(product);
             }
@@ -86,16 +86,10 @@ public class OrderServiceImpl implements OrderService {
             order.setTotalAmount(amount - amount * voucher.getValue() / 100);
             this.oRepo.save(order);
             s.setAttribute("cart", null);
-            return order;
+            return true;
         } catch (HibernateException ex) {
             ex.printStackTrace();
-            return null;
+            return false;
         }
     }
-
-    @Override
-    public Order1 deleteOrder(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
 }
