@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -40,6 +41,7 @@ public class Voucher implements Serializable {
     private Integer value;
     @Column(name = "is_deleted")
     private Integer isDeleted;
+    @JsonIgnore
     @OneToMany(mappedBy = "voucherId")
     private Set<Order1> order1Set;
 

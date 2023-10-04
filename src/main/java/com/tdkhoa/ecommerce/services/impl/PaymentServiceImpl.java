@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services.impl;
 
+import com.tdkhoa.ecommerce.DTO.PaymentDTO;
 import com.tdkhoa.ecommerce.Pojo.Payment;
 import com.tdkhoa.ecommerce.repositories.PaymentRepository;
 import com.tdkhoa.ecommerce.services.PaymentService;
@@ -54,5 +55,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment getPaymentById(int id) {
         return this.payRepo.findById(id).get();
+    }
+
+    @Override
+    public PaymentDTO convertToDTO(Payment payment) {
+        PaymentDTO paymentDTO = PaymentDTO.builder()
+                .id(payment.getId())
+                .name(payment.getName())
+                .build();
+        return paymentDTO;
     }
 }

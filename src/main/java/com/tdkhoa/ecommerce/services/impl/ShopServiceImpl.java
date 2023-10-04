@@ -6,8 +6,11 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.DTO.OrderDTO;
+import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.DTO.ShopDTO;
 import com.tdkhoa.ecommerce.DTO.UserDTO;
+import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
@@ -16,8 +19,10 @@ import com.tdkhoa.ecommerce.services.BannerService;
 import com.tdkhoa.ecommerce.services.ShopService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,27 +126,52 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public ShopDTO toShopDTO(Shop shop) {
-        if(shop == null) {
-            return null;
-        }
-        else {
-            UserDTO userDTO = UserDTO.builder()
-                    .id(shop.getUserId().getId())
-                    .username(shop.getUserId().getUsername())
-                    .password(shop.getUserId().getPassword())
-                    .email(shop.getUserId().getEmail())
-                    .phone(shop.getUserId().getPhone())
+        UserDTO userDTO = UserDTO.builder()
+                .id(shop.getUserId().getId())
+                .username(shop.getUserId().getUsername())
+                .password(shop.getUserId().getPassword())
+                .email(shop.getUserId().getEmail())
+                .phone(shop.getUserId().getPhone())
+                .build();
+
+        Set<Orderdetail> listOrderdetails = shop.getOrderdetailSet();
+        Set<OrderdetailDTO> listOrderdetailsDTO = new HashSet<>();
+        for (Orderdetail od : listOrderdetails) {
+            OrderdetailDTO orderdetailDTO = OrderdetailDTO.builder()
+                    .id(od.getId())
+                    .qty(od.getQuantity())
+                    .createTime(od.getCreateTime())
+                    .status(od.getStatus())
+//                    .product(product)
                     .build();
-            ShopDTO shopDTO = ShopDTO.builder()
-                    .id(shop.getId())
-                    .name(shop.getName())
-                    .description(shop.getDescription())
-                    .address(shop.getAddress())
-                    .imageUrl(shop.getImageUrl())
-                    .status(shop.getStatus())
-                    .userDTO(userDTO)
-                    .build();
-            return shopDTO;
+            listOrderdetails.add(od);
         }
+
+        ShopDTO shopDTO = ShopDTO.builder()
+                .id(shop.getId())
+                .name(shop.getName())
+                .description(shop.getDescription())
+                .address(shop.getAddress())
+                .imageUrl(shop.getImageUrl())
+                .status(shop.getStatus())
+                .userDTO(userDTO)
+                .build();
+        return shopDTO;
+    }
+
+    @Override
+    public ShopDTO viewManageShop(User user) {
+        Shop shop = this.sRepo.findShopByUserId(user);
+        ShopDTO shopDTO = this.toShopDTO(shop);
+        return shopDTO;
+    }
+
+    @Override
+    public Boolean checkShop(User user) {
+        Shop s = this.sRepo.findShopByUserId(user);
+        if (s == null) {
+            return false;
+        }
+        return true;
     }
 }

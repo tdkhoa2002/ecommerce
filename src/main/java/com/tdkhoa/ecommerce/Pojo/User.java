@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -47,8 +48,6 @@ public class User implements Serializable {
     private String username;
     @NotNull(message = "Khong duoc de trong")
     @NotBlank(message = "Khong duoc de trong")
-//    @Size(min = 8, message = "Password phai lon hon 8 va be hon 16 ky tu")
-//    @Size(max = 16, message = "Password phai lon hon 8 va be hon 16 ky tu")
     @Column(name = "password")
     private String password;
     @NotNull(message = "Khong duoc de trong")
@@ -69,12 +68,16 @@ public class User implements Serializable {
     private Integer redFlag;
     @Column(name = "role_name")
     private String roleName;
+    @JsonIgnore
     @ManyToMany(mappedBy = "userSet")
     private Set<Address> addressSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Shop> shopSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Review> reviewSet;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Order1> order1Set;
 

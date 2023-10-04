@@ -36,4 +36,6 @@ public interface ShopService {
     Shop findShopByUserId(User user);
     Shop activeShop(@PathVariable(value = "id") int id, User user);
     ShopDTO toShopDTO(Shop shop);
+    ShopDTO viewManageShop(User user);
+    Boolean checkShop(User user);
 }

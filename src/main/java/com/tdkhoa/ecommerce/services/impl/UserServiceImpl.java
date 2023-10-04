@@ -6,12 +6,22 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.DTO.AddressDTO;
+import com.tdkhoa.ecommerce.DTO.OrderDTO;
+import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.Address;
+import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.UserRepository;
+import com.tdkhoa.ecommerce.services.AddressService;
+import com.tdkhoa.ecommerce.services.OrderService;
+import com.tdkhoa.ecommerce.services.ReviewService;
+import com.tdkhoa.ecommerce.services.ShopService;
 import com.tdkhoa.ecommerce.services.UserService;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -41,10 +51,22 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private AddressService addressServ;
+    @Autowired
+    private ShopService shopServ;
+    @Autowired
+    private ReviewService reviewServ;
 
-//    public List<User> getListUsers() {
-//        return;
-//    }
+    public List<UserDTO> getListUsers() {
+        List<User> listUsers = this.uRepo.findAll();
+        List<UserDTO> listUsersDTO = new ArrayList<>();
+        for(User u: listUsers) {
+            listUsersDTO.add(convertToDTO(u));
+        }
+        return listUsersDTO;
+    }
+    
     @Override
     public User addUser(Map<String, String> params, MultipartFile avatar) {
         User user = new User();
@@ -84,8 +106,6 @@ public class UserServiceImpl implements UserService {
         }
 
         Set<GrantedAuthority> authorities = new HashSet<>();
-//        Optional<Role> role = roleService.getRoleById(users.getRoleId().getId());
-//        String roleName=role.get().getRoleName();
         authorities.add(new SimpleGrantedAuthority("ADMIN"));
 
         return new org.springframework.security.core.userdetails.User(
@@ -101,5 +121,55 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         return null;
+    }
+    
+    
+
+    @Override
+    public UserDTO convertToDTO(User u) {
+        Set<Order1> listOrders = u.getOrder1Set();
+        Set<OrderDTO> listOrdersDTO = new HashSet<>();
+        for (Order1 o : listOrders) {
+            OrderDTO oDTO = OrderDTO.builder()
+                .id(o.getId())
+                .total_amount(o.getTotalAmount())
+                .createdTime(o.getCreatedTime())
+                .payment(o.getPaymentId())
+                .voucher(o.getVoucherId())
+                .build();
+            listOrdersDTO.add(oDTO);
+        }
+
+        UserDTO userDTO = UserDTO.builder()
+                .id(u.getId())
+                .username(u.getUsername())
+                .password(u.getPassword())
+                .email(u.getEmail())
+                .phone(u.getPhone())
+                .listAdresses(this.addressServ.convertToDTO(u.getAddressSet()))
+                .listOrders(listOrdersDTO)
+//                .listReviews()
+//                .shop(u.getShopSet())
+                .build();
+
+        return userDTO;
+    }
+
+    @Override
+    public User editProfile(Map<String, String> params, MultipartFile avatar, User u) {
+        u.setUsername(params.get("username"));
+        u.setEmail(params.get("email"));
+        u.setPhone(params.get("phone"));
+        u.setFullName(params.get("full_Name"));
+        if (!avatar.isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(avatar.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+                u.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        this.uRepo.save(u);
+        return u;
     }
 }

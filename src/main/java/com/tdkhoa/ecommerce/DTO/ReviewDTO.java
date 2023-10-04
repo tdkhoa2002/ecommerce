@@ -4,11 +4,6 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
-import com.tdkhoa.ecommerce.Pojo.Orderdetail;
-import com.tdkhoa.ecommerce.Pojo.Payment;
-import com.tdkhoa.ecommerce.Pojo.Voucher;
-import java.util.Date;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,12 +17,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDTO {
-    private Integer id;
-    private Double total_amount;
-    private Date createdTime;
-    private Payment payment;
+public class ReviewDTO {
+    private int id;
+    private String content;
+    private String image_url;
+    private int star;
+    private ProductDTO product;
     private UserDTO user;
-    private Voucher voucher;
-    private Set<Orderdetail> orderDetail;
 }

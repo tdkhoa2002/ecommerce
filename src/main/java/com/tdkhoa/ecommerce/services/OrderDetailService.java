@@ -15,7 +15,7 @@ import java.util.Map;
  * @author Khoa Tran
  */
 public interface OrderDetailService {
-    List<OrderdetailDTO> getListOrderDetailsShop(int shopId);
+    List<OrderdetailDTO> getListOrderDetailsShop(User user);
     boolean changeStatusOrderDetail(int id, Map<String, String> params);
     List<OrderdetailDTO> getListOrderDetailsUser(User u);
     OrderdetailDTO toOrderdetailDTO(Orderdetail od);

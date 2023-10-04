@@ -47,8 +47,6 @@ public class Product implements Serializable {
     private Integer price;
     @Column(name = "qty")
     @NotNull
-//    @Min(value = 10000, message = "So luong toi thieu 10000")
-//    @Max(value = 500000, message = "So luong toi da 50000")
     private Integer qty;
     @Column(name = "thumbnail")
     @NotNull

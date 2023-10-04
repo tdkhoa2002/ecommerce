@@ -4,6 +4,8 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
+import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +26,8 @@ public class UserDTO {
     private String password;
     private String avatar;
     private String phone;
+    private Set<AddressDTO> listAdresses;
+    private ShopDTO shop;
+    private Set<OrderDTO> listOrders;
+    private Set<ReviewDTO> listReviews;
 }

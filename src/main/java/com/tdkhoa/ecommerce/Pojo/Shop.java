@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -40,11 +41,14 @@ public class Shop implements Serializable {
     private String imageUrl;
     @Column(name = "status")
     private Integer status;
+    @JsonIgnore
     @OneToMany(mappedBy = "shopId")
     private Set<Product> productSet;
+    @JsonIgnore
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
     private Set<Orderdetail> orderdetailSet;
 

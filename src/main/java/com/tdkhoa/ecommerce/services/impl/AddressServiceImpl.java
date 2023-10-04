@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services.impl;
 
+import com.tdkhoa.ecommerce.DTO.AddressDTO;
 import com.tdkhoa.ecommerce.Pojo.Address;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.AddressRepository;
@@ -74,5 +75,21 @@ public class AddressServiceImpl implements AddressService {
     public Set<Address> getAddressOfUser(User user) {
         Set<Address> listAddresses = user.getAddressSet();
         return listAddresses;
+    }
+
+    @Override
+    public Set<AddressDTO> convertToDTO(Set<Address> listAddresses) {
+        Set<AddressDTO> listAddressesDTO = new HashSet<>();
+        for (Address a : listAddresses) {
+            AddressDTO addDTO = AddressDTO.builder()
+                .id(a.getId())
+                .address(a.getAddress())
+                .ward(a.getWard())
+                .city(a.getCity())
+                .build();
+            listAddressesDTO.add(addDTO);
+        }
+
+        return listAddressesDTO;
     }
 }

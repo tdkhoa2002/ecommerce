@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.controllers;
 
 import com.tdkhoa.ecommerce.DTO.LoginDTO;
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
+import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.security.JwtUtils;
 import com.tdkhoa.ecommerce.services.OrderDetailService;
@@ -57,6 +58,12 @@ public class ApiUserController {
     @Autowired
     private HttpServletResponse response;
 
+    @GetMapping("/admin/users/")
+    @CrossOrigin
+    public ResponseEntity<List<UserDTO>> getLisUsers() {
+        return new ResponseEntity<>(this.uServ.getListUsers(), HttpStatus.OK);
+    }
+
     @PostMapping(path = "/signin/")
     @CrossOrigin
     public ResponseEntity<?> authenticateUser(@RequestBody LoginDTO loginDTO) throws Exception {
@@ -99,12 +106,19 @@ public class ApiUserController {
     public ResponseEntity<User> getProfileUser() {
         return new ResponseEntity<>(this.uServ.getUserLogining(), HttpStatus.OK);
     }
-    
+
     @GetMapping("/user/purchase/")
     @CrossOrigin
     public ResponseEntity<List<OrderdetailDTO>> getOrderListUser() {
         User u = this.uServ.getUserLogining();
         this.odServ.getListOrderDetailsUser(u);
         return new ResponseEntity<>(this.odServ.getListOrderDetailsUser(u), HttpStatus.OK);
+    }
+
+    @PostMapping("/user/edit-profile/")
+    @CrossOrigin
+    public ResponseEntity<User> editProfile(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) throws Exception {
+        User user = this.uServ.getUserLogining();
+        return new ResponseEntity<>(this.uServ.editProfile(params, avatar ,user), HttpStatus.OK);
     }
 }

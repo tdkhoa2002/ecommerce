@@ -43,7 +43,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 public class ApiShopController {
-    @Autowired 
+
+    @Autowired
     private ShopService sServ;
     @Autowired
     private UserService uServ;
@@ -51,13 +52,13 @@ public class ApiShopController {
     private OrderService oServ;
     @Autowired
     private OrderDetailService odServ;
-    
+
     @GetMapping("/admin/shops/")
     @CrossOrigin
     public ResponseEntity<List<ShopDTO>> list() {
         return new ResponseEntity<>(this.sServ.getListShops(), HttpStatus.OK);
     }
-    
+
     @PostMapping("/create_shop/")
     @CrossOrigin
     public ResponseEntity<Shop> add(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl) {
@@ -70,7 +71,7 @@ public class ApiShopController {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
     @PostMapping("/update_shop/{id}/")
     @CrossOrigin
     public ResponseEntity<Shop> update(@RequestParam Map<String, String> params, @RequestPart MultipartFile imageUrl, @PathVariable(value = "id") int id) {
@@ -78,7 +79,7 @@ public class ApiShopController {
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             User user = uServ.findByUsername(userDetails.getUsername());
-            
+
             Shop s = this.sServ.getShopById(id);
             if (s.getUserId() == user) {
                 return new ResponseEntity<>(this.sServ.update(params, imageUrl, id), HttpStatus.CREATED);
@@ -93,11 +94,11 @@ public class ApiShopController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "id") int id) {
         User user = this.uServ.getUserLogining();
-        if(user.getRoleName().equals("ROLE_ADMIN")) {
+        if (user.getRoleName().equals("ROLE_ADMIN")) {
             this.sServ.delete(id);
         }
     }
-    
+
     @PostMapping("/admin/active_shop/{id}/")
     @CrossOrigin
     public ResponseEntity<Shop> active(@PathVariable(value = "id") int id) {
@@ -112,18 +113,14 @@ public class ApiShopController {
         }
         return ResponseEntity.badRequest().build();
     }
-    
-    @GetMapping("/shop/orders/{shopId}/")
+
+    @GetMapping("/shop/orders/")
     @CrossOrigin
-    public ResponseEntity<List<OrderdetailDTO>> listOrders(@PathVariable(value = "shopId") int shopId) {
-        Shop shop = this.sServ.getShopById(shopId);
+    public ResponseEntity<List<OrderdetailDTO>> listOrders() {
         User user = this.uServ.getUserLogining();
-        if(shop.getUserId() == user) {
-            return new ResponseEntity<>(this.odServ.getListOrderDetailsShop(shopId), HttpStatus.OK);
-        }
-        return null;
+        return new ResponseEntity<>(this.odServ.getListOrderDetailsShop(user), HttpStatus.OK);
     }
-    
+
     @PostMapping("/shop/change_status/{id}/")
     @CrossOrigin
     public ResponseEntity<Boolean> add(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
@@ -138,4 +135,16 @@ public class ApiShopController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    @GetMapping("/shop/manage-shop/")
+    @CrossOrigin
+    public ResponseEntity<ShopDTO> manageShop() {
+        User user = this.uServ.getUserLogining();
+        if (this.sServ.checkShop(user)) {
+            return new ResponseEntity<>(this.sServ.viewManageShop(user), HttpStatus.OK);
+        } else {
+            return null;
+        }
+    }
+
 }

@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services;
 
+import com.tdkhoa.ecommerce.DTO.PaymentDTO;
 import com.tdkhoa.ecommerce.Pojo.Payment;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
@@ -22,4 +23,5 @@ public interface PaymentService {
     Payment update(Map<String, String> params, @PathVariable(value = "id") int id);
     Payment delete(int id);
     Payment getPaymentById(int id);
+    PaymentDTO convertToDTO(Payment payment);
 }

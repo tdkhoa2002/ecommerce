@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.services.impl;
 
 import com.tdkhoa.ecommerce.DTO.CartDTO;
+import com.tdkhoa.ecommerce.DTO.OrderDTO;
 import com.tdkhoa.ecommerce.DTO.ProductDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
@@ -19,13 +20,17 @@ import com.tdkhoa.ecommerce.repositories.PaymentRepository;
 import com.tdkhoa.ecommerce.repositories.ProductRepository;
 import com.tdkhoa.ecommerce.repositories.VoucherRepository;
 import com.tdkhoa.ecommerce.services.OrderService;
+import com.tdkhoa.ecommerce.services.PaymentService;
 import com.tdkhoa.ecommerce.services.ProductService;
 import com.tdkhoa.ecommerce.services.ShopService;
+import com.tdkhoa.ecommerce.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +55,10 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ProductService pServ;
     @Autowired
+    private PaymentService paymentServ;
+    @Autowired
+    private UserService uServ;
+    @Autowired
     private HttpSession s;
 
     @Override
@@ -73,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
                 d.setCreateTime(new Date());
                 Shop shop = product.getShopId();
                 d.setShopId(shop);
-                amount += product.getPrice() * pDTO.getQty();
+                amount += product.getPrice() * pDTO.getQuantity();
                 product.setQty(product.getQty() - pDTO.getQuantity());
                 this.odRepo.save(d);
                 this.productRepo.save(product);
@@ -91,5 +100,23 @@ public class OrderServiceImpl implements OrderService {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Set<OrderDTO> convertToDTO(Set<Order1> listOrders) {
+        Set<OrderDTO> listOrdersDTO = new HashSet<>();
+        for (Order1 o : listOrders) {
+            OrderDTO oDTO = OrderDTO.builder()
+                .id(o.getId())
+                .total_amount(o.getTotalAmount())
+                .createdTime(o.getCreatedTime())
+                .payment(o.getPaymentId())
+                .user(this.uServ.convertToDTO(o.getUserId()))
+                .voucher(o.getVoucherId())
+                .build();
+            listOrdersDTO.add(oDTO);
+        }
+
+        return listOrdersDTO;
     }
 }

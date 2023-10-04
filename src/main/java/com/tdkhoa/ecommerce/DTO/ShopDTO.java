@@ -4,13 +4,12 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tdkhoa.ecommerce.Pojo.Orderdetail;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -28,4 +27,5 @@ public class ShopDTO {
     private String imageUrl;
     private Integer status;
     private UserDTO userDTO;
+    private Set<Orderdetail> orderDetailDTO;
 }

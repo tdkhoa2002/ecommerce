@@ -30,28 +30,28 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class OrderDetailsServiceImpl implements OrderDetailService {
+
     @Autowired
     private ShopService sServ;
     @Autowired
     private OrderDetailsRepository odRepo;
 
     @Override
-    public List<OrderdetailDTO> getListOrderDetailsShop(int shopId) {
-        Shop shop = this.sServ.getShopById(shopId);
+    public List<OrderdetailDTO> getListOrderDetailsShop(User user) {
+        Shop shop = this.sServ.findShopByUserId(user);
         List<Orderdetail> listOrderDetails = this.odRepo.getListOrderdetailByShopId(shop);
         List<OrderdetailDTO> listDTO = new ArrayList<>();
-        for(Orderdetail od: listOrderDetails) {
+        for (Orderdetail od : listOrderDetails) {
             listDTO.add(this.toOrderdetailDTO(od));
         }
-        return listDTO; 
+        return listDTO;
     }
 
     @Override
     public OrderdetailDTO toOrderdetailDTO(Orderdetail od) {
-        if(od == null) {
+        if (od == null) {
             return null;
-        }
-        else {
+        } else {
             UserDTO userDTO = UserDTO.builder()
                     .id(od.getOrderId().getUserId().getId())
                     .username(od.getOrderId().getUserId().getUsername())
@@ -59,21 +59,22 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
                     .email(od.getOrderId().getUserId().getEmail())
                     .phone(od.getOrderId().getUserId().getPhone())
                     .build();
-            
+
             ProductDTO productDTO = ProductDTO.builder()
                     .id(od.getProductId().getId())
                     .name(od.getProductId().getName())
+                    .thumbnail(od.getProductId().getThumbnail())
                     .build();
-            
+
             OrderDTO orderDTO = OrderDTO.builder()
                     .id(od.getOrderId().getId())
                     .build();
-            
+
             ShopDTO shopDTO = ShopDTO.builder()
                     .id(od.getShopId().getId())
                     .name(od.getShopId().getName())
                     .build();
-            
+
             OrderdetailDTO orderDetailDTO = OrderdetailDTO.builder()
                     .product(productDTO)
                     .order(orderDTO)
@@ -91,19 +92,21 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
     public List<OrderdetailDTO> getListOrderDetailsUser(User u) {
         Set<Order1> listOrder = u.getOrder1Set();
         List<OrderdetailDTO> listDTO = new ArrayList<>();
-        for(Order1 o: listOrder) {
-            Orderdetail od = this.odRepo.getOrderdetailByOrderId(o);
-            listDTO.add(toOrderdetailDTO(od));
+        for (Order1 o : listOrder) {
+            List<Orderdetail> listOD = this.odRepo.getOrderdetailByOrderId(o);
+            for (Orderdetail od : listOD) {
+                listDTO.add(toOrderdetailDTO(od));
+            }
         }
         return listDTO;
     }
 
     @Override
-    public boolean changeStatusOrderDetail(int id, Map<String, String> params ) {
+    public boolean changeStatusOrderDetail(int id, Map<String, String> params) {
         Orderdetail od = this.odRepo.findById(id).get();
         od.setStatus(Integer.parseInt(params.get("status")));
         this.odRepo.save(od);
         return true;
     }
-    
+
 }

@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services;
 
+import com.tdkhoa.ecommerce.DTO.AddressDTO;
 import com.tdkhoa.ecommerce.Pojo.Address;
 import com.tdkhoa.ecommerce.Pojo.Category;
 import com.tdkhoa.ecommerce.Pojo.User;
@@ -22,4 +23,5 @@ public interface AddressService {
     boolean update(Map<String, String> params, @PathVariable(value = "id") int id, User u);
     boolean delete(int id, User u);
     Set<Address> getAddressOfUser(User u);
+    Set<AddressDTO> convertToDTO(Set<Address> listAddresses);
 }

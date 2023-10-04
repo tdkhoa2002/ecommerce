@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -28,6 +29,7 @@ public class Payment implements Serializable {
     private Integer id;
     @Column(name = "name")
     private String name;
+    @JsonIgnore
     @OneToMany(mappedBy = "paymentId")
     private Set<Order1> order1Set;
 
