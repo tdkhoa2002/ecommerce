@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.Pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import jakarta.persistence.*;
@@ -34,6 +35,7 @@ public class Address implements Serializable {
     private String ward;
     @Column(name = "city")
     private String city;
+    @JsonIgnore
     @JoinTable(name = "address_user", joinColumns = {
         @JoinColumn(name = "address_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
