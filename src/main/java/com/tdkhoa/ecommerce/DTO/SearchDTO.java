@@ -4,6 +4,8 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
+import com.tdkhoa.ecommerce.Pojo.Shop;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
-    private int id;
-    private String name;
+public class SearchDTO {
+    private List<ProductDTO> products;
+    private ShopDTO shop;
 }

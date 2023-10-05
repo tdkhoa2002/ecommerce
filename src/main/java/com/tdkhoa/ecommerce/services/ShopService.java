@@ -38,4 +38,5 @@ public interface ShopService {
     ShopDTO toShopDTO(Shop shop);
     ShopDTO viewManageShop(User user);
     Boolean checkShop(User user);
+    Shop search(String s);
 }

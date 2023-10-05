@@ -16,6 +16,7 @@ import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.ShopRepository;
 import com.tdkhoa.ecommerce.services.BannerService;
+import static com.tdkhoa.ecommerce.services.EmailService.checkVerifyEmailShop;
 import com.tdkhoa.ecommerce.services.ShopService;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,6 +62,12 @@ public class ShopServiceImpl implements ShopService {
             s.setDescription(params.get("description"));
             s.setAddress(params.get("address"));
             s.setStatus(0);
+            String email = params.get("email");
+            if(params.get("code_email").equals(checkVerifyEmailShop.get(email))) {
+                s.setEmail(email);
+            } else {
+                return null;
+            }
             s.setUserId(u);
             if (!imageUrl.isEmpty()) {
                 try {
@@ -173,5 +180,10 @@ public class ShopServiceImpl implements ShopService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Shop search(String s) {
+        return this.sRepo.search(s);
     }
 }

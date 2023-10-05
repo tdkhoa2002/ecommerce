@@ -26,6 +26,18 @@
     <class>com.tdkhoa.ecommerce.Pojo.Shop_1</class>
     <class>com.tdkhoa.ecommerce.Pojo.User_1</class>
     <class>com.tdkhoa.ecommerce.Pojo.Payment</class>
+    <class>com.tdkhoa.ecommerce.DTO.Voucher</class>
+    <class>com.tdkhoa.ecommerce.DTO.Product</class>
+    <class>com.tdkhoa.ecommerce.DTO.Category</class>
+    <class>com.tdkhoa.ecommerce.DTO.Shop</class>
+    <class>com.tdkhoa.ecommerce.DTO.User</class>
+    <class>com.tdkhoa.ecommerce.DTO.Image</class>
+    <class>com.tdkhoa.ecommerce.DTO.Payment</class>
+    <class>com.tdkhoa.ecommerce.DTO.Order1</class>
+    <class>com.tdkhoa.ecommerce.DTO.Banner</class>
+    <class>com.tdkhoa.ecommerce.DTO.Orderdetail</class>
+    <class>com.tdkhoa.ecommerce.DTO.Address</class>
+    <class>com.tdkhoa.ecommerce.DTO.Review</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/support_system?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

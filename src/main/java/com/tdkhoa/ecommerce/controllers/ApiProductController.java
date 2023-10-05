@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.controllers;
 
+import com.tdkhoa.ecommerce.DTO.SearchDTO;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.services.ProductService;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -90,4 +90,10 @@ public class ApiProductController {
         User user = this.uServ.getUserLogining();
         this.pServ.delete(id, user);
     }
+    
+    @GetMapping("/search/")
+    @CrossOrigin
+    public ResponseEntity<SearchDTO> search(@RequestParam Map<String, String> params) {
+        return new ResponseEntity<>(this.pServ.search(params), HttpStatus.OK);
+    } 
 }

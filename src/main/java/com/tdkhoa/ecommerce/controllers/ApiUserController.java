@@ -109,10 +109,9 @@ public class ApiUserController {
 
     @GetMapping("/user/purchase/")
     @CrossOrigin
-    public ResponseEntity<List<OrderdetailDTO>> getOrderListUser() {
+    public ResponseEntity<List<OrderdetailDTO>> getOrderListUser(@RequestParam Map<String, String> params) {
         User u = this.uServ.getUserLogining();
-        this.odServ.getListOrderDetailsUser(u);
-        return new ResponseEntity<>(this.odServ.getListOrderDetailsUser(u), HttpStatus.OK);
+        return new ResponseEntity<>(this.odServ.getListOrderDetailsUser(u, params), HttpStatus.OK);
     }
 
     @PostMapping("/user/edit-profile/")
@@ -120,5 +119,19 @@ public class ApiUserController {
     public ResponseEntity<User> editProfile(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) throws Exception {
         User user = this.uServ.getUserLogining();
         return new ResponseEntity<>(this.uServ.editProfile(params, avatar ,user), HttpStatus.OK);
+    }
+    
+    @PostMapping("/user/verify/password/")
+    @CrossOrigin
+    public ResponseEntity<Boolean> verifyPassword(@RequestParam Map<String, String> params) throws Exception {
+        User user = this.uServ.getUserLogining();
+        return new ResponseEntity<>(this.uServ.verifyPassword(user, params), HttpStatus.OK);
+    }
+    
+    @PostMapping("/user/change-password/")
+    @CrossOrigin
+    public ResponseEntity<User> changePassword(@RequestParam Map<String, String> params) throws Exception {
+        User user = this.uServ.getUserLogining();
+        return new ResponseEntity<>(this.uServ.changePassword(user, params), HttpStatus.OK);
     }
 }

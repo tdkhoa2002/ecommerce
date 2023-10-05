@@ -6,6 +6,9 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.DTO.ProductDTO;
+import com.tdkhoa.ecommerce.DTO.SearchDTO;
+import com.tdkhoa.ecommerce.DTO.ShopDTO;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
@@ -16,6 +19,7 @@ import com.tdkhoa.ecommerce.repositories.ProductRepository;
 import com.tdkhoa.ecommerce.services.ProductService;
 import com.tdkhoa.ecommerce.services.ShopService;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -60,6 +64,7 @@ public class ProductServiceImpl implements ProductService {
             p.setIsDeleted(0);
             p.setPrice(Integer.parseInt(params.get("price")));
             p.setQty(Integer.parseInt(params.get("qty")));
+            p.setSold(0);
             int category_id = Integer.parseInt(params.get("category_id"));
             p.setCategoryId(this.cRepo.findById(category_id).get());
             p.setShopId(shop);
@@ -154,4 +159,61 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getListProducts() {
         return this.pRepo.findAll(Sort.by(Sort.Direction.DESC, "sold"));
     }
+
+    @Override
+    public SearchDTO search(Map<String, String> params) {
+        String kw = params.get("keyword");
+        ShopDTO sDTO = new ShopDTO();
+        List<ProductDTO> listProductsDTO = new ArrayList<>();
+        if (kw != null) {
+            List<Product> listProducts = this.pRepo.search(kw);
+            Shop shop = this.sServ.search(kw);
+            if (!listProducts.isEmpty()) {
+                for (Product p : listProducts) {
+                    listProductsDTO.add(this.convertToDTO(p));
+                }
+                if (shop != null) {
+                    sDTO = ShopDTO.builder()
+                            .name(shop.getName())
+                            .imageUrl(shop.getImageUrl())
+                            .description(shop.getDescription())
+                            .address(shop.getAddress())
+                            .build();
+                } else {
+                    sDTO = listProductsDTO.get(0).getShop();
+                }
+            } else {
+                return null;
+            }
+            SearchDTO searchDTO = SearchDTO.builder()
+                    .products(listProductsDTO)
+                    .shop(sDTO)
+                    .build();
+            return searchDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public ProductDTO convertToDTO(Product p) {
+        ShopDTO shopDTO = ShopDTO.builder()
+                .name(p.getShopId().getName())
+                .imageUrl(p.getShopId().getImageUrl())
+                .description(p.getShopId().getDescription())
+                .address(p.getShopId().getAddress())
+                .status(p.getShopId().getStatus())
+                .build();
+
+        ProductDTO pDTO = ProductDTO.builder()
+                .name(p.getName())
+                .description(p.getDescription())
+                .category(p.getCategoryId().getName())
+                .price(p.getPrice())
+                .qty(p.getQty())
+                .thumbnail(p.getThumbnail())
+                .shop(shopDTO)
+                .build();
+        return pDTO;
+    }
+
 }

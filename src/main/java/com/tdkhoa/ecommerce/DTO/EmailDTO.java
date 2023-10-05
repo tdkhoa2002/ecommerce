@@ -5,7 +5,6 @@
 package com.tdkhoa.ecommerce.DTO;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,10 +13,11 @@ import lombok.NoArgsConstructor;
  * @author Khoa Tran
  */
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
-    private int id;
-    private String name;
+@NoArgsConstructor
+public class EmailDTO {
+    private String recipient;
+    private String msgBody;
+    private String subject;
+    private String attachment;
 }

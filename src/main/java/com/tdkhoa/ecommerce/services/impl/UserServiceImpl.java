@@ -20,6 +20,7 @@ import com.tdkhoa.ecommerce.services.ShopService;
 import com.tdkhoa.ecommerce.services.UserService;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -53,20 +54,17 @@ public class UserServiceImpl implements UserService {
     private Cloudinary cloudinary;
     @Autowired
     private AddressService addressServ;
-    @Autowired
-    private ShopService shopServ;
-    @Autowired
-    private ReviewService reviewServ;
+    private Map<User, Boolean> checkVerifyPassword = new HashMap<>();
 
     public List<UserDTO> getListUsers() {
         List<User> listUsers = this.uRepo.findAll();
         List<UserDTO> listUsersDTO = new ArrayList<>();
-        for(User u: listUsers) {
+        for (User u : listUsers) {
             listUsersDTO.add(convertToDTO(u));
         }
         return listUsersDTO;
     }
-    
+
     @Override
     public User addUser(Map<String, String> params, MultipartFile avatar) {
         User user = new User();
@@ -122,8 +120,6 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
-    
-    
 
     @Override
     public UserDTO convertToDTO(User u) {
@@ -131,12 +127,12 @@ public class UserServiceImpl implements UserService {
         Set<OrderDTO> listOrdersDTO = new HashSet<>();
         for (Order1 o : listOrders) {
             OrderDTO oDTO = OrderDTO.builder()
-                .id(o.getId())
-                .total_amount(o.getTotalAmount())
-                .createdTime(o.getCreatedTime())
-                .payment(o.getPaymentId())
-                .voucher(o.getVoucherId())
-                .build();
+                    .id(o.getId())
+                    .total_amount(o.getTotalAmount())
+                    .createdTime(o.getCreatedTime())
+                    .payment(o.getPaymentId())
+                    .voucher(o.getVoucherId())
+                    .build();
             listOrdersDTO.add(oDTO);
         }
 
@@ -148,8 +144,8 @@ public class UserServiceImpl implements UserService {
                 .phone(u.getPhone())
                 .listAdresses(this.addressServ.convertToDTO(u.getAddressSet()))
                 .listOrders(listOrdersDTO)
-//                .listReviews()
-//                .shop(u.getShopSet())
+                //                .listReviews()
+                //                .shop(u.getShopSet())
                 .build();
 
         return userDTO;
@@ -171,5 +167,24 @@ public class UserServiceImpl implements UserService {
         }
         this.uRepo.save(u);
         return u;
+    }
+
+    @Override
+    public boolean verifyPassword(User u, Map<String, String> params) {
+        if (passwordEncoder.matches(params.get("password"), u.getPassword())) {
+            checkVerifyPassword.put(u, true);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public User changePassword(User u, Map<String, String> params) {
+        if (checkVerifyPassword.get(u)) {
+            u.setPassword(this.passwordEncoder.encode(params.get("password")));
+            this.uRepo.save(u);
+            return u;
+        }
+        return null;
     }
 }

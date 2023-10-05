@@ -26,6 +26,7 @@ public class UserDTO {
     private String password;
     private String avatar;
     private String phone;
+    private String fullName;
     private Set<AddressDTO> listAdresses;
     private ShopDTO shop;
     private Set<OrderDTO> listOrders;

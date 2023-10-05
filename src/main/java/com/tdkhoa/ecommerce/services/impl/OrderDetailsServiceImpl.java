@@ -37,12 +37,20 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
     private OrderDetailsRepository odRepo;
 
     @Override
-    public List<OrderdetailDTO> getListOrderDetailsShop(User user) {
+    public List<OrderdetailDTO> getListOrderDetailsShop(User user, Map<String, String> params) {
         Shop shop = this.sServ.findShopByUserId(user);
-        List<Orderdetail> listOrderDetails = this.odRepo.getListOrderdetailByShopId(shop);
         List<OrderdetailDTO> listDTO = new ArrayList<>();
-        for (Orderdetail od : listOrderDetails) {
-            listDTO.add(this.toOrderdetailDTO(od));
+        if (params.get("status") != null) {
+            int status = Integer.parseInt(params.get("status"));
+            List<Orderdetail> listOrderDetails = this.odRepo.getListOrderdetailByShopIdFilStatus(shop, status);
+            for (Orderdetail od : listOrderDetails) {
+                listDTO.add(this.toOrderdetailDTO(od));
+            }
+        } else {
+            List<Orderdetail> listOrderDetails = this.odRepo.getListOrderdetailByShopId(shop);
+            for (Orderdetail od : listOrderDetails) {
+                listDTO.add(this.toOrderdetailDTO(od));
+            }
         }
         return listDTO;
     }
@@ -58,16 +66,20 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
                     .password(od.getOrderId().getUserId().getPassword())
                     .email(od.getOrderId().getUserId().getEmail())
                     .phone(od.getOrderId().getUserId().getPhone())
+                    .fullName(od.getOrderId().getUserId().getFullName())
                     .build();
 
             ProductDTO productDTO = ProductDTO.builder()
                     .id(od.getProductId().getId())
                     .name(od.getProductId().getName())
                     .thumbnail(od.getProductId().getThumbnail())
+                    .category(od.getProductId().getCategoryId().getName())
+                    .price(od.getProductId().getPrice())
                     .build();
 
             OrderDTO orderDTO = OrderDTO.builder()
                     .id(od.getOrderId().getId())
+                    .total_amount(od.getOrderId().getTotalAmount())
                     .build();
 
             ShopDTO shopDTO = ShopDTO.builder()
@@ -76,6 +88,7 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
                     .build();
 
             OrderdetailDTO orderDetailDTO = OrderdetailDTO.builder()
+                    .id(od.getId())
                     .product(productDTO)
                     .order(orderDTO)
                     .shop(shopDTO)
@@ -89,13 +102,23 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public List<OrderdetailDTO> getListOrderDetailsUser(User u) {
+    public List<OrderdetailDTO> getListOrderDetailsUser(User u, Map<String, String> params) {
         Set<Order1> listOrder = u.getOrder1Set();
         List<OrderdetailDTO> listDTO = new ArrayList<>();
-        for (Order1 o : listOrder) {
-            List<Orderdetail> listOD = this.odRepo.getOrderdetailByOrderId(o);
-            for (Orderdetail od : listOD) {
-                listDTO.add(toOrderdetailDTO(od));
+        if (params.get("status") != null) {
+            int status = Integer.parseInt(params.get("status"));
+            for (Order1 o : listOrder) {
+                List<Orderdetail> listOD = this.odRepo.getOrderdetailByOrderIdFilStatus(o, status);
+                for (Orderdetail od : listOD) {
+                    listDTO.add(toOrderdetailDTO(od));
+                }
+            }
+        } else {
+            for (Order1 o : listOrder) {
+                List<Orderdetail> listOD = this.odRepo.getOrderdetailByOrderId(o);
+                for (Orderdetail od : listOD) {
+                    listDTO.add(toOrderdetailDTO(od));
+                }
             }
         }
         return listDTO;
@@ -108,5 +131,4 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
         this.odRepo.save(od);
         return true;
     }
-
 }

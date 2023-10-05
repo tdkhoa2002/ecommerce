@@ -26,4 +26,6 @@ public interface UserService extends UserDetailsService {
     User getUserLogining();
     User editProfile(Map<String, String> params, MultipartFile avatar, User u);
     UserDTO convertToDTO(User u);
+    boolean verifyPassword(User u, Map<String, String> params);
+    User changePassword(User u, Map<String, String> params);
 }

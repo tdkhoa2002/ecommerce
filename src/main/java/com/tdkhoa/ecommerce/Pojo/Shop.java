@@ -21,7 +21,8 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Shop.findByName", query = "SELECT s FROM Shop s WHERE s.name = :name"),
     @NamedQuery(name = "Shop.findByAddress", query = "SELECT s FROM Shop s WHERE s.address = :address"),
     @NamedQuery(name = "Shop.findByImageUrl", query = "SELECT s FROM Shop s WHERE s.imageUrl = :imageUrl"),
-    @NamedQuery(name = "Shop.findByStatus", query = "SELECT s FROM Shop s WHERE s.status = :status")})
+    @NamedQuery(name = "Shop.findByStatus", query = "SELECT s FROM Shop s WHERE s.status = :status"),
+    @NamedQuery(name = "Shop.findByEmail", query = "SELECT s FROM Shop s WHERE s.email = :email")})
 public class Shop implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,7 +42,9 @@ public class Shop implements Serializable {
     private String imageUrl;
     @Column(name = "status")
     private Integer status;
-    @JsonIgnore
+    @Basic(optional = false)
+    @Column(name = "email")
+    private String email;
     @OneToMany(mappedBy = "shopId")
     private Set<Product> productSet;
     @JsonIgnore
@@ -57,6 +60,11 @@ public class Shop implements Serializable {
 
     public Shop(Integer id) {
         this.id = id;
+    }
+
+    public Shop(Integer id, String email) {
+        this.id = id;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -105,6 +113,14 @@ public class Shop implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Set<Product> getProductSet() {

@@ -26,4 +26,6 @@ public class ProductDTO {
     private Integer qty;
     private Integer price;
     private Integer quantity;
+    private String category;
+    private ShopDTO shop;
 }

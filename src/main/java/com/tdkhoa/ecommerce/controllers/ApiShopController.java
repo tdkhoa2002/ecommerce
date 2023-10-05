@@ -116,9 +116,9 @@ public class ApiShopController {
 
     @GetMapping("/shop/orders/")
     @CrossOrigin
-    public ResponseEntity<List<OrderdetailDTO>> listOrders() {
+    public ResponseEntity<List<OrderdetailDTO>> listOrders(@RequestParam Map<String, String> params) {
         User user = this.uServ.getUserLogining();
-        return new ResponseEntity<>(this.odServ.getListOrderDetailsShop(user), HttpStatus.OK);
+        return new ResponseEntity<>(this.odServ.getListOrderDetailsShop(user, params), HttpStatus.OK);
     }
 
     @PostMapping("/shop/change_status/{id}/")
@@ -146,5 +146,4 @@ public class ApiShopController {
             return null;
         }
     }
-
 }

@@ -4,7 +4,6 @@
  */
 package com.tdkhoa.ecommerce.repositories;
 
-import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ShopRepository extends JpaRepository<Shop, Integer> {
     @Query("SELECT s FROM Shop s WHERE s.userId = ?1")
      Shop findShopByUserId(User id);
+     
+     @Query("SELECT s FROM Shop s WHERE s.name LIKE %?1% AND s.status = 1")
+     Shop search(String keyword);
 }
