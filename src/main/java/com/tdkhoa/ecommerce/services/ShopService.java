@@ -39,4 +39,5 @@ public interface ShopService {
     ShopDTO viewManageShop(User user);
     Boolean checkShop(User user);
     Shop search(String s);
+    
 }

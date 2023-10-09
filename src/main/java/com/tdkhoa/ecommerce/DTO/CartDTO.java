@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
+import com.tdkhoa.ecommerce.Pojo.Address;
 import com.tdkhoa.ecommerce.Pojo.Payment;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Voucher;
@@ -29,4 +30,5 @@ public class CartDTO {
     private List<ProductDTO> infoProduct;
     private Voucher voucher;
     private Payment payment;
+    private int address;
 }

@@ -23,7 +23,8 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Product.findByQty", query = "SELECT p FROM Product p WHERE p.qty = :qty"),
     @NamedQuery(name = "Product.findByThumbnail", query = "SELECT p FROM Product p WHERE p.thumbnail = :thumbnail"),
     @NamedQuery(name = "Product.findBySold", query = "SELECT p FROM Product p WHERE p.sold = :sold"),
-    @NamedQuery(name = "Product.findByIsDeleted", query = "SELECT p FROM Product p WHERE p.isDeleted = :isDeleted")})
+    @NamedQuery(name = "Product.findByIsDeleted", query = "SELECT p FROM Product p WHERE p.isDeleted = :isDeleted"),
+    @NamedQuery(name = "Product.findByStatus", query = "SELECT p FROM Product p WHERE p.status = :status")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -138,6 +139,14 @@ public class Product implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Set<Image> getImageSet() {
         return imageSet;
     }
@@ -201,20 +210,6 @@ public class Product implements Serializable {
     @Override
     public String toString() {
         return "com.tdkhoa.ecommerce.Pojo.Product[ id=" + id + " ]";
-    }
-
-    /**
-     * @return the status
-     */
-    public Integer getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(Integer status) {
-        this.status = status;
     }
     
 }

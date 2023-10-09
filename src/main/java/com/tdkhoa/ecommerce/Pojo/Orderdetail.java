@@ -29,13 +29,20 @@ public class Orderdetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Basic(optional = false)
     @Column(name = "quantity")
-    private Integer quantity;
+    private int quantity;
+    @Basic(optional = false)
     @Column(name = "status")
-    private Integer status;
+    private int status;
+    @Basic(optional = false)
     @Column(name = "create_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
+    @JsonIgnore
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Address addressId;
     @JsonIgnore
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -56,6 +63,13 @@ public class Orderdetail implements Serializable {
         this.id = id;
     }
 
+    public Orderdetail(Integer id, int quantity, int status, Date createTime) {
+        this.id = id;
+        this.quantity = quantity;
+        this.status = status;
+        this.createTime = createTime;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -64,19 +78,19 @@ public class Orderdetail implements Serializable {
         this.id = id;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -86,6 +100,14 @@ public class Orderdetail implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Address getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Address addressId) {
+        this.addressId = addressId;
     }
 
     public Order1 getOrderId() {

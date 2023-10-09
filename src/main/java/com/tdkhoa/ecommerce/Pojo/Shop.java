@@ -42,9 +42,9 @@ public class Shop implements Serializable {
     private String imageUrl;
     @Column(name = "status")
     private Integer status;
-    @Basic(optional = false)
     @Column(name = "email")
     private String email;
+    @JsonIgnore
     @OneToMany(mappedBy = "shopId")
     private Set<Product> productSet;
     @JsonIgnore
@@ -60,11 +60,6 @@ public class Shop implements Serializable {
 
     public Shop(Integer id) {
         this.id = id;
-    }
-
-    public Shop(Integer id, String email) {
-        this.id = id;
-        this.email = email;
     }
 
     public Integer getId() {

@@ -17,16 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
-    private Integer id;
-    private Integer productId;
-    private String name;
-    private String thumbnail;
-    private String description;
-    private Integer qty;
-    private Integer price;
-    private Integer quantity;
-    private CategoryDTO category;
-    private Integer status;
-    private ShopDTO shop;
+public class DateDTO {
+    private int year;
+    private int month;
 }

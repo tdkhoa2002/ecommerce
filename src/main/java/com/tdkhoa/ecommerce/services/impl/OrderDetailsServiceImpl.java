@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services.impl;
 
+import com.tdkhoa.ecommerce.DTO.CategoryDTO;
 import com.tdkhoa.ecommerce.DTO.OrderDTO;
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.DTO.ProductDTO;
@@ -17,7 +18,6 @@ import com.tdkhoa.ecommerce.repositories.OrderDetailsRepository;
 import com.tdkhoa.ecommerce.services.OrderDetailService;
 import com.tdkhoa.ecommerce.services.ShopService;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -68,12 +68,17 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
                     .phone(od.getOrderId().getUserId().getPhone())
                     .fullName(od.getOrderId().getUserId().getFullName())
                     .build();
+            
+            CategoryDTO cateDTO = CategoryDTO.builder()
+                    .id(od.getProductId().getCategoryId().getId())
+                    .name(od.getProductId().getCategoryId().getName())
+                    .build();
 
             ProductDTO productDTO = ProductDTO.builder()
                     .id(od.getProductId().getId())
                     .name(od.getProductId().getName())
                     .thumbnail(od.getProductId().getThumbnail())
-                    .category(od.getProductId().getCategoryId().getName())
+                    .category(cateDTO)
                     .price(od.getProductId().getPrice())
                     .build();
 
@@ -130,5 +135,10 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
         od.setStatus(Integer.parseInt(params.get("status")));
         this.odRepo.save(od);
         return true;
+    }
+
+    @Override
+    public List<Orderdetail> findByDate(Shop s, int month, int year) {
+        return this.odRepo.findByMonthAndYear(s, month,year);
     }
 }

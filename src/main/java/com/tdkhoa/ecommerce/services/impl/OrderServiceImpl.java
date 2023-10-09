@@ -5,8 +5,11 @@
 package com.tdkhoa.ecommerce.services.impl;
 
 import com.tdkhoa.ecommerce.DTO.CartDTO;
+import com.tdkhoa.ecommerce.DTO.DateDTO;
 import com.tdkhoa.ecommerce.DTO.OrderDTO;
 import com.tdkhoa.ecommerce.DTO.ProductDTO;
+import com.tdkhoa.ecommerce.DTO.StatDTO;
+import com.tdkhoa.ecommerce.Pojo.Address;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Payment;
@@ -14,12 +17,14 @@ import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.Pojo.Voucher;
+import com.tdkhoa.ecommerce.repositories.AddressRepository;
 import com.tdkhoa.ecommerce.repositories.OrderDetailsRepository;
 import com.tdkhoa.ecommerce.repositories.OrderRepository;
 import com.tdkhoa.ecommerce.repositories.PaymentRepository;
 import com.tdkhoa.ecommerce.repositories.ProductRepository;
 import com.tdkhoa.ecommerce.repositories.VoucherRepository;
 import com.tdkhoa.ecommerce.services.EmailService;
+import com.tdkhoa.ecommerce.services.OrderDetailService;
 import com.tdkhoa.ecommerce.services.OrderService;
 import com.tdkhoa.ecommerce.services.PaymentService;
 import com.tdkhoa.ecommerce.services.ProductService;
@@ -27,6 +32,7 @@ import com.tdkhoa.ecommerce.services.ShopService;
 import com.tdkhoa.ecommerce.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -50,17 +56,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private VoucherRepository voucherRepo;
     @Autowired
-    private PaymentRepository paymentRepo;
-    @Autowired
     private ProductRepository productRepo;
     @Autowired
-    private ProductService pServ;
+    private AddressRepository addressRepo;
     @Autowired
-    private PaymentService paymentServ;
+    private ProductService pServ;
     @Autowired
     private UserService uServ;
     @Autowired
     private EmailService eServ;
+    @Autowired
+    private OrderDetailService odServ;
     @Autowired
     private HttpSession s;
 
@@ -80,6 +86,8 @@ public class OrderServiceImpl implements OrderService {
                 Product product = this.pServ.getProductById(pDTO.getId());
                 d.setProductId(product);
                 d.setOrderId(order);
+                Address address = this.addressRepo.findById(cart.getAddress()).get();
+                d.setAddressId(address);
                 d.setStatus(0);
                 product.setSold(product.getSold() + pDTO.getQuantity());
                 d.setCreateTime(new Date());
@@ -122,5 +130,25 @@ public class OrderServiceImpl implements OrderService {
         }
 
         return listOrdersDTO;
+    }
+
+    @Override
+    public Object findOrderByStore(Shop shop, DateDTO dateDTO) {
+        List<StatDTO> listDto = new ArrayList<>();
+        List<Orderdetail> listOrderDetail = this.odServ.findByDate(shop, dateDTO.getMonth(), dateDTO.getYear());
+        System.out.println(listOrderDetail);
+        if (listOrderDetail != null) {
+            for (Orderdetail d : listOrderDetail) {
+                StatDTO dto = StatDTO.builder()
+                        .date(d.getCreateTime())
+                        .total(d.getProductId().getPrice() * d.getQuantity())
+                        .name(d.getProductId().getName())
+                        .build();
+                listDto.add(dto);
+            }
+
+        }
+
+        return listDto;
     }
 }

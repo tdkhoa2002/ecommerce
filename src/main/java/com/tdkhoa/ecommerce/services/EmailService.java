@@ -17,6 +17,7 @@ public interface EmailService {
     public static Map<String, String> checkVerifyEmailShop = new HashMap<>();
     String sendMailVerifyShop(Map<String, String> params);
     String sendMailOrder(Shop s);
+    String sendMailActiveShop(Shop s);
     String generateCode();
     String sendMailWithAttachment(EmailDTO details);
 }

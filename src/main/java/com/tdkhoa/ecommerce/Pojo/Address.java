@@ -41,6 +41,9 @@ public class Address implements Serializable {
         @JoinColumn(name = "user_id", referencedColumnName = "id")})
     @ManyToMany
     private Set<User> userSet;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId")
+    private Set<Orderdetail> orderdetailSet;
 
     public Address() {
     }
@@ -87,6 +90,14 @@ public class Address implements Serializable {
 
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
+    }
+
+    public Set<Orderdetail> getOrderdetailSet() {
+        return orderdetailSet;
+    }
+
+    public void setOrderdetailSet(Set<Orderdetail> orderdetailSet) {
+        this.orderdetailSet = orderdetailSet;
     }
 
     @Override

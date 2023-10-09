@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.services;
 
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
+import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.List;
 import java.util.Map;
@@ -19,4 +20,5 @@ public interface OrderDetailService {
     boolean changeStatusOrderDetail(int id, Map<String, String> params);
     List<OrderdetailDTO> getListOrderDetailsUser(User u, Map<String, String> params);
     OrderdetailDTO toOrderdetailDTO(Orderdetail od);
+    List<Orderdetail> findByDate(Shop s, int month, int year);
 }

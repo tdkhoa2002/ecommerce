@@ -31,4 +31,7 @@ public interface OrderDetailsRepository extends JpaRepository<Orderdetail, Integ
     
     @Query("SELECT od FROM Orderdetail od WHERE od.orderId = ?1 AND od.status = ?2  ORDER BY createTime DESC")
     List<Orderdetail> getOrderdetailByOrderIdFilStatus(Order1 o, int status);
+    
+    @Query("SELECT od FROM Orderdetail od WHERE MONTH(od.createTime) = ?2 AND YEAR(od.createTime) = ?3 AND (od.shopId = ?1)")
+    List<Orderdetail> findByMonthAndYear(Shop s, int month, int year);
 }

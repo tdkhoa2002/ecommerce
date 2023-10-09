@@ -16,6 +16,7 @@ import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.ShopRepository;
 import com.tdkhoa.ecommerce.services.BannerService;
+import com.tdkhoa.ecommerce.services.EmailService;
 import static com.tdkhoa.ecommerce.services.EmailService.checkVerifyEmailShop;
 import com.tdkhoa.ecommerce.services.ShopService;
 import java.io.IOException;
@@ -42,6 +43,8 @@ public class ShopServiceImpl implements ShopService {
     private ShopRepository sRepo;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private EmailService eServ;
 
     @Override
     public List<ShopDTO> getListShops() {
@@ -126,6 +129,7 @@ public class ShopServiceImpl implements ShopService {
             Shop shop = this.sRepo.findById(id).get();
             shop.setStatus(1);
             this.sRepo.save(shop);
+            this.eServ.sendMailActiveShop(shop);
             return shop;
         }
         return null;
@@ -136,6 +140,7 @@ public class ShopServiceImpl implements ShopService {
         UserDTO userDTO = UserDTO.builder()
                 .id(shop.getUserId().getId())
                 .username(shop.getUserId().getUsername())
+                .fullName(shop.getUserId().getFullName())
                 .password(shop.getUserId().getPassword())
                 .email(shop.getUserId().getEmail())
                 .phone(shop.getUserId().getPhone())

@@ -4,11 +4,9 @@
  */
 package com.tdkhoa.ecommerce.controllers;
 
+import com.tdkhoa.ecommerce.DTO.DateDTO;
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.DTO.ShopDTO;
-import com.tdkhoa.ecommerce.Pojo.Category;
-import com.tdkhoa.ecommerce.Pojo.Order1;
-import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.services.OrderDetailService;
@@ -29,6 +27,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -49,9 +48,9 @@ public class ApiShopController {
     @Autowired
     private UserService uServ;
     @Autowired
-    private OrderService oServ;
-    @Autowired
     private OrderDetailService odServ;
+    @Autowired
+    private OrderService oServ;
 
     @GetMapping("/admin/shops/")
     @CrossOrigin
@@ -145,5 +144,16 @@ public class ApiShopController {
         } else {
             return null;
         }
+    }
+    
+    @GetMapping("/stat/")
+    public ResponseEntity<?> getStat(@RequestBody DateDTO dto) {
+        User u = this.uServ.getUserLogining();
+        Shop s = this.sServ.findShopByUserId(u);
+        if (s != null) {
+            return ResponseEntity.ok().body(this.oServ.findOrderByStore(s, dto));
+        }
+        return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+
     }
 }

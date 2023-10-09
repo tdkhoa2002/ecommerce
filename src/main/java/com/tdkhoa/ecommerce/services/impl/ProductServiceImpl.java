@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.DTO.CategoryDTO;
 import com.tdkhoa.ecommerce.DTO.ProductDTO;
 import com.tdkhoa.ecommerce.DTO.SearchDTO;
 import com.tdkhoa.ecommerce.DTO.ShopDTO;
@@ -55,7 +56,7 @@ public class ProductServiceImpl implements ProductService {
         for(Product p: products) {
             if(p.getStatus() == Integer.parseInt(params.get("status"))) {
                 productsDTO.add(this.convertToDTO(p));
-            } else if (Integer.parseInt(params.get("status")) == 4) {
+            } else if (Integer.parseInt(params.get("status")) == 3) {
                 productsDTO.add(this.convertToDTO(p));
             }
         }
@@ -217,12 +218,16 @@ public class ProductServiceImpl implements ProductService {
                 .address(p.getShopId().getAddress())
                 .status(p.getShopId().getStatus())
                 .build();
+        CategoryDTO cateDTO = CategoryDTO.builder()
+                .id(p.getCategoryId().getId())
+                .name(p.getCategoryId().getName())
+                .build();
 
         ProductDTO pDTO = ProductDTO.builder()
                 .id(p.getId())
                 .name(p.getName())
                 .description(p.getDescription())
-                .category(p.getCategoryId().getName())
+                .category(cateDTO)
                 .price(p.getPrice())
                 .qty(p.getQty())
                 .thumbnail(p.getThumbnail())

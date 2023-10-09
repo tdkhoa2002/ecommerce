@@ -141,4 +141,29 @@ public class EmailServiceImpl implements EmailService {
             return "Error while Sending Mail";
         }
     }
+    
+    @Override
+    public String sendMailActiveShop(Shop s) {
+        try {
+            EmailDTO eDTO = new EmailDTO();
+            Date now = new Date();
+            eDTO.setMsgBody("Cửa hàng của bạn đã được cho phép hoạt động");
+            eDTO.setRecipient(s.getEmail());
+            eDTO.setSubject("[" + this.nameApp + "] THÔNG BÁO CỬA HÀNG CỦA BẠN ĐÃ ĐƯỢC PHÉP HOẠT ĐỘNG");
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            // Setting up necessary details
+            mailMessage.setFrom(sender);
+            mailMessage.setTo(eDTO.getRecipient());
+            mailMessage.setText(eDTO.getMsgBody());
+            mailMessage.setSubject(eDTO.getSubject());
+
+            // Sending the mail
+            javaMailSender.send(mailMessage);
+            return "Mail Sent Successfully...";
+        } // Catch block to handle the exceptions
+        catch (Exception e) {
+            return "Error while Sending Mail";
+        }
+    }
 }

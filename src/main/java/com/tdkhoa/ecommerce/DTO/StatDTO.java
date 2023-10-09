@@ -4,6 +4,8 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,19 +16,11 @@ import lombok.NoArgsConstructor;
  * @author Khoa Tran
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
-    private Integer id;
-    private Integer productId;
+@Builder
+public class StatDTO {
+    private Date date;
+    private int total;
     private String name;
-    private String thumbnail;
-    private String description;
-    private Integer qty;
-    private Integer price;
-    private Integer quantity;
-    private CategoryDTO category;
-    private Integer status;
-    private ShopDTO shop;
 }
