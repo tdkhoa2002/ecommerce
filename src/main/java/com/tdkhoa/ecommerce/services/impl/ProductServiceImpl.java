@@ -48,10 +48,18 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private Cloudinary cloudinary;
 
-    public List<Product> getListProductsShop(User user) {
+    public List<ProductDTO> getListProductsShop(User user, Map<String, String> params) {
         Shop shop = sServ.findShopByUserId(user);
         List<Product> products = this.pRepo.findProductByShopId(shop);
-        return products;
+        List<ProductDTO> productsDTO = new ArrayList<>();
+        for(Product p: products) {
+            if(p.getStatus() == Integer.parseInt(params.get("status"))) {
+                productsDTO.add(this.convertToDTO(p));
+            } else if (Integer.parseInt(params.get("status")) == 4) {
+                productsDTO.add(this.convertToDTO(p));
+            }
+        }
+        return productsDTO;
     }
 
     @Override
@@ -65,6 +73,7 @@ public class ProductServiceImpl implements ProductService {
             p.setPrice(Integer.parseInt(params.get("price")));
             p.setQty(Integer.parseInt(params.get("qty")));
             p.setSold(0);
+            p.setStatus(0);
             int category_id = Integer.parseInt(params.get("category_id"));
             p.setCategoryId(this.cRepo.findById(category_id).get());
             p.setShopId(shop);
@@ -156,8 +165,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getListProducts() {
-        return this.pRepo.findAll(Sort.by(Sort.Direction.DESC, "sold"));
+    public List<ProductDTO> getListProducts() {
+        List<Product> listProducts = this.pRepo.findAll(Sort.by(Sort.Direction.DESC, "sold"));
+        List<ProductDTO> listProductsDTO = new ArrayList<>();
+        for(Product p: listProducts) {
+            listProductsDTO.add(this.convertToDTO(p));
+        }
+        return listProductsDTO;
     }
 
     @Override
@@ -205,6 +219,7 @@ public class ProductServiceImpl implements ProductService {
                 .build();
 
         ProductDTO pDTO = ProductDTO.builder()
+                .id(p.getId())
                 .name(p.getName())
                 .description(p.getDescription())
                 .category(p.getCategoryId().getName())
@@ -212,8 +227,27 @@ public class ProductServiceImpl implements ProductService {
                 .qty(p.getQty())
                 .thumbnail(p.getThumbnail())
                 .shop(shopDTO)
+                .status(p.getStatus())
                 .build();
         return pDTO;
+    }
+
+    @Override
+    public List<ProductDTO> getListProductFilStatus(Map<String, String> params) {
+        List<Product> listProducts = this.pRepo.findProducsFilStatus(Integer.parseInt(params.get("status")));
+        List<ProductDTO> listProductsDTO = new ArrayList<>();
+        for(Product p: listProducts) {
+            listProductsDTO.add(this.convertToDTO(p));
+        }
+        return listProductsDTO;
+    }
+
+    @Override
+    public boolean changeStatusProduct(Map<String, String> params) {
+        Product p = this.pRepo.findById(Integer.parseInt(params.get("id"))).get();
+        p.setStatus(Integer.parseInt(params.get("status")));
+        this.pRepo.save(p);
+        return true;
     }
 
 }

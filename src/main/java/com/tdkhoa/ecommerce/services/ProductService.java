@@ -18,12 +18,17 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Khoa Tran
  */
 public interface ProductService {
-    List<Product> getListProductsShop(User user);
-    List<Product> getListProducts();
+    //ADMIN GET PRODUCTS
+    List<ProductDTO> getListProductFilStatus(Map<String, String> params);
+    
+    //SHOP AND USER GET PRODUCTS
+    List<ProductDTO> getListProductsShop(User user, Map<String, String> params);
+    List<ProductDTO> getListProducts();
     SearchDTO search(Map<String, String> params);
     Product add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file);
     Product update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user);
     Product delete(int id, User user);
     Product getProductById(@PathVariable(value = "id") int id);
     ProductDTO convertToDTO(Product p);
+    boolean changeStatusProduct(Map<String, String> params);
 }

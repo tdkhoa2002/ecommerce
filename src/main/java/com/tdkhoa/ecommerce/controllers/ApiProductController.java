@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.controllers;
 
+import com.tdkhoa.ecommerce.DTO.ProductDTO;
 import com.tdkhoa.ecommerce.DTO.SearchDTO;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.User;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -45,14 +47,14 @@ public class ApiProductController {
     
     @GetMapping("/shop/products/")
     @CrossOrigin
-    public ResponseEntity<List<Product>> list() {
+    public ResponseEntity<List<ProductDTO>> list(@RequestParam Map<String, String> params) {
         User user = this.uServ.getUserLogining();
-        return new ResponseEntity<>(this.pServ.getListProductsShop(user), HttpStatus.OK);
+        return new ResponseEntity<>(this.pServ.getListProductsShop(user, params), HttpStatus.OK);
     }
     
     @GetMapping("/products/")
     @CrossOrigin
-    public ResponseEntity<List<Product>> getListAllProductsPopular() {
+    public ResponseEntity<List<ProductDTO>> getListAllProductsPopular() {
         return new ResponseEntity<>(this.pServ.getListProducts(), HttpStatus.OK);
     }
     
@@ -95,5 +97,26 @@ public class ApiProductController {
     @CrossOrigin
     public ResponseEntity<SearchDTO> search(@RequestParam Map<String, String> params) {
         return new ResponseEntity<>(this.pServ.search(params), HttpStatus.OK);
+    } 
+    
+    //ADMIN
+    @GetMapping("/admin/list-products/")
+    @CrossOrigin
+    public ResponseEntity<List<ProductDTO>> getProducstFilStatus(@RequestParam Map<String, String> params) {
+        User user = this.uServ.getUserLogining();
+        if(user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.pServ.getListProductFilStatus(params), HttpStatus.OK);
+        }
+        return null;
+    } 
+    
+    @PutMapping("/admin/product/change-status/")
+    @CrossOrigin
+    public ResponseEntity<Boolean> changeStatusProduct(@RequestParam Map<String, String> params) {
+        User user = this.uServ.getUserLogining();
+        if(user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.pServ.changeStatusProduct(params), HttpStatus.OK);
+        }
+        return null;
     } 
 }

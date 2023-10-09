@@ -14,6 +14,7 @@ import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.User;
 import com.tdkhoa.ecommerce.repositories.UserRepository;
 import com.tdkhoa.ecommerce.services.AddressService;
+import com.tdkhoa.ecommerce.services.EmailService;
 import com.tdkhoa.ecommerce.services.OrderService;
 import com.tdkhoa.ecommerce.services.ReviewService;
 import com.tdkhoa.ecommerce.services.ShopService;
@@ -54,6 +55,8 @@ public class UserServiceImpl implements UserService {
     private Cloudinary cloudinary;
     @Autowired
     private AddressService addressServ;
+    @Autowired
+    private EmailService emailServ;
     private Map<User, Boolean> checkVerifyPassword = new HashMap<>();
 
     public List<UserDTO> getListUsers() {
@@ -70,9 +73,14 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(params.get("username"));
         user.setPassword(this.passwordEncoder.encode(params.get("password")));
-        user.setEmail(params.get("email"));
         user.setPhone(params.get("phone"));
         user.setFullName(params.get("full_Name"));
+        String email = params.get("email");
+            if(params.get("code_email").equals(this.emailServ.checkVerifyEmailShop.get(email))) {
+                user.setEmail(email);
+            } else {
+                return null;
+            }
         user.setRedFlag(0);
         user.setRoleName(user.USER);
 //        user.setAvatar(null);

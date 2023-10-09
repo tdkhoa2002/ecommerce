@@ -19,6 +19,7 @@ import com.tdkhoa.ecommerce.repositories.OrderRepository;
 import com.tdkhoa.ecommerce.repositories.PaymentRepository;
 import com.tdkhoa.ecommerce.repositories.ProductRepository;
 import com.tdkhoa.ecommerce.repositories.VoucherRepository;
+import com.tdkhoa.ecommerce.services.EmailService;
 import com.tdkhoa.ecommerce.services.OrderService;
 import com.tdkhoa.ecommerce.services.PaymentService;
 import com.tdkhoa.ecommerce.services.ProductService;
@@ -59,6 +60,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserService uServ;
     @Autowired
+    private EmailService eServ;
+    @Autowired
     private HttpSession s;
 
     @Override
@@ -84,6 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 d.setShopId(shop);
                 amount += product.getPrice() * pDTO.getQuantity();
                 product.setQty(product.getQty() - pDTO.getQuantity());
+                this.eServ.sendMailOrder(shop);
                 this.odRepo.save(d);
                 this.productRepo.save(product);
             }

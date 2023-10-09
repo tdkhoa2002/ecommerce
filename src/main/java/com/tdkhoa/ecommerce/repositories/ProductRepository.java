@@ -31,4 +31,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
              + " OR p.shopId.name LIKE %?1%"
              + " OR concat(p.price, ' ') LIKE %?1%)")
      List<Product> search(String keyword);
+     
+     @Query("SELECT p FROM Product p WHERE p.status = ?1")
+     List<Product> findProducsFilStatus(int status);
 }

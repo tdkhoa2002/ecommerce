@@ -49,6 +49,12 @@ public class ReviewServiceImpl implements ReviewService {
         r.setUserId(user);
         Product p = this.pRepo.findById(idProduct).get();
         r.setProductId(p);
+        int star = Integer.parseInt(params.get("star"));
+        if (star > 0 && star <= 5) {
+            r.setStar(star);
+        } else {
+            return null;
+        }
         if (!imageUrl.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));

@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.services;
 
 import com.tdkhoa.ecommerce.DTO.EmailDTO;
+import com.tdkhoa.ecommerce.Pojo.Shop;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,11 +15,8 @@ import java.util.Map;
  */
 public interface EmailService {
     public static Map<String, String> checkVerifyEmailShop = new HashMap<>();
-    // Method
-    // To send a simple email
     String sendMailVerifyShop(Map<String, String> params);
+    String sendMailOrder(Shop s);
     String generateCode();
-    // Method
-    // To send an email with attachment
     String sendMailWithAttachment(EmailDTO details);
 }

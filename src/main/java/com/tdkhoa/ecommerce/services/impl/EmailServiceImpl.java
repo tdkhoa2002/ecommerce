@@ -5,6 +5,7 @@
 package com.tdkhoa.ecommerce.services.impl;
 
 import com.tdkhoa.ecommerce.DTO.EmailDTO;
+import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.services.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -48,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
             String code = this.generateCode();
             eDTO.setMsgBody(code);
             eDTO.setRecipient(params.get("email"));
-            eDTO.setSubject("[" + this.nameApp + "] EMAIL VERIFICATION - " + now);
+            eDTO.setSubject("[" + this.nameApp + "] XÁC MINH EMAIL - " + now);
             // Creating a simple mail message
             checkVerifyEmailShop.put(eDTO.getRecipient(), code);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -114,5 +115,30 @@ public class EmailServiceImpl implements EmailService {
         int number = rand.nextInt(999999);
         
         return String.format("%06d", number);
+    }
+
+    @Override
+    public String sendMailOrder(Shop s) {
+        try {
+            EmailDTO eDTO = new EmailDTO();
+            Date now = new Date();
+            eDTO.setMsgBody("Bạn vừa nhận được 1 đơn hàng mới");
+            eDTO.setRecipient(s.getEmail());
+            eDTO.setSubject("[" + this.nameApp + "] THÔNG BÁO CÓ ĐƠN HÀNG MỚI - " + now);
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            // Setting up necessary details
+            mailMessage.setFrom(sender);
+            mailMessage.setTo(eDTO.getRecipient());
+            mailMessage.setText(eDTO.getMsgBody());
+            mailMessage.setSubject(eDTO.getSubject());
+
+            // Sending the mail
+            javaMailSender.send(mailMessage);
+            return "Mail Sent Successfully...";
+        } // Catch block to handle the exceptions
+        catch (Exception e) {
+            return "Error while Sending Mail";
+        }
     }
 }

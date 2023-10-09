@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`user` (
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `phone_UNIQUE` (`phone` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 44
+AUTO_INCREMENT = 49
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -118,16 +118,17 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`shop` (
   `address` VARCHAR(255) NULL DEFAULT NULL,
   `image_url` VARCHAR(255) NULL DEFAULT NULL,
   `status` INT NULL DEFAULT NULL,
-  `email` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   INDEX `fk_shop_user_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_shop_user`
     FOREIGN KEY (`user_id`)
     REFERENCES `ecommerce`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 13
+AUTO_INCREMENT = 18
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -144,6 +145,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`product` (
   `thumbnail` VARCHAR(255) NULL DEFAULT NULL,
   `sold` INT NULL DEFAULT NULL,
   `is_deleted` INT NULL DEFAULT NULL,
+  `status` INT NULL DEFAULT NULL,
   `shop_id` INT NULL DEFAULT NULL,
   `category_id` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -246,14 +248,19 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`orderdetail` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `order_id` INT NOT NULL,
   `product_id` INT NOT NULL,
-  `quantity` INT NULL DEFAULT NULL,
+  `quantity` INT NOT NULL,
   `shop_id` INT NOT NULL,
-  `status` INT NULL DEFAULT NULL,
-  `create_time` DATETIME NULL DEFAULT NULL,
+  `status` INT NOT NULL,
+  `address_id` INT NOT NULL,
+  `create_time` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_order_has_product_product1_idx` (`product_id` ASC) VISIBLE,
   INDEX `fk_order_has_product_order1_idx` (`order_id` ASC) VISIBLE,
   INDEX `fk_orderdetail_shop1_idx` (`shop_id` ASC) VISIBLE,
+  INDEX `fk__idx` (`address_id` ASC) VISIBLE,
+  CONSTRAINT `fk_address`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `ecommerce`.`address` (`id`),
   CONSTRAINT `fk_order_has_product_order1`
     FOREIGN KEY (`order_id`)
     REFERENCES `ecommerce`.`order1` (`id`)
@@ -290,7 +297,7 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`review` (
     FOREIGN KEY (`user_id`)
     REFERENCES `ecommerce`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 6
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
