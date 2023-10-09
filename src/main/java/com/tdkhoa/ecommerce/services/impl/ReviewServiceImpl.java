@@ -6,6 +6,8 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.Pojo.Order1;
+import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Product;
 import com.tdkhoa.ecommerce.Pojo.Review;
 import com.tdkhoa.ecommerce.Pojo.User;
@@ -15,6 +17,7 @@ import com.tdkhoa.ecommerce.services.ReviewService;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,27 +47,36 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Review add(Map<String, String> params, MultipartFile imageUrl, User user, int idProduct) {
-        Review r = new Review();
-        r.setContent(params.get("content"));
-        r.setUserId(user);
         Product p = this.pRepo.findById(idProduct).get();
-        r.setProductId(p);
-        int star = Integer.parseInt(params.get("star"));
-        if (star > 0 && star <= 5) {
-            r.setStar(star);
-        } else {
-            return null;
-        }
-        if (!imageUrl.isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-                r.setImageUrl(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(ReviewServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        Set<Order1> listOrder = user.getOrder1Set();
+        for (Order1 o : listOrder) {
+            Set<Orderdetail> listOD = o.getOrderdetailSet();
+            for (Orderdetail od : listOD) {
+                if (od.getProductId() == p) {
+                    Review r = new Review();
+                    r.setContent(params.get("content"));
+                    r.setUserId(user);
+                    r.setProductId(p);
+                    int star = Integer.parseInt(params.get("star"));
+                    if (star > 0 && star <= 5) {
+                        r.setStar(star);
+                    } else {
+                        return null;
+                    }
+                    if (!imageUrl.isEmpty()) {
+                        try {
+                            Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+                            r.setImageUrl(res.get("secure_url").toString());
+                        } catch (IOException ex) {
+                            Logger.getLogger(ReviewServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    this.rRepo.save(r);
+                    return r;
+                }
             }
         }
-        this.rRepo.save(r);
-        return r;
+        return null;
     }
 
     @Override
