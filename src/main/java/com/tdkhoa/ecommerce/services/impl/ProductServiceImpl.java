@@ -219,6 +219,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO convertToDTO(Product p) {
         ShopDTO shopDTO = ShopDTO.builder()
+                .id(p.getShopId().getId())
                 .name(p.getShopId().getName())
                 .imageUrl(p.getShopId().getImageUrl())
                 .description(p.getShopId().getDescription())
