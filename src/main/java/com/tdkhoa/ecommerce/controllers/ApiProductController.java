@@ -60,8 +60,8 @@ public class ApiProductController {
     
     @GetMapping("/view-detail/{id}/")
     @CrossOrigin
-    public ResponseEntity<Product> viewDetailProduct(@PathVariable(value = "id") int id) {
-        return new ResponseEntity<>(this.pServ.getProductById(id), HttpStatus.OK);
+    public ResponseEntity<ProductDTO> viewDetailProduct(@PathVariable(value = "id") int id) {
+        return new ResponseEntity<>(this.pServ.getProductDTOById(id), HttpStatus.OK);
     } 
     
     @PostMapping("/shop/create_product/")

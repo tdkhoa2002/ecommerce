@@ -28,6 +28,7 @@ public interface ProductService {
     Product add(Map<String, String> params, MultipartFile thumbnail, User user, List<MultipartFile> file);
     Product update(Map<String, String> params, MultipartFile thumbnail, @PathVariable(value = "id") int id, List<MultipartFile> file, User user);
     Product delete(int id, User user);
+    ProductDTO getProductDTOById(@PathVariable(value = "id") int id);
     Product getProductById(@PathVariable(value = "id") int id);
     ProductDTO convertToDTO(Product p);
     boolean changeStatusProduct(Map<String, String> params);

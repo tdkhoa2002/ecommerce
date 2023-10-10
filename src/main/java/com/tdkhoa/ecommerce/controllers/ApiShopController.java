@@ -146,7 +146,7 @@ public class ApiShopController {
         }
     }
     
-    @GetMapping("/stat/")
+    @GetMapping("/stats/")
     public ResponseEntity<?> getStat(@RequestBody DateDTO dto) {
         User u = this.uServ.getUserLogining();
         Shop s = this.sServ.findShopByUserId(u);
@@ -154,6 +154,15 @@ public class ApiShopController {
             return ResponseEntity.ok().body(this.oServ.findOrderByStore(s, dto));
         }
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
-
+    }
+    
+    @GetMapping("/stats/product_count")
+    public ResponseEntity<?> getStatProductCount() {
+        User u = this.uServ.getUserLogining();
+        Shop s = this.sServ.findShopByUserId(u);
+        if (s != null) {
+            return ResponseEntity.ok().body(this.odServ.groupByProductId(s));
+        }
+        return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
 }

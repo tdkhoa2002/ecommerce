@@ -8,6 +8,7 @@ import com.tdkhoa.ecommerce.DTO.CategoryDTO;
 import com.tdkhoa.ecommerce.DTO.OrderDTO;
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.DTO.ProductDTO;
+import com.tdkhoa.ecommerce.DTO.ProductQuantityDTO;
 import com.tdkhoa.ecommerce.DTO.ShopDTO;
 import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
@@ -141,4 +142,14 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
     public List<Orderdetail> findByDate(Shop s, int month, int year) {
         return this.odRepo.findByMonthAndYear(s, month,year);
     }
+
+    @Override
+    public List<ProductQuantityDTO> groupByProductId(Shop s) {
+//        List <ProductQuantityDTO> listProductsQuantityDTO = new ArrayList<>();
+//        listProductsQuantityDTO = this.odRepo.countTotalProducts(s);
+//        System.out.println(listProductsQuantityDTO);
+        return this.odRepo.countTotalProducts(s);
+    }
+    
+    
 }

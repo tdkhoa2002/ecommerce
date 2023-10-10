@@ -161,6 +161,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDTO getProductDTOById(int id) {
+        Product p = this.pRepo.findById(id).get();
+        ProductDTO pDTO = convertToDTO(p);
+        return pDTO;
+    }
+    
+    @Override
     public Product getProductById(int id) {
         return this.pRepo.findById(id).get();
     }
