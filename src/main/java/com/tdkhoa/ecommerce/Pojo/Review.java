@@ -7,6 +7,7 @@ package com.tdkhoa.ecommerce.Pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import jakarta.persistence.*;
+import java.util.Date;
 
 /**
  *
@@ -34,6 +35,10 @@ public class Review implements Serializable {
     private String imageUrl;
     @Column(name = "star")
     private Integer star;
+    @Basic(optional = false)
+    @Column(name = "create_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createTime;
     @JsonIgnore
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -121,6 +126,20 @@ public class Review implements Serializable {
     @Override
     public String toString() {
         return "com.tdkhoa.ecommerce.Pojo.Review[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the createTime
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime the createTime to set
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
     
 }

@@ -15,6 +15,9 @@ import com.tdkhoa.ecommerce.repositories.ProductRepository;
 import com.tdkhoa.ecommerce.repositories.ReviewRepository;
 import com.tdkhoa.ecommerce.services.ReviewService;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,6 +60,7 @@ public class ReviewServiceImpl implements ReviewService {
                     r.setContent(params.get("content"));
                     r.setUserId(user);
                     r.setProductId(p);
+                    r.setCreateTime(new Date());
                     int star = Integer.parseInt(params.get("star"));
                     if (star > 0 && star <= 5) {
                         r.setStar(star);
