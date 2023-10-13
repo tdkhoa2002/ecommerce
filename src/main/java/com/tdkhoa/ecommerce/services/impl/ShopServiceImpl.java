@@ -181,10 +181,10 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Boolean checkShop(User user) {
         Shop s = this.sRepo.findShopByUserId(user);
-        if (s == null) {
-            return false;
+        if (s != null && s.getStatus() == 1) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     @Override

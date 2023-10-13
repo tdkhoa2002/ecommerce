@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.DTO.StarDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Product;
@@ -110,5 +111,12 @@ public class ReviewServiceImpl implements ReviewService {
             return r;
         }
         return null;
+    }
+
+    @Override
+    public List<StarDTO> getCountStarProduct(int idProduct) {
+        Product p = this.pRepo.findById(idProduct).get();
+        List<StarDTO> listStarDTO = this.rRepo.countStarProduct(p);
+        return listStarDTO;
     }
 }

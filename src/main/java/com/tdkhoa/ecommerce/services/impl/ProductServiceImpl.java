@@ -177,7 +177,9 @@ public class ProductServiceImpl implements ProductService {
         List<Product> listProducts = this.pRepo.findAll(Sort.by(Sort.Direction.DESC, "sold"));
         List<ProductDTO> listProductsDTO = new ArrayList<>();
         for(Product p: listProducts) {
-            listProductsDTO.add(this.convertToDTO(p));
+            if (p.getStatus() == 1) {
+                listProductsDTO.add(this.convertToDTO(p));
+            }
         }
         return listProductsDTO;
     }

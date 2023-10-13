@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.controllers;
 
+import com.tdkhoa.ecommerce.DTO.StarDTO;
 import com.tdkhoa.ecommerce.Pojo.Review;
 import com.tdkhoa.ecommerce.services.ReviewService;
 import com.tdkhoa.ecommerce.services.UserService;
@@ -59,5 +60,11 @@ public class ApiReviewController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable(value = "id") int id) {
         this.rServ.delete(id, this.uServ.getUserLogining());
+    }
+    
+    @GetMapping("/reviews/{productId}/count_star/")
+    @CrossOrigin
+    public ResponseEntity<List<StarDTO>> countStar(@PathVariable(value = "productId") int id) {
+        return new ResponseEntity<>(this.rServ.getCountStarProduct(id), HttpStatus.OK);
     }
 }

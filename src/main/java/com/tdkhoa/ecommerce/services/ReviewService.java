@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.services;
 
+import com.tdkhoa.ecommerce.DTO.StarDTO;
 import com.tdkhoa.ecommerce.Pojo.Review;
 import com.tdkhoa.ecommerce.Pojo.User;
 import java.util.List;
@@ -20,4 +21,5 @@ public interface ReviewService {
     Review add(Map<String, String> params, MultipartFile imageUrl, User u, int idProduct);
     Review update(Map<String, String> params, MultipartFile imageUrl, @PathVariable(value = "id") int id, User u);
     Review delete(int id, User u);
+    List<StarDTO> getCountStarProduct(int idProduct);
 }
