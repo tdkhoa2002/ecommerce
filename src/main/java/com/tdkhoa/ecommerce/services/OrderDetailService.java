@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.services;
 
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.DTO.ProductQuantityDTO;
+import com.tdkhoa.ecommerce.DTO.RevenueChartDTO;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Shop;
 import com.tdkhoa.ecommerce.Pojo.User;
@@ -23,4 +24,5 @@ public interface OrderDetailService {
     OrderdetailDTO toOrderdetailDTO(Orderdetail od);
     List<Orderdetail> findByDate(Shop s, int month, int year);
     List<ProductQuantityDTO> groupByProductId(Shop s);
+    List<RevenueChartDTO> revenueChart(Shop s);
 }

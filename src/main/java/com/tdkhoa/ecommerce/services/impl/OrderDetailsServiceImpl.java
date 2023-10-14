@@ -9,6 +9,7 @@ import com.tdkhoa.ecommerce.DTO.OrderDTO;
 import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.DTO.ProductDTO;
 import com.tdkhoa.ecommerce.DTO.ProductQuantityDTO;
+import com.tdkhoa.ecommerce.DTO.RevenueChartDTO;
 import com.tdkhoa.ecommerce.DTO.ShopDTO;
 import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
@@ -149,6 +150,11 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
 //        listProductsQuantityDTO = this.odRepo.countTotalProducts(s);
 //        System.out.println(listProductsQuantityDTO);
         return this.odRepo.countTotalProducts(s);
+    }
+
+    @Override
+    public List<RevenueChartDTO> revenueChart(Shop s) {
+        return this.odRepo.revenueChart(s.getId());
     }
     
     
