@@ -146,7 +146,7 @@ public class ApiShopController {
         }
     }
     
-    @GetMapping("/stats/")
+    @PostMapping("/stats/")
     public ResponseEntity<?> getStat(@RequestBody DateDTO dto) {
         User u = this.uServ.getUserLogining();
         Shop s = this.sServ.findShopByUserId(u);
@@ -166,12 +166,22 @@ public class ApiShopController {
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }
     
-    @GetMapping("/stats/revenue_chart/")
-    public ResponseEntity<?> revenueChart() {
+    @PostMapping("/stats/revenue_chart_month/")
+    public ResponseEntity<?> revenueChart(@RequestParam Map<String, String> params) {
         User u = this.uServ.getUserLogining();
         Shop s = this.sServ.findShopByUserId(u);
         if (s != null) {
-            return ResponseEntity.ok().body(this.odServ.revenueChart(s));
+            return ResponseEntity.ok().body(this.odServ.revenueChart(s, params));
+        }
+        return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
+    }
+    
+    @GetMapping("/stats/revenue_chart_quarter/")
+    public ResponseEntity<?> revenueChartQuarter() {
+        User u = this.uServ.getUserLogining();
+        Shop s = this.sServ.findShopByUserId(u);
+        if (s != null) {
+            return ResponseEntity.ok().body(this.odServ.revenueChartQuarter(s));
         }
         return new ResponseEntity<>("error", HttpStatus.BAD_REQUEST);
     }

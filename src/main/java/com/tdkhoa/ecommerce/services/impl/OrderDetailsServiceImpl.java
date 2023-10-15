@@ -10,6 +10,7 @@ import com.tdkhoa.ecommerce.DTO.OrderdetailDTO;
 import com.tdkhoa.ecommerce.DTO.ProductDTO;
 import com.tdkhoa.ecommerce.DTO.ProductQuantityDTO;
 import com.tdkhoa.ecommerce.DTO.RevenueChartDTO;
+import com.tdkhoa.ecommerce.DTO.RevenueChartQuarterDTO;
 import com.tdkhoa.ecommerce.DTO.ShopDTO;
 import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
@@ -153,8 +154,14 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
     }
 
     @Override
-    public List<RevenueChartDTO> revenueChart(Shop s) {
-        return this.odRepo.revenueChart(s.getId());
+    public List<RevenueChartDTO> revenueChart(Shop s, Map<String, String> params) {
+        int limit = Integer.parseInt(params.get("limit"));
+        return this.odRepo.revenueChartMonths(s.getId(), limit);
+    }
+
+    @Override
+    public List<RevenueChartQuarterDTO> revenueChartQuarter(Shop s) {
+        return this.odRepo.revenueChartQuarters(s.getId());
     }
     
     

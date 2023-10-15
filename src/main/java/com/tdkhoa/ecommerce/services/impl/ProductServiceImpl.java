@@ -227,6 +227,7 @@ public class ProductServiceImpl implements ProductService {
                 .description(p.getShopId().getDescription())
                 .address(p.getShopId().getAddress())
                 .status(p.getShopId().getStatus())
+//                .userDTO(p.getShopId().getUserId())
                 .build();
         CategoryDTO cateDTO = CategoryDTO.builder()
                 .id(p.getCategoryId().getId())

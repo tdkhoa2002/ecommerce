@@ -6,6 +6,7 @@ package com.tdkhoa.ecommerce.repositories;
 
 import com.tdkhoa.ecommerce.DTO.ProductQuantityDTO;
 import com.tdkhoa.ecommerce.DTO.RevenueChartDTO;
+import com.tdkhoa.ecommerce.DTO.RevenueChartQuarterDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Shop;
@@ -42,6 +43,9 @@ public interface OrderDetailsRepository extends JpaRepository<Orderdetail, Integ
     @Query("SELECT NEW com.tdkhoa.ecommerce.DTO.ProductQuantityDTO(od.productId.name, SUM(od.quantity)) FROM Orderdetail od WHERE od.shopId = ?1 GROUP BY od.productId.name ORDER BY SUM(od.quantity) DESC")
     List<ProductQuantityDTO> countTotalProducts(Shop s);
     
-    @Query("SELECT NEW com.tdkhoa.ecommerce.DTO.RevenueChartDTO(YEAR(od.createTime) as odYear, MONTH(od.createTime) as odMonth, SUM(od.productId.price * od.quantity) as total) FROM Orderdetail od WHERE od.shopId.id = :shopId GROUP BY odYear, odMonth ORDER BY odYear, odMonth DESC LIMIT 3")
-    List<RevenueChartDTO> revenueChart(@Param("shopId") int shopId);
+    @Query("SELECT NEW com.tdkhoa.ecommerce.DTO.RevenueChartDTO(YEAR(od.createTime) as odYear, MONTH(od.createTime) as odMonth, SUM(od.productId.price * od.quantity) as total) FROM Orderdetail od WHERE od.shopId.id = :shopId AND YEAR(od.createTime) = YEAR(now()) GROUP BY odYear, odMonth ORDER BY odYear, odMonth DESC LIMIT :limit")
+    List<RevenueChartDTO> revenueChartMonths(@Param("shopId") int shopId, int limit);
+    
+    @Query("SELECT NEW com.tdkhoa.ecommerce.DTO.RevenueChartQuarterDTO(YEAR(od.createTime) as odYear, QUARTER(od.createTime) as odQuarter, SUM(od.productId.price * od.quantity) as total) FROM Orderdetail od WHERE od.shopId.id = :shopId AND YEAR(od.createTime) = YEAR(now()) GROUP BY odYear, odQuarter ORDER BY odYear, odQuarter")
+    List<RevenueChartQuarterDTO> revenueChartQuarters(@Param("shopId") int shopId);
 }
