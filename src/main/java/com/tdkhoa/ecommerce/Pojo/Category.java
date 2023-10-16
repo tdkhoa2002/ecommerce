@@ -38,7 +38,6 @@ public class Category implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "categoryId")
     private Set<Category> categorySet;
-    @JsonIgnore
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne
     private Category categoryId;

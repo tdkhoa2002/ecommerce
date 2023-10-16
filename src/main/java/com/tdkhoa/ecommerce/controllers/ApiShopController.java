@@ -100,7 +100,7 @@ public class ApiShopController {
 
     @PostMapping("/admin/active_shop/{id}/")
     @CrossOrigin
-    public ResponseEntity<Shop> active(@PathVariable(value = "id") int id) {
+    public ResponseEntity<ShopDTO> active(@PathVariable(value = "id") int id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -147,6 +147,7 @@ public class ApiShopController {
     }
     
     @PostMapping("/stats/")
+    @CrossOrigin
     public ResponseEntity<?> getStat(@RequestBody DateDTO dto) {
         User u = this.uServ.getUserLogining();
         Shop s = this.sServ.findShopByUserId(u);
@@ -157,6 +158,7 @@ public class ApiShopController {
     }
     
     @GetMapping("/stats/product_count")
+    @CrossOrigin
     public ResponseEntity<?> getStatProductCount() {
         User u = this.uServ.getUserLogining();
         Shop s = this.sServ.findShopByUserId(u);
@@ -167,6 +169,7 @@ public class ApiShopController {
     }
     
     @PostMapping("/stats/revenue_chart_month/")
+    @CrossOrigin
     public ResponseEntity<?> revenueChart(@RequestParam Map<String, String> params) {
         User u = this.uServ.getUserLogining();
         Shop s = this.sServ.findShopByUserId(u);
@@ -177,6 +180,7 @@ public class ApiShopController {
     }
     
     @GetMapping("/stats/revenue_chart_quarter/")
+    @CrossOrigin
     public ResponseEntity<?> revenueChartQuarter() {
         User u = this.uServ.getUserLogining();
         Shop s = this.sServ.findShopByUserId(u);

@@ -9,6 +9,7 @@ import com.tdkhoa.ecommerce.services.EmailService;
 import java.util.Map;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class ApiEmailController {
  
     // Sending a simple Email
     @PostMapping("/shop/verify-mail/")
+    @CrossOrigin
     public String sendMail(@RequestParam Map<String, String> params)
     {
         String status = emailService.sendMailVerifyShop(params);
@@ -35,8 +37,9 @@ public class ApiEmailController {
     }
  
     // Sending email with attachment
+    @CrossOrigin
     @PostMapping("/sendMailWithAttachment/") public String sendMailWithAttachment(
-        @RequestBody EmailDTO details)
+    @RequestBody EmailDTO details)
     {
         String status
             = emailService.sendMailWithAttachment(details);

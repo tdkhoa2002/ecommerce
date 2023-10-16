@@ -42,6 +42,13 @@ public class CategoryServiceImpl implements CategoryService {
     public Category add(Map<String, String> params, MultipartFile imageUrl) {
         Category cate = new Category();
         cate.setName(params.get("name"));
+        if(params.get("category_id") == null) {
+            cate.setCategoryId(null);
+        }
+        else {
+            Category subCate = cRepo.findById(Integer.parseInt(params.get("category_id"))).get();
+            cate.setCategoryId(subCate);
+        }
         if (!imageUrl.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -58,6 +65,13 @@ public class CategoryServiceImpl implements CategoryService {
     public Category update(Map<String, String> params, @PathVariable(value = "id") int id, MultipartFile imageUrl) {
         Category c = this.cRepo.findById(id).get();
         c.setName(params.get("name"));
+        if(params.get("category_id") == null) {
+            c.setCategoryId(null);
+        }
+        else {
+            Category subCate = cRepo.findById(Integer.parseInt(params.get("category_id"))).get();
+            c.setCategoryId(subCate);
+        }
         if (!imageUrl.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(imageUrl.getBytes(), ObjectUtils.asMap("resource_type", "auto"));

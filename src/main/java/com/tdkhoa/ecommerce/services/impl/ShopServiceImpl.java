@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.DoubleStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -124,13 +125,14 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Shop activeShop(int id, User user) {
+    public ShopDTO activeShop(int id, User user) {
         if (user.getRoleName().equals("ROLE_ADMIN")) {
             Shop shop = this.sRepo.findById(id).get();
+            ShopDTO shopDTO = this.toShopDTO(shop);
             shop.setStatus(1);
             this.sRepo.save(shop);
             this.eServ.sendMailActiveShop(shop);
-            return shop;
+            return shopDTO;
         }
         return null;
     }
