@@ -4,6 +4,8 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
+import com.tdkhoa.ecommerce.Pojo.Image;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,4 +31,5 @@ public class ProductDTO {
     private CategoryDTO category;
     private Integer status;
     private ShopDTO shop;
+    private Set<Image> imageSet;
 }

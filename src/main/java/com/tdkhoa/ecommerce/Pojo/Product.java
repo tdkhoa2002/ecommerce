@@ -50,7 +50,7 @@ public class Product implements Serializable {
     private Integer isDeleted;
     @Column(name = "status")
     private Integer status;
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     private Set<Image> imageSet;
     @JsonIgnore
