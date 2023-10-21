@@ -147,9 +147,6 @@ public class OrderDetailsServiceImpl implements OrderDetailService {
 
     @Override
     public List<ProductQuantityDTO> groupByProductId(Shop s) {
-//        List <ProductQuantityDTO> listProductsQuantityDTO = new ArrayList<>();
-//        listProductsQuantityDTO = this.odRepo.countTotalProducts(s);
-//        System.out.println(listProductsQuantityDTO);
         return this.odRepo.countTotalProducts(s);
     }
 

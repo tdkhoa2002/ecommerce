@@ -99,12 +99,16 @@ public class OrderServiceImpl implements OrderService {
                 this.odRepo.save(d);
                 this.productRepo.save(product);
             }
-            Voucher voucher = this.voucherRepo.findById(cart.getVoucher().getId()).get();
-            order.setVoucherId(voucher);
+            if(cart.getVoucher() != null) {
+                Voucher voucher = this.voucherRepo.findById(cart.getVoucher().getId()).get();
+                order.setVoucherId(voucher);
+                voucher.setQuantity(voucher.getQuantity() - 1);
+                this.voucherRepo.save(voucher);
+                order.setTotalAmount(amount - amount * voucher.getValue() / 100);
+            } else {
+                order.setVoucherId(null);
+            }
             order.setPaymentId(cart.getPayment());
-            voucher.setQuantity(voucher.getQuantity() - 1);
-            this.voucherRepo.save(voucher);
-            order.setTotalAmount(amount - amount * voucher.getValue() / 100);
             this.oRepo.save(order);
             s.setAttribute("cart", null);
             return true;

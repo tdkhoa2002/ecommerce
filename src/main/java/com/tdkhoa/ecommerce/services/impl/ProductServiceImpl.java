@@ -240,6 +240,7 @@ public class ProductServiceImpl implements ProductService {
                 .description(p.getDescription())
                 .category(cateDTO)
                 .price(p.getPrice())
+                .sold(p.getSold())
                 .qty(p.getQty())
                 .thumbnail(p.getThumbnail())
                 .shop(shopDTO)

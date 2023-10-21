@@ -26,6 +26,7 @@ public class ProductDTO {
     private String thumbnail;
     private String description;
     private Integer qty;
+    private Integer sold;
     private Integer price;
     private Integer quantity;
     private CategoryDTO category;

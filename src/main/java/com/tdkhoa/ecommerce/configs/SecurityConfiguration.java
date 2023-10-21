@@ -11,6 +11,7 @@ import com.tdkhoa.ecommerce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -69,13 +70,20 @@ public class SecurityConfiguration {
         http.csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth
-                        -> auth.requestMatchers("/**").permitAll()
+                        -> auth.requestMatchers("/**").permitAll().
+                                requestMatchers(HttpMethod.GET, "/api/**").authenticated().
+                                requestMatchers( HttpMethod.GET, "/api/admin/**").hasAnyAuthority("ROLE_ADMIN").
+                                requestMatchers(HttpMethod.POST, "/api/admin/**").hasAnyAuthority("ROLE_ADMIN").
+                                requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAnyAuthority("ROLE_ADMIN").
+                                requestMatchers(HttpMethod.DELETE, "/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 );
 
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(  ), UsernamePasswordAuthenticationFilter.class);
+//        http.logout(logout -> logout.logoutUrl("/api/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler);
+
         return http.build();
     }
 
