@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-    @Query("SELECT p FROM Product p WHERE p.shopId = ?1")
+    @Query("SELECT p FROM Product p WHERE p.shopId = ?1 ORDER BY p.id DESC")
      List<Product> findProductByShopId(Shop shop);
      
      List<Product> findByOrderBySoldDesc();
@@ -32,6 +32,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
              + " OR concat(p.price, ' ') LIKE %?1%)")
      List<Product> search(String keyword);
      
-     @Query("SELECT p FROM Product p WHERE p.status = ?1")
+     @Query("SELECT p FROM Product p WHERE p.status = ?1 ORDER BY p.id DESC")
      List<Product> findProducsFilStatus(int status);
 }
