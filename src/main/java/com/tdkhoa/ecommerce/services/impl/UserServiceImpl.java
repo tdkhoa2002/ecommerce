@@ -196,4 +196,12 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public boolean changeStatus(User u, Map<String, String> params) {
+        User user = this.uRepo.findById(u.getId()).get();
+        int status = Integer.parseInt(params.get("status"));
+        user.setRedFlag(status);
+        return true;
+    }
 }
