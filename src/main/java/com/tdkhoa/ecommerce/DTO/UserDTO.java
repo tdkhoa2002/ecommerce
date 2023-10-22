@@ -32,4 +32,5 @@ public class UserDTO {
     private Set<OrderDTO> listOrders;
     private Set<ReviewDTO> listReviews;
     private Integer redFlag;
+    private String roleName;
 }

@@ -154,8 +154,7 @@ public class UserServiceImpl implements UserService {
                 .listOrders(listOrdersDTO)
                 .fullName(u.getFullName())
                 .redFlag(u.getRedFlag())
-                //                .listReviews()
-                //                .shop(u.getShopSet())
+                .roleName(u.getRoleName())
                 .build();
 
         return userDTO;
