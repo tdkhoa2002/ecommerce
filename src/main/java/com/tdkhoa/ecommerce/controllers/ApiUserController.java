@@ -134,4 +134,11 @@ public class ApiUserController {
         User user = this.uServ.getUserLogining();
         return new ResponseEntity<>(this.uServ.changePassword(user, params), HttpStatus.OK);
     }
+    
+    @PostMapping("/user/change-status/")
+    @CrossOrigin
+    public ResponseEntity<User> changeStatus(@RequestParam Map<String, String> params) throws Exception {
+        User user = this.uServ.getUserLogining();
+        return new ResponseEntity<>(this.uServ.changeStatus(user, params), HttpStatus.OK);
+    }
 }

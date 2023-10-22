@@ -28,5 +28,5 @@ public interface UserService extends UserDetailsService {
     UserDTO convertToDTO(User u);
     boolean verifyPassword(User u, Map<String, String> params);
     User changePassword(User u, Map<String, String> params);
-    boolean changeStatus(User u, Map<String, String> params);
+    User changeStatus(User u, Map<String, String> params);
 }
