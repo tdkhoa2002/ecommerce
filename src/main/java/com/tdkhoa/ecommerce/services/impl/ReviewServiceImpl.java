@@ -6,7 +6,9 @@ package com.tdkhoa.ecommerce.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.tdkhoa.ecommerce.DTO.ReviewDTO;
 import com.tdkhoa.ecommerce.DTO.StarDTO;
+import com.tdkhoa.ecommerce.DTO.UserDTO;
 import com.tdkhoa.ecommerce.Pojo.Order1;
 import com.tdkhoa.ecommerce.Pojo.Orderdetail;
 import com.tdkhoa.ecommerce.Pojo.Product;
@@ -18,6 +20,7 @@ import com.tdkhoa.ecommerce.services.ReviewService;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +47,14 @@ public class ReviewServiceImpl implements ReviewService {
     private ProductRepository pRepo;
 
     @Override
-    public List<Review> getListsReviewByProductId(int idProduct) {
-        List<Review> reviews = this.rRepo.findAll();
-        return reviews;
+    public List<ReviewDTO> getListsReviewByProductId(int idProduct) {
+        Product p = this.pRepo.findById(idProduct).get();
+        List<Review> reviews = this.rRepo.findReviewsByProductId(p);
+        List<ReviewDTO> reviewsDTO = new ArrayList<>();
+        reviews.forEach(r -> {
+            reviewsDTO.add(this.convertToDTO(r));
+        });
+        return reviewsDTO;
     }
 
     @Override
@@ -118,5 +126,26 @@ public class ReviewServiceImpl implements ReviewService {
         Product p = this.pRepo.findById(idProduct).get();
         List<StarDTO> listStarDTO = this.rRepo.countStarProduct(p);
         return listStarDTO;
+    }
+
+    @Override
+    public ReviewDTO convertToDTO(Review r) {
+        UserDTO uDTO = UserDTO.builder()
+                .username(r.getUserId().getUsername())
+                .email(r.getUserId().getEmail())
+                .id(r.getUserId().getId())
+                .phone(r.getUserId().getPhone())
+                .avatar(r.getUserId().getAvatar())
+                .fullName(r.getUserId().getFullName())
+                .build();
+        
+        ReviewDTO rDTO = ReviewDTO.builder()
+                .id(r.getId())
+                .content(r.getContent())
+                .image_url(r.getImageUrl())
+                .star(r.getStar())
+                .user(uDTO)
+                .build();
+        return rDTO;
     }
 }

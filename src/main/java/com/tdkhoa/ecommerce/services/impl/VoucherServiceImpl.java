@@ -31,7 +31,7 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher v = new Voucher();
         int value = Integer.parseInt(params.get("value"));
         int quantity = Integer.parseInt(params.get("quantity"));
-        if(value > 0 && value <= 100 && quantity > 0 && quantity <= 100) {
+        if(value > 0 && value <= 100 && quantity > 0 && quantity <= 10000) {
             v.setName(params.get("name"));
             v.setCode(params.get("code"));
             v.setQuantity(quantity);
@@ -47,7 +47,9 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher update(Map<String, String> params, int id) {
         int value = Integer.parseInt(params.get("value"));
         int quantity = Integer.parseInt(params.get("quantity"));
-        if (value > 0 && value < 100 && quantity > 0 && quantity < 100) {
+        System.out.println(value);
+        System.out.println(quantity);
+        if (value > 0 && value <= 100 && quantity > 0 && quantity <= 10000) {
             Voucher v = this.vRepo.findById(id).get();
             v.setName(params.get("name"));
             v.setCode(params.get("code"));

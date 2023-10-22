@@ -22,4 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface ReviewRepository extends JpaRepository<Review, Integer>{
     @Query("SELECT NEW com.tdkhoa.ecommerce.DTO.StarDTO(r.star, COUNT(r.star)) FROM Review r WHERE r.productId = ?1 GROUP BY r.star ORDER BY star DESC")
     List<StarDTO> countStarProduct(Product p);
+    
+    @Query("SELECT r FROM Review r WHERE r.productId = ?1")
+     List<Review> findReviewsByProductId(Product p);
 }

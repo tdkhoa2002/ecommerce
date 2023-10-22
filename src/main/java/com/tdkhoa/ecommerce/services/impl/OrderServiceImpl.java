@@ -106,6 +106,7 @@ public class OrderServiceImpl implements OrderService {
                 this.voucherRepo.save(voucher);
                 order.setTotalAmount(amount - amount * voucher.getValue() / 100);
             } else {
+                order.setTotalAmount(amount);
                 order.setVoucherId(null);
             }
             order.setPaymentId(cart.getPayment());

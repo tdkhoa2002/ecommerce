@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.controllers;
 
+import com.tdkhoa.ecommerce.DTO.ReviewDTO;
 import com.tdkhoa.ecommerce.DTO.StarDTO;
 import com.tdkhoa.ecommerce.Pojo.Review;
 import com.tdkhoa.ecommerce.services.ReviewService;
@@ -39,7 +40,7 @@ public class ApiReviewController {
     
     @GetMapping("/reviews/{productId}/")
     @CrossOrigin
-    public ResponseEntity<List<Review>> list(@PathVariable(value = "productId") int id) {
+    public ResponseEntity<List<ReviewDTO>> list(@PathVariable(value = "productId") int id) {
         return new ResponseEntity<>(this.rServ.getListsReviewByProductId(id), HttpStatus.OK);
     }
     

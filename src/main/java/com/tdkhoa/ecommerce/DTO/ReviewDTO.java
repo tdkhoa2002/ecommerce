@@ -21,7 +21,7 @@ public class ReviewDTO {
     private int id;
     private String content;
     private String image_url;
-    private int star;
+    private Integer star;
     private ProductDTO product;
     private UserDTO user;
 }
