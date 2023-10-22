@@ -7,6 +7,7 @@ package com.tdkhoa.ecommerce.configs;
 
 import com.tdkhoa.ecommerce.security.AuthEntryPointJwt;
 import com.tdkhoa.ecommerce.security.AuthTokenFilter;
+import com.tdkhoa.ecommerce.security.JWTAuthenticationEntryPoint;
 import com.tdkhoa.ecommerce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,8 @@ public class SecurityConfiguration {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+    @Autowired
+    private JWTAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -77,12 +80,15 @@ public class SecurityConfiguration {
                                 requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAnyAuthority("ROLE_ADMIN").
                                 requestMatchers(HttpMethod.DELETE, "/api/admin/**").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
+                ).exceptionHandling(e ->
+                        e.authenticationEntryPoint(authenticationEntryPoint)
+                ).sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         http.authenticationProvider(authenticationProvider());
 
         http.addFilterBefore(authenticationJwtTokenFilter(  ), UsernamePasswordAuthenticationFilter.class);
-//        http.logout(logout -> logout.logoutUrl("/api/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler);
 
         return http.build();
     }

@@ -31,4 +31,5 @@ public class UserDTO {
     private ShopDTO shop;
     private Set<OrderDTO> listOrders;
     private Set<ReviewDTO> listReviews;
+    private Integer redFlag;
 }

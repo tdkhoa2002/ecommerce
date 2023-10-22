@@ -152,6 +152,8 @@ public class UserServiceImpl implements UserService {
                 .phone(u.getPhone())
                 .listAdresses(this.addressServ.convertToDTO(u.getAddressSet()))
                 .listOrders(listOrdersDTO)
+                .fullName(u.getFullName())
+                .redFlag(u.getRedFlag())
                 //                .listReviews()
                 //                .shop(u.getShopSet())
                 .build();

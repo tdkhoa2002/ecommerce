@@ -58,6 +58,12 @@ public class ApiProductController {
         return new ResponseEntity<>(this.pServ.getListProducts(), HttpStatus.OK);
     }
     
+    @GetMapping("/products/")
+    @CrossOrigin
+    public ResponseEntity<List<ProductDTO>> getListAllProductsPopularByCategory() {
+        return new ResponseEntity<>(this.pServ.getListProducts(), HttpStatus.OK);
+    }
+    
     @GetMapping("/view-detail/{id}/")
     @CrossOrigin
     public ResponseEntity<ProductDTO> viewDetailProduct(@PathVariable(value = "id") int id) {
