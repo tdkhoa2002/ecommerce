@@ -145,6 +145,7 @@ public class ReviewServiceImpl implements ReviewService {
                 .image_url(r.getImageUrl())
                 .star(r.getStar())
                 .user(uDTO)
+                .createdTime(r.getCreateTime())
                 .build();
         return rDTO;
     }

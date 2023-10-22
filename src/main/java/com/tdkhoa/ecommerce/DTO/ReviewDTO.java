@@ -4,6 +4,7 @@
  */
 package com.tdkhoa.ecommerce.DTO;
 
+import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,5 @@ public class ReviewDTO {
     private Integer star;
     private ProductDTO product;
     private UserDTO user;
+    private Date createdTime;
 }
