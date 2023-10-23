@@ -198,6 +198,7 @@ public class ProductServiceImpl implements ProductService {
                 }
                 if (shop != null) {
                     sDTO = ShopDTO.builder()
+                            .id(shop.getId())
                             .name(shop.getName())
                             .imageUrl(shop.getImageUrl())
                             .description(shop.getDescription())
