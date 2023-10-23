@@ -232,6 +232,7 @@ public class ProductServiceImpl implements ProductService {
         CategoryDTO cateDTO = CategoryDTO.builder()
                 .id(p.getCategoryId().getId())
                 .name(p.getCategoryId().getName())
+                .category_id(p.getCategoryId().getCategoryId().getId())
                 .build();
 
         ProductDTO pDTO = ProductDTO.builder()
