@@ -139,6 +139,9 @@ public class ApiUserController {
     @CrossOrigin
     public ResponseEntity<User> changeStatus(@RequestParam Map<String, String> params) throws Exception {
         User user = this.uServ.getUserLogining();
-        return new ResponseEntity<>(this.uServ.changeStatus(user, params), HttpStatus.OK);
+        if(user.getRoleName().equals("ROLE_ADMIN")) {
+            return new ResponseEntity<>(this.uServ.changeStatus(params), HttpStatus.OK);
+        }
+        return null;
     }
 }

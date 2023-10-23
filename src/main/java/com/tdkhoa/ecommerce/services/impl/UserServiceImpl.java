@@ -198,10 +198,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeStatus(User u, Map<String, String> params) {
-        User user = this.uRepo.findById(u.getId()).get();
+    public User changeStatus(Map<String, String> params) {
+        int userId = Integer.parseInt(params.get("user_id"));
+        User user = this.uRepo.findById(userId).get();
         int status = Integer.parseInt(params.get("status"));
         user.setRedFlag(status);
+        this.uRepo.save(user);
         return user;
     }
 }
