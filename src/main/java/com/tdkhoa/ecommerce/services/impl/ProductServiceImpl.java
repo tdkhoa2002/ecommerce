@@ -248,6 +248,7 @@ public class ProductServiceImpl implements ProductService {
                 .shop(shopDTO)
                 .status(p.getStatus())
                 .imageSet(p.getImageSet())
+                .isDeleted(p.getIsDeleted())
                 .build();
         return pDTO;
     }

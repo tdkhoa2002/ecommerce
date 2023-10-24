@@ -33,4 +33,5 @@ public class ProductDTO {
     private Integer status;
     private ShopDTO shop;
     private Set<Image> imageSet;
+    private Integer isDeleted;
 }
